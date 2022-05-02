@@ -4,31 +4,13 @@
 
 ## Dependencies:
 
-[Vim-Plug]:(https://github.com/junegunn/vim-plug)
+- [Vim-Plug](https://github.com/junegunn/vim-plug)
 
-```bash
-iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim |`
-    ni "$(@($env:XDG_DATA_HOME, $env:LOCALAPPDATA)[$null -eq $env:XDG_DATA_HOME])/nvim-data/site/autoload/plug.vim" -Force
-```
+- [Fzf](https://github.com/junegunn/fzf.vim)
 
-[Fzf]:(https://github.com/junegunn/fzf.vim)
+- [Ag](https://github.com/ggreer/the_silver_searcher)
 
-```bash
-git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-~/.fzf/install
-```
-
-[Ag]:(https://github.com/ggreer/the_silver_searcher)
-
-```bash
-choco install ag
-```
-
-[Ripgrep]:(https://github.com/BurntSushi/ripgrep)
-
-```bash
-choco install ripgrep
-```
+- [Ripgrep](https://github.com/BurntSushi/ripgrep)
 
 Install Typescript, Eslint and Prettier
 
