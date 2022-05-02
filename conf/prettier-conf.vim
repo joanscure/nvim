@@ -44,3 +44,13 @@ let g:prettier#config#require_pragma = 'false'
 " lf|crlf|cr|all
 " defaut: 'lf'
 let g:prettier#config#end_of_line = get(g:, 'prettier#config#end_of_line', 'lf')
+
+" Prettier for PHP
+function PrettierPhpCursor()
+      let save_pos = getpos(".")
+      %! prettier --parser=php
+      call setpos('.', save_pos)
+endfunction
+" define custom command
+command PrettierPhp call PrettierPhpCursor()
+

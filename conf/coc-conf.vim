@@ -43,5 +43,7 @@ let g:coc_global_extensions = [
       \ '@yaegassy/coc-intelephense', 
       \ '@yaegassy/coc-intelephense', 
       \ 'coc-json', 
+      \ 'coc-html', 
+      \ 'coc-css', 
       \ 'coc-tsserver',
       \ ]

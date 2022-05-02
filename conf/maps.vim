@@ -28,8 +28,6 @@ nmap <leader>w :w<CR>
 nmap <leader>bd :bd<CR>
 nmap <leader>bb :Buffers<CR>
 
-" PRETTIER
-nmap <Leader>p <Plug>(Prettier)
 
 " RESIZE TAB
 nnoremap <A-up> :resize -5<CR>
@@ -38,3 +36,21 @@ nnoremap <A-left> :vertical resize -5<CR>
 nnoremap <A-right> :vertical resize +5<CR>
 nmap <F6> :!start explorer /select,%:p<CR>
 nmap <F5> :e $MYVIMRC<CR>
+
+noremap <silent>ss :wall<CR>
+inoremap <silent>;; <end>;<End>
+
+
+function FormatPrettier()
+  let fts = ['php']
+  if (index(fts, &filetype) > -1)
+    :PrettierPhp
+  else 
+    :Prettier
+  endif
+endfunction
+
+nnoremap <leader>p :call FormatPrettier()<CR>
+nmap <Leader>p :call FormatPrettier()<CR>
+
+let g:user_emmet_leader_key='<c-y>'
