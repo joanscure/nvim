@@ -21,7 +21,6 @@ set incsearch "incremental searching
 "set infercase 
 set cmdheight=1
 set termguicolors
-set conceallevel=0 " edit markdown files enabled
 set showcmd
 
 filetype plugin indent on
@@ -48,5 +47,4 @@ source ~/AppData/Local/nvim/conf/maps.vim
 
 source ~/AppData/Local/nvim/conf/coc-conf.vim
 
-
-
+set conceallevel=0 " edit markdown files enabled

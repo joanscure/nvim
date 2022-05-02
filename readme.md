@@ -1,5 +1,3 @@
-# Neovim Configuration
-
 ![Logo](img/logo.png)
 
 ## Dependencies:
@@ -12,7 +10,7 @@
 
 - [Ripgrep](https://github.com/BurntSushi/ripgrep)
 
-Install Typescript, Eslint and Prettier
+#### Install Typescript, Eslint and Prettier
 
 ```bash
 npm install -g typescript typescript-language-server eslint prettier
