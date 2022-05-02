@@ -10,12 +10,10 @@ let $FZF_DEFAULT_OPTS='--layout=reverse'
 let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
 
 let $PATH = "C:/Program Files/Git/usr/bin;". $PATH
-
 let g:fzf_action = {
       \ 'ctrl-t': 'tab split',
       \ 'ctrl-x': 'split',
       \ 'ctrl-v': 'vsplit' }
-
 let g:fzf_colors =
       \ { 'fg':      ['fg', 'Normal'],
       \ 'bg':      ['bg', 'Normal'],
@@ -32,6 +30,8 @@ let g:fzf_colors =
       \ 'header':  ['fg', 'Comment'] }
 
 
+
+
 command! -bang -nargs=? -complete=dir GFiles
       \ call fzf#vim#gitfiles(<q-args>, fzf#vim#with_preview(), <bang>0)
 
@@ -44,11 +44,11 @@ command! -bang -nargs=? -complete=dir Files
 command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
 "let g:prettier#autoformat = 1
 "
-"let g:prettier#exec_cmd_async = 1
-"let g:prettier#autoformat_require_pragma = 0
-"let g:prettier#quickfix_enabled = 0
+let g:prettier#exec_cmd_async = 1
+let g:prettier#autoformat_require_pragma = 0
+let g:prettier#quickfix_enabled = 0
 
-"let g:coc_current_word_highlight_delay = 0
+let g:coc_current_word_highlight_delay = 0
 "let g:coc_current_word_filetypes = ['*']  " enable for all filtypes by default
 "autocmd BufAdd NERD_tree_*,your_buffer_name.rb,*.js :let b:coc_current_word_disabled_in_this_buffer = 1
 
@@ -255,7 +255,7 @@ let g:NERDTreeColorMapCustom = {
       \ "Clean"     : "#87939A",   
       \ "Ignored"   : "#808080"   
       \ }                         
-let g:NERDTreeIgnore = ['^node_modules$']
+let g:NERDTreeIgnore = ['^node_modules$', 'vendor']
 " If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'

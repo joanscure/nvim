@@ -33,7 +33,7 @@ set laststatus=2
 "" Searching
 set hlsearch                    " highlight matches
 set incsearch                   " incremental searching
-"set insensitive                  " searches are case insensitive...
+"set ignorecase                  " searches are case insensitive...
 set infercase
 set cmdheight=1
 set termguicolors
