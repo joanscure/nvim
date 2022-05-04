@@ -19,4 +19,3 @@ let g:tokyonight_current_word='bold'
 let g:tokyonight_enable_italic = 1
 colorscheme tokyonight
 highlight Normal ctermbg=NONE
-

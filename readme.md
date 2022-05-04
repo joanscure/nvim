@@ -20,7 +20,7 @@ npm install -g typescript typescript-language-server eslint prettier
 
 use in vim
 
-```bash
+```vim
 :PlugInstall
 ```
 

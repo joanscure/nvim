@@ -5,7 +5,6 @@ set ruler
 set encoding=utf-8
 set showmatch "is used to jump between brackets
 set clipboard=unnamed
-set formatoptions-=cro " disable continuation of comments to next line
 set cindent
 set path+=**
 "set sts=2 "softabstop

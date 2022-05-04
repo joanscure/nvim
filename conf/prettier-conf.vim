@@ -53,4 +53,3 @@ function PrettierPhpCursor()
 endfunction
 " define custom command
 command PrettierPhp call PrettierPhpCursor()
-

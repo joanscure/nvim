@@ -40,6 +40,8 @@ nmap <F5> :e $MYVIMRC<CR>
 noremap <silent>ss :wall<CR>
 inoremap <silent>;; <end>;<End>
 
+" Delete highlight search
+nmap <leader>/ :noh<CR>
 
 function FormatPrettier()
   let fts = ['php']
