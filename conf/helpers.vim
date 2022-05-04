@@ -138,9 +138,3 @@ augroup exe_code
                     \ :sp<CR> :term bash %<CR> :startinsert<CR>
 augroup END
 
-
-augroup lsp_install
-  au!
-  "" call s:on_lsp_buffer_enabled only for languages that has the server registered.
-  autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-augroup END
