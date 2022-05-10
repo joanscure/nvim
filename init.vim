@@ -3,7 +3,8 @@ set mouse=a
 set numberwidth=1
 set ruler
 set encoding=utf-8
-set showmatch "is used to jump between brackets
+"set showmatch "is used to jump between brackets
+set noshowmatch 
 set clipboard=unnamed
 set cindent
 set path+=**
@@ -26,6 +27,11 @@ set conceallevel=0 " edit markdown files enabled
 filetype plugin indent on
 syntax on
 
+" regions
+set foldmethod=indent   
+set foldnestmax=10
+set nofoldenable
+set foldlevel=2
 " Imports 
 "
 " Setting Plug
@@ -45,5 +51,6 @@ source ~/AppData/Local/nvim/conf/fzf-conf.vim
 
 source ~/AppData/Local/nvim/conf/maps.vim
 
-source ~/AppData/Local/nvim/conf/coc-conf.vim
+source ~/AppData/Local/nvim/conf/refactor-php-conf.vim
 
+source ~/AppData/Local/nvim/conf/coc-conf.vim

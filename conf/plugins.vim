@@ -17,6 +17,7 @@ Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'mattn/emmet-vim'
+Plug 'StanAngeloff/php.vim'
 " END IDE
 
 " NERDTREE
@@ -60,6 +61,8 @@ Plug 'eslint/eslint'
 Plug 'StanAngeloff/php.vim'
 Plug 'vim-python/python-syntax'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+Plug 'adoy/vim-php-refactoring-toolbox'
+
 Plug 'prettier/vim-prettier', {
   \ 'do': 'npm install --frozen-lockfile --production',
   \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
