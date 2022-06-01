@@ -3,21 +3,17 @@ call plug#begin('~/.vim/plugged')
 " IDE 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
-Plug 'yggdroot/indentline'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'junegunn/vim-easy-align'
 Plug 'gregsexton/MatchTag'
-Plug 'sheerun/vim-polyglot'
 Plug 'pantharshit00/vim-prisma'
 Plug 'github/copilot.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'neovim/nvim-lspconfig'
-Plug 'jose-elias-alvarez/null-ls.nvim'
-Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
-Plug 'HerringtonDarkholme/yats.vim'
 Plug 'mattn/emmet-vim'
-Plug 'StanAngeloff/php.vim'
+Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'sirver/ultisnips'
+Plug 'vim-vdebug/vdebug'
 " END IDE
 
 " NERDTREE
@@ -47,21 +43,13 @@ Plug 'itchyny/lightline.vim'
 
 " THEMES
 Plug 'ghifarit53/tokyonight-vim'
-Plug 'morhetz/gruvbox'
-Plug 'projekt0n/github-nvim-theme'
 Plug 'ryanoasis/vim-devicons'
 " END THEMES
 
 " TYPING
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-repeat'
-Plug 'xabikos/vscode-javascript'
-Plug 'pangloss/vim-javascript'
 Plug 'eslint/eslint'
-Plug 'StanAngeloff/php.vim'
-Plug 'vim-python/python-syntax'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
-Plug 'adoy/vim-php-refactoring-toolbox'
 
 Plug 'prettier/vim-prettier', {
   \ 'do': 'npm install --frozen-lockfile --production',

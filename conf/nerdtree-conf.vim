@@ -18,12 +18,7 @@ let g:NERDTreeColorMapCustom = {
       \ "Clean"     : "#87939A",   
       \ "Ignored"   : "#808080"   
       \ }                         
-let g:NERDTreeIgnore = ['^node_modules$', 'vendor']
+let g:NERDTreeIgnore = ['^node_modules$', 'vendor', '.git']
 " If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
-
-function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
- exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
- exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
-endfunction

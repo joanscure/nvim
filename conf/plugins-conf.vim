@@ -26,9 +26,6 @@ let g:user_emmet_settings = {
   \    'extends' : 'html',
   \  },
   \ }
-" Toggle enabled/disabled Copilot
-nnoremap <A-,> :Copilot enable<CR>
-nnoremap <A-;> :Copilot disable<CR>
 
 
 " THEME TOKYONIGHT

@@ -14,8 +14,8 @@ vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
 "moves in buffer
-nnoremap <silent> <TAB> :bnext<CR>
-nnoremap <silent> <S-TAB> :bprevious<CR>
+nnoremap <leader>bn :bnext<CR>
+nnoremap <leader>bp :bprevious<CR>
 
 inoremap jk <ESC>
 
@@ -28,21 +28,23 @@ nmap <leader>w :w<CR>
 nmap <leader>bd :bd<CR>
 nmap <leader>bb :Buffers<CR>
 
-
 " RESIZE TAB
 nnoremap <A-up> :resize -5<CR>
 nnoremap <A-down> :resize +5<CR>
 nnoremap <A-left> :vertical resize -5<CR>
 nnoremap <A-right> :vertical resize +5<CR>
-nmap <F6> :!start explorer /select,%:p<CR>
-nmap <F5> :e $MYVIMRC<CR>
+nmap <C-F6> :!start explorer /select,%:p<CR>
 
-noremap <silent>ss :wall<CR>
+noremap <leader>s :wall<CR>
+
+
 inoremap <silent>;; <end>;<End>
 
 " Delete highlight search
 nmap <leader>/ :noh<CR>
 
+
+"PRETTIER
 function FormatPrettier()
   let fts = ['php']
   if (index(fts, &filetype) > -1)
@@ -52,7 +54,18 @@ function FormatPrettier()
   endif
 endfunction
 
+"PRETTIER
 nnoremap <leader>p :call FormatPrettier()<CR>
 nmap <Leader>p :call FormatPrettier()<CR>
 
+
+" EMMET
 let g:user_emmet_leader_key='<c-y>'
+
+
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsSnippetDirectories=['../UltiSnips']
+let g:UltiSnipsExpandTrigger="<C-j>"
+let g:UltiSnipsListSnippets="<C-_>"
+let g:UltiSnipsJumpForwardTrigger="<C-j>"
+let g:UltiSnipsJumpBackwardTrigger="<C-k>"
