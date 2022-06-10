@@ -53,7 +53,9 @@ Plug 'morhetz/gruvbox'
 " TYPING
 Plug 'tpope/vim-surround'
 Plug 'eslint/eslint'
-Plug 'StanAngeloff/php.vim'
+"Plug 'StanAngeloff/php.vim'
+Plug 'TysonAndre/php-vim-syntax'
+Plug 'pangloss/vim-javascript'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
 Plug 'prettier/vim-prettier', {

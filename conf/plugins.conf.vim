@@ -29,14 +29,14 @@ let g:user_emmet_settings = {
 
 
 " THEME TOKYONIGHT
-"let g:tokyonight_style='night' " available: night, storm
+let g:tokyonight_style='night' " available: night, storm
 "let g:tokyonight_current_word='bold'
 "let g:tokyonight_enable_italic = 1
 "let g:gruvbox_contrast_dark='hard'
 "let g:gruvbox_contrast_light='hard'
 "let g:gruvbox_color_column='bg0'
 "let g:gruvbox_sign_column='bg0'
-colorscheme gruvbox
+"colorscheme gruvbox
 "let g:github_function_style = "italic"
 let g:github_sidebars = ["qf", "vista_kind", "terminal", "packer"]
 
@@ -47,5 +47,17 @@ let g:github_colors = {
 \ }
 
 "" Load the colorscheme
-colorscheme github_dark_default
+"colorscheme github_dark_default
 highlight Normal ctermbg=NONE
+lua << EOF
+require("github-theme").setup({
+	theme_style = "dark_default",
+	comment_style = "italic",
+	keyword_style = "italic",
+	function_style = "italic",
+	variable_style = "NONE",
+	dark_sidebar = true,
+	colors = {hint = "orange", error = "#ff0000"},
+	sidebars = {"qf", "vista_kind", "terminal", "packer"},
+})
+EOF

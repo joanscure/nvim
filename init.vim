@@ -38,9 +38,9 @@ set foldlevel=2
 " Imports 
 "
 " Setting Plug
-source ~/AppData/Local/nvim/conf/plugins.vim
+source ~/AppData/Local/nvim/plugins.vim
 
-source ~/AppData/Local/nvim/conf/helpers.vim
+source ~/AppData/Local/nvim/helpers.vim
 
 source ~/AppData/Local/nvim/conf/nerdtree-lua.conf.vim
 
@@ -54,11 +54,11 @@ source ~/AppData/Local/nvim/conf/bufferline.conf.vim
 
 source ~/AppData/Local/nvim/conf/fzf.conf.vim
 
-source ~/AppData/Local/nvim/conf/maps.vim
+source ~/AppData/Local/nvim/maps.vim
 
 source ~/AppData/Local/nvim/conf/refactor-php.conf.vim
 
 source ~/AppData/Local/nvim/conf/coc.conf.vim
 
-source ~/AppData/Local/nvim/conf/xdebug.vim
+source ~/AppData/Local/nvim/conf/xdebug.conf.vim
 

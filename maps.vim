@@ -29,7 +29,6 @@ nmap <leader>bb :Buffers<CR>
 nnoremap <leader>nd :NvimTreeToggle<CR>
 nnoremap <leader>r :NvimTreeRefresh<CR>
 nnoremap <c-f> :NvimTreeFindFile<CR>
-nnoremap <silent>e :NvimTreeFindFile<CR>
 
 " RESIZE TAB
 nnoremap <A-up> :resize -5<CR>
