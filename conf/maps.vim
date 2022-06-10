@@ -20,13 +20,16 @@ nnoremap <leader>bp :bprevious<CR>
 inoremap jk <ESC>
 
 " NERDTREE
-nmap <leader>nd :NERDTreeToggle<CR>
-nmap <c-f> :NERDTreeFind<CR>
+
 nmap <c-p> :FZF -i<CR>
 nmap <leader>f :Rg<CR>
 nmap <leader>w :w<CR>
 nmap <leader>bd :bd<CR>
 nmap <leader>bb :Buffers<CR>
+nnoremap <leader>nd :NvimTreeToggle<CR>
+nnoremap <leader>r :NvimTreeRefresh<CR>
+nnoremap <c-f> :NvimTreeFindFile<CR>
+nnoremap <silent>e :NvimTreeFindFile<CR>
 
 " RESIZE TAB
 nnoremap <A-up> :resize -5<CR>
@@ -69,3 +72,4 @@ let g:UltiSnipsExpandTrigger="<C-j>"
 let g:UltiSnipsListSnippets="<C-_>"
 let g:UltiSnipsJumpForwardTrigger="<C-j>"
 let g:UltiSnipsJumpBackwardTrigger="<C-k>"
+

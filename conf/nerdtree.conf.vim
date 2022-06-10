@@ -1,3 +1,7 @@
+Plug 'scrooloose/nerdtree'
+
+"nmap <leader>nd :NERDTreeToggle<CR>
+"nmap <c-f> :NERDTreeFind<CR>
 let g:airline_powerline_fonts = 1
 let NERDTreeShowHidden=1
 let NERDTreeQuitOnOpen=1

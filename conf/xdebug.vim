@@ -1,7 +1,8 @@
 "let g:vdebug_options = {
-			"\ 'port': '9001',
-			"\    'ide_key' : 'PHPSTORM',
-			"\ }
+	"\ 'break_on_open': 0,
+	"\ 'port': '9001',
+	"\    'ide_key' : 'PHPSTORM',
+	"\ }
 
 let g:vdebug_options = {
 	\ 'break_on_open': 0,

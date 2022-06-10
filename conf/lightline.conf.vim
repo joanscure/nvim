@@ -1,3 +1,10 @@
+
+" STATUS BAR
+Plug 'maximbaz/lightline-ale'
+Plug 'itchyny/lightline.vim'
+
+" END STATUS BAR
+
 let g:lightline = {
       \ 'active': {
       \   'left': [['mode', 'paste'], [], ['relativepath', 'modified']],
@@ -15,7 +22,7 @@ let g:lightline = {
       \   'gitbranch': 'fugitive#head',
       \   'kitestatus': 'kite#statusline'
       \ },
-      \ 'colorscheme': 'tokyonight',
+      \ 'colorscheme': 'github_dark',
       \ 'subseparator': {
       \   'left': '',
       \   'right': ''

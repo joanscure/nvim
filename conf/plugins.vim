@@ -14,10 +14,10 @@ Plug 'mattn/emmet-vim'
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'sirver/ultisnips'
 Plug 'vim-vdebug/vdebug'
+"Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 " END IDE
 
 " NERDTREE
-Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'scrooloose/nerdcommenter'
@@ -37,18 +37,23 @@ Plug 'junegunn/fzf.vim'
 " END FZF
 
 " STATUS BAR
-Plug 'maximbaz/lightline-ale'
-Plug 'itchyny/lightline.vim'
+Plug 'nvim-lualine/lualine.nvim'
+Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
+Plug 'kyazdani42/nvim-tree.lua'
 " END STATUS BAR
 
 " THEMES
 Plug 'ghifarit53/tokyonight-vim'
 Plug 'ryanoasis/vim-devicons'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'projekt0n/github-nvim-theme'
+Plug 'morhetz/gruvbox'
 " END THEMES
 
 " TYPING
 Plug 'tpope/vim-surround'
 Plug 'eslint/eslint'
+Plug 'StanAngeloff/php.vim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
 Plug 'prettier/vim-prettier', {

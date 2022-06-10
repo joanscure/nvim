@@ -22,12 +22,12 @@ set hlsearch "hightlight matches
 set incsearch "incremental searching
 "set infercase 
 set cmdheight=1
-set termguicolors
 set showcmd
 set conceallevel=0 " edit markdown files enabled
 
 filetype plugin indent on
 
+set termguicolors
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 " regions
@@ -42,21 +42,23 @@ source ~/AppData/Local/nvim/conf/plugins.vim
 
 source ~/AppData/Local/nvim/conf/helpers.vim
 
-source ~/AppData/Local/nvim/conf/lightline-conf.vim
+source ~/AppData/Local/nvim/conf/nerdtree-lua.conf.vim
 
-source ~/AppData/Local/nvim/conf/nerdtree-conf.vim
+source ~/AppData/Local/nvim/conf/prettier.conf.vim
 
-source ~/AppData/Local/nvim/conf/prettier-conf.vim
+source ~/AppData/Local/nvim/conf/plugins.conf.vim
 
-source ~/AppData/Local/nvim/conf/plugins-conf.vim
+source ~/AppData/Local/nvim/conf/lualine.conf.vim
 
-source ~/AppData/Local/nvim/conf/fzf-conf.vim
+source ~/AppData/Local/nvim/conf/bufferline.conf.vim
+
+source ~/AppData/Local/nvim/conf/fzf.conf.vim
 
 source ~/AppData/Local/nvim/conf/maps.vim
 
-source ~/AppData/Local/nvim/conf/refactor-php-conf.vim
+source ~/AppData/Local/nvim/conf/refactor-php.conf.vim
 
-source ~/AppData/Local/nvim/conf/coc-conf.vim
+source ~/AppData/Local/nvim/conf/coc.conf.vim
 
 source ~/AppData/Local/nvim/conf/xdebug.vim
 
