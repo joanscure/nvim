@@ -62,3 +62,5 @@ source ~/AppData/Local/nvim/conf/coc.conf.vim
 
 source ~/AppData/Local/nvim/conf/xdebug.conf.vim
 
+source ~/AppData/Local/nvim/conf/php.conf.vim
+

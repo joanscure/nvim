@@ -13,10 +13,6 @@ inoremap <A-k> <Esc>:m .-2<CR>==gi
 vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
-"moves in buffer
-nnoremap <leader>bn :bnext<CR>
-nnoremap <leader>bp :bprevious<CR>
-
 inoremap jk <ESC>
 
 " NERDTREE
@@ -38,7 +34,6 @@ nnoremap <A-right> :vertical resize +5<CR>
 nmap <C-F6> :!start explorer /select,%:p<CR>
 
 noremap <leader>s :wall<CR>
-
 
 inoremap <silent>;; <end>;<End>
 
