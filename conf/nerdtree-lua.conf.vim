@@ -83,7 +83,7 @@ require'nvim-tree'.setup { -- BEGIN_DEFAULT_OPTS
         },
       },
     },
-    special_files = { "Cargo.toml", "Makefile", "README.md", "readme.md" },
+    special_files = { ".env", "Makefile", "README.md", "readme.md", 'Dockerfile' },
   },
   hijack_directories = {
     enable = true,
@@ -115,7 +115,7 @@ require'nvim-tree'.setup { -- BEGIN_DEFAULT_OPTS
     exclude = {},
   },
   filesystem_watchers = {
-    enable = false,
+    enable = true,
     interval = 100,
   },
   git = {

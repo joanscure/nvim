@@ -14,6 +14,7 @@ Plug 'mattn/emmet-vim'
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'sirver/ultisnips'
 Plug 'vim-vdebug/vdebug'
+Plug 'akinsho/toggleterm.nvim', {'tag' : 'v1.*' }
 "Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 " END IDE
 

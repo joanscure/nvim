@@ -64,3 +64,5 @@ source ~/AppData/Local/nvim/conf/xdebug.conf.vim
 
 source ~/AppData/Local/nvim/conf/php.conf.vim
 
+source ~/AppData/Local/nvim/conf/toggleterm.conf.vim
+
