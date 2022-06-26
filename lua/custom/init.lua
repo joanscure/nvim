@@ -20,14 +20,14 @@ local plugins = {
    ["NvChad/nvterm"] = {
       module = "nvterm",
       config = function()
-         require "plugins.configs.nvterm"
+         require "custom.configs.nvterm"
       end,
    },
 
    ["kyazdani42/nvim-web-devicons"] = {
       module = "nvim-web-devicons",
       config = function()
-         require("plugins.configs.others").devicons()
+         require("custom.configs.others").devicons()
       end,
    },
 
@@ -37,7 +37,7 @@ local plugins = {
          require("core.lazy_load").on_file_open "indent-blankline.nvim"
       end,
       config = function()
-         require("plugins.configs.others").blankline()
+         require("custom.configs.others").blankline()
       end,
    },
 
@@ -47,7 +47,7 @@ local plugins = {
          require("core.lazy_load").colorizer()
       end,
       config = function()
-         require("plugins.configs.others").colorizer()
+         require("custom.configs.others").colorizer()
       end,
    },
 
@@ -59,7 +59,7 @@ local plugins = {
       cmd = require("core.lazy_load").treesitter_cmds,
       run = ":TSUpdate",
       config = function()
-         require "plugins.configs.treesitter"
+         require "custom.configs.treesitter"
       end,
    },
 
@@ -70,7 +70,7 @@ local plugins = {
          require("core.lazy_load").gitsigns()
       end,
       config = function()
-         require("plugins.configs.others").gitsigns()
+         require("custom.configs.others").gitsigns()
       end,
    },
    ["airblade/vim-gitgutter"] = {},
@@ -90,8 +90,8 @@ local plugins = {
       after = "nvim-lsp-installer",
       module = "lspconfig",
       config = function()
-         require "plugins.configs.lsp_installer"
-         require "plugins.configs.lspconfig"
+         require "custom.configs.lsp_installer"
+         require "custom.configs.lspconfig"
       end,
    },
 
@@ -105,7 +105,7 @@ local plugins = {
    ["hrsh7th/nvim-cmp"] = {
       after = "friendly-snippets",
       config = function()
-         require "plugins.configs.cmp"
+         require "custom.configs.cmp"
       end,
    },
 
@@ -113,7 +113,7 @@ local plugins = {
       wants = "friendly-snippets",
       after = "nvim-cmp",
       config = function()
-         require("plugins.configs.others").luasnip()
+         require("custom.configs.others").luasnip()
       end,
 
    },
@@ -135,10 +135,7 @@ local plugins = {
    },
 
    ["hrsh7th/cmp-nvim-lsp-signature-help"] = {
-      after = "cmp-buffer",
-      config = function()
-         require("plugins.configs.cmp-lsp-signature-help").setup()
-      end,
+      after = "cmp-nvim-lsp",
    },
 
    ["hrsh7th/cmp-path"] = {
@@ -149,7 +146,7 @@ local plugins = {
    ["windwp/nvim-autopairs"] = {
       after = "nvim-cmp",
       config = function()
-         require("plugins.configs.others").autopairs()
+         require("custom.configs.others").autopairs()
       end,
    },
 
@@ -157,7 +154,7 @@ local plugins = {
       after = "base46",
       disable = true,
       config = function()
-         require "plugins.configs.alpha"
+         require "custom.configs.alpha"
       end,
    },
 
@@ -165,7 +162,7 @@ local plugins = {
       module = "Comment",
       keys = { "gc", "gb" },
       config = function()
-         require("plugins.configs.others").comment()
+         require("custom.configs.others").comment()
       end,
    },
 
@@ -174,14 +171,14 @@ local plugins = {
       ft = "alpha",
       cmd = { "NvimTreeToggle", "NvimTreeFocus" },
       config = function()
-         require "plugins.configs.nvimtree"
+         require "custom.configs.nvimtree"
       end,
    },
 
    ["nvim-telescope/telescope.nvim"] = {
       cmd = "Telescope",
       config = function()
-         require "plugins.configs.telescope"
+         require "custom.configs.telescope"
       end,
    },
 
@@ -196,7 +193,7 @@ local plugins = {
   ["jose-elias-alvarez/null-ls.nvim"] = {
       after = "nvim-lspconfig",
       config = function()
-         require("plugins.configs.null-ls").setup()
+         require("custom.configs.null-ls").setup()
       end,
   },
   ["tpope/vim-surround"] = {},
