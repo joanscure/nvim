@@ -64,15 +64,15 @@ local plugins = {
    },
 
    -- git stuff
-   ["lewis6991/gitsigns.nvim"] = {
-      opt = true,
-      setup = function()
-         require("core.lazy_load").gitsigns()
-      end,
-      config = function()
-         require("custom.configs.others").gitsigns()
-      end,
-   },
+   -- ["lewis6991/gitsigns.nvim"] = {
+   --    opt = true,
+   --    setup = function()
+   --       require("core.lazy_load").gitsigns()
+   --    end,
+   --    config = function()
+   --       require("custom.configs.others").gitsigns()
+   --    end,
+   -- },
    ["airblade/vim-gitgutter"] = {},
    ["tpope/vim-fugitive"] = {},
 
@@ -152,7 +152,6 @@ local plugins = {
 
    ["goolord/alpha-nvim"] = {
       after = "base46",
-      disable = true,
       config = function()
          require "custom.configs.alpha"
       end,
@@ -182,14 +181,6 @@ local plugins = {
       end,
    },
 
-   -- Only load whichkey after all the gui
-   -- ["folke/which-key.nvim"] = {
-   --    module = "which-key",
-   --    config = function()
-   --       require "plugins.configs.whichkey"
-   --    end,
-   -- },
-
   ["jose-elias-alvarez/null-ls.nvim"] = {
       after = "nvim-lspconfig",
       config = function()
@@ -198,7 +189,10 @@ local plugins = {
   },
   ["tpope/vim-surround"] = {},
   ["editorconfig/editorconfig-vim"] = {},
-  ["junegunn/gv.vim"] = {}
+  ["junegunn/gv.vim"] = {},
+  ["prettier/vim-prettier"] = {},
+  ["joanscure/vim-visual-multi"] = {},
+
 }
 
 require("core.packer").run(plugins)

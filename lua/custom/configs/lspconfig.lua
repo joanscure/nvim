@@ -63,6 +63,46 @@ lspconfig.sumneko_lua.setup {
       },
    },
 }
+require('lspconfig')['tsserver'].setup{
+  on_attach = M.on_attach,
+  capabilities = capabilities,
+}
+
+require('lspconfig')['intelephense'].setup{
+  on_attach = M.on_attach,
+  capabilities = capabilities,
+}
+
+require('lspconfig')['eslint'].setup{
+    on_attach = M.on_attach,
+  capabilities = capabilities,
+}
+
+require('lspconfig')['html'].setup{
+    on_attach = M.on_attach,
+  capabilities = capabilities,
+}
+
+require('lspconfig')['cssls'].setup{
+    on_attach = M.on_attach,
+  capabilities = capabilities,
+}
+
+require('lspconfig')['emmet_ls'].setup{
+    on_attach = M.on_attach,
+    capabilities = capabilities,
+}
+
+require('lspconfig')['stylelint_lsp'].setup{
+    on_attach = M.on_attach,
+    capabilities = capabilities,
+}
+
+require('lspconfig')['stylelint_lsp'].setup{
+    on_attach = M.on_attach,
+  capabilities = capabilities,
+}
+
 
 -- requires a file containing user's lspconfigs
 local addlsp_confs = utils.load_config().plugins.options.lspconfig.setup_lspconf
@@ -74,7 +114,7 @@ M.setup_lsp = function(attach, _capabilities)
    local _lspconfig = require "lspconfig"
 
    -- lspservers with default config
-   local servers = { "html", "cssls", "clangd" }
+   local servers = { "html", "cssls", "clangd","emmet_ls", "stylelint_lsp" }
 
    for _, lsp in ipairs(servers) do
       _lspconfig[lsp].setup {

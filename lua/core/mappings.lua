@@ -13,7 +13,8 @@ M.general = {
       -- go to  beginning and end
       ["<C-b>"] = { "<ESC>^i", "論 beginning of line" },
       ["<C-e>"] = { "<End>", "壟 end of line" },
-      [";;"] = { "<end>;<End>" , opts = { noremap = true, silent = true}}
+      [";;"] = { "<end>;<End>" , opts = { noremap = true, silent = true}},
+      ["jk"] = { "<ESC>" , opts = { noremap = true}}
 
    },
 
@@ -29,6 +30,7 @@ M.general = {
 
       -- save
       ["<C-s>"] = { "<cmd> w <CR>", "﬚  save file" },
+      ["<leader>s"] = { "<cmd> wall <CR>", "﬚  save all files" },
 
       -- Copy all
       ["<C-c>"] = { "<cmd> %y+ <CR>", "  copy whole file" },
@@ -36,9 +38,6 @@ M.general = {
       -- line numbers
       ["<leader>n"] = { "<cmd> set nu! <CR>", "   toggle line number" },
       ["<leader>rn"] = { "<cmd> set rnu! <CR>", "   toggle relative number" },
-
-      -- update nvchad
-      ["<leader>uu"] = { "<cmd> :NvChadUpdate <CR>", "  update nvchad" },
 
       ["<leader>tt"] = {
          function()
@@ -306,21 +305,21 @@ M.nvterm = {
          "   toggle vertical term",
       },
 
-      -- new
-
-      ["<leader>h"] = {
-         function()
-            require("nvterm.terminal").new "horizontal"
-         end,
-         "   new horizontal term",
-      },
-
-      ["<leader>v"] = {
-         function()
-            require("nvterm.terminal").new "vertical"
-         end,
-         "   new vertical term",
-      },
+      -- -- new
+      --
+      -- ["<leader>h"] = {
+      --    function()
+      --       require("nvterm.terminal").new "horizontal"
+      --    end,
+      --    "   new horizontal term",
+      -- },
+      --
+      -- ["<leader>v"] = {
+      --    function()
+      --       require("nvterm.terminal").new "vertical"
+      --    end,
+      --    "   new vertical term",
+      -- },
    },
 }
 
@@ -361,6 +360,7 @@ M.blankline = {
       },
    },
 }
+
 M.gv = {
 
    i = {
@@ -380,6 +380,22 @@ M.gv = {
      ["<A-j>"] = { ":m '>+1<CR>gv=gv", opts = { noremap = true }},
      ["<A-k>"] = { ":m '<-2<CR>gv=gv", opts = { noremap = true } },
    }
+}
+
+M.gitgutter = {
+  n = {
+    ["ghs"] = { "<Plug>(GitGutterStageHunk)"},
+    ["ghu"] = { "<Plug>(GitGutterUndoHunk)"},
+    ["ghp"] = { "<Plug>(GitGutterPreviewHunk)"},
+  }
+
+}
+
+M.prettier = {
+   n = {
+     ["<leader>p"] = { "<cmd> call FormatPrettier()<CR>", "Format prettier", opts = { noremap = true, silent = true}},
+   },
+
 }
 
 return M

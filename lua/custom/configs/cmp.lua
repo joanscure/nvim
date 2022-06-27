@@ -98,6 +98,7 @@ local options = {
    },
 }
 
+
 -- check for any override
 options = require("core.utils").load_override(options, "hrsh7th/nvim-cmp")
 
