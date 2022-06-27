@@ -14,7 +14,6 @@ M.general = {
       ["<C-b>"] = { "<ESC>^i", "論 beginning of line" },
       ["<C-e>"] = { "<End>", "壟 end of line" },
       [";;"] = { "<end>;<End>" , opts = { noremap = true, silent = true}},
-      ["jk"] = { "<ESC>" , opts = { noremap = true}}
 
    },
 
@@ -227,7 +226,7 @@ M.nvimtree = {
 
    n = {
       -- toggle
-      ["<C-n>"] = { "<cmd> NvimTreeToggle <CR>", "   toggle nvimtree" },
+      ["<a-n>"] = { "<cmd> NvimTreeToggle <CR>", "   toggle nvimtree" },
 
       -- focus
       ["<leader>e"] = { "<cmd> NvimTreeFocus <CR>", "   focus nvimtree" },

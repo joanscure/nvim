@@ -16,14 +16,22 @@ if user_conf then
    require "custom"
 end
 
+-- using vim in lua
 vim.cmd[[
+  syntax on
+  filetype plugin indent on
+  set nofoldenable
+  set cindent
+  set encoding=utf-8
+  autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+  autocmd FileType php setlocal autoindent
 
-function FormatPrettier()
-  let fts = ['php']
-  if (index(fts, &filetype) > -1)
-    :PrettierPhp
-  else 
-    :Prettier
-  endif
-endfunction
+  function FormatPrettier()
+    let fts = ['php']
+    if (index(fts, &filetype) > -1)
+      :PrettierPhp
+    else 
+      :Prettier
+    endif
+  endfunction
 ]]

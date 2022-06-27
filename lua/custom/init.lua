@@ -191,7 +191,7 @@ local plugins = {
   ["editorconfig/editorconfig-vim"] = {},
   ["junegunn/gv.vim"] = {},
   ["prettier/vim-prettier"] = {},
-  ["joanscure/vim-visual-multi"] = {},
+  ["mg979/vim-visual-multi"] = {},
 
 }
 
