@@ -390,7 +390,7 @@ M.gitgutter = {
 
 }
 
-M.prettier = {
+M.gv = {
    n = {
      ["<leader>p"] = { "<cmd> call FormatPrettier()<CR>", "Format prettier", opts = { noremap = true, silent = true}},
    },

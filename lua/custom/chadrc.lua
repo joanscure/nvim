@@ -6,13 +6,14 @@ local M = {}
 -- example of changing theme:
 
 M.ui = {
-   theme = "radium",
+   theme = "rxyhn",
 }
-
---  Mapping
-M.general = {
-
-
+M.plugins = {
+   options = {
+      lspconfig = {
+         setup_lspconf = "custom.plugins.lspconfig",
+      },
+   },
 }
 
 return M

@@ -63,45 +63,6 @@ lspconfig.sumneko_lua.setup {
       },
    },
 }
-require('lspconfig')['tsserver'].setup{
-  on_attach = M.on_attach,
-  capabilities = capabilities,
-}
-
-require('lspconfig')['intelephense'].setup{
-  on_attach = M.on_attach,
-  capabilities = capabilities,
-}
-
-require('lspconfig')['eslint'].setup{
-    on_attach = M.on_attach,
-  capabilities = capabilities,
-}
-
-require('lspconfig')['html'].setup{
-    on_attach = M.on_attach,
-  capabilities = capabilities,
-}
-
-require('lspconfig')['cssls'].setup{
-    on_attach = M.on_attach,
-  capabilities = capabilities,
-}
-
-require('lspconfig')['emmet_ls'].setup{
-    on_attach = M.on_attach,
-    capabilities = capabilities,
-}
-
-require('lspconfig')['stylelint_lsp'].setup{
-    on_attach = M.on_attach,
-    capabilities = capabilities,
-}
-
-require('lspconfig')['stylelint_lsp'].setup{
-    on_attach = M.on_attach,
-  capabilities = capabilities,
-}
 
 
 -- requires a file containing user's lspconfigs
