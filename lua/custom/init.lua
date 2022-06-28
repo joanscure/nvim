@@ -111,7 +111,7 @@ local plugins = {
 
    ["L3MON4D3/LuaSnip"] = {
       wants = "friendly-snippets",
-      after = "nvim-cmp",
+     after = "nvim-cmp",
       config = function()
          require("custom.configs.others").luasnip()
       end,
@@ -192,6 +192,7 @@ local plugins = {
   ["junegunn/gv.vim"] = {},
   ["prettier/vim-prettier"] = {},
   ["mg979/vim-visual-multi"] = {},
+  ["github/copilot.vim"] ={}
 
 }
 
