@@ -3,7 +3,7 @@ local M = {}
 M.setup_lsp = function(attach, capabilities)
    local lspconfig = require "lspconfig"
 
-   local servers = { "html", "tsserver", "intelephense", "eslint", "cssls","emmet_ls", "stylelint_lsp" }
+   local servers = { "html", "tsserver", "intelephense", "eslint", "cssls","emmet_ls", "stylelint_lsp", "angularls"}
 
    for _, lsp in ipairs(servers) do
       lspconfig[lsp].setup {

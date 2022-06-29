@@ -25,13 +25,4 @@ vim.cmd[[
   set encoding=utf-8
   autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
   autocmd FileType php setlocal autoindent
-
-  function FormatPrettier()
-    let fts = ['php']
-    if (index(fts, &filetype) > -1)
-      :PrettierPhp
-    else 
-      :Prettier
-    endif
-  endfunction
 ]]

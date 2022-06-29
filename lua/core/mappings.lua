@@ -114,6 +114,11 @@ M.lspconfig = {
          end,
          "   lsp definition",
       },
+      ["gvd"] = {
+         '<cmd> vsplit <CR> <ESC> <cmd> lua vim.lsp.buf.definition()<CR>',
+         "   lsp definition",
+      },
+
 
       ["K"] = {
          function()
@@ -390,9 +395,9 @@ M.gitgutter = {
 
 }
 
-M.gv = {
+M.prettier = {
    n = {
-     ["<leader>p"] = { "<cmd> call FormatPrettier()<CR>", "Format prettier", opts = { noremap = true, silent = true}},
+     ["<leader>p"] = { "<cmd> :Prettier<CR>", "Format prettier", opts = { noremap = true, silent = true}},
    },
 
 }
