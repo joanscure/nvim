@@ -20,9 +20,11 @@ opt.clipboard = "unnamedplus"
 opt.cul = true -- cursor line
 
 -- Indenting
-opt.expandtab = true
-opt.shiftwidth = 2
-opt.smartindent = true
+-- opt.expandtab = true
+opt.shiftwidth = 4
+opt.tabstop = 4
+-- opt.softabstop = 4
+-- opt.smartindent = true
 
 opt.foldmethod = "indent"
 opt.foldnestmax = 10
@@ -44,7 +46,7 @@ opt.shortmess:append "sI"
 opt.signcolumn = "yes"
 opt.splitbelow = true
 opt.splitright = true
-opt.tabstop = 8
+opt.tabstop = 4
 opt.termguicolors = true
 opt.timeoutlen = 400
 opt.undofile = true

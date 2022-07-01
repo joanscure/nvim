@@ -18,11 +18,19 @@ end
 
 -- using vim in lua
 vim.cmd[[
-  syntax on
-  filetype plugin indent on
-  set nofoldenable
-  set cindent
-  set encoding=utf-8
-  autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
-  autocmd FileType php setlocal autoindent
+	syntax on
+	filetype plugin indent on
+	set nofoldenable
+	set cindent
+	set encoding=utf-8
+	set foldmethod=indent   
+	set foldnestmax=10
+	set nofoldenable
+	set foldlevel=2
+	set encoding=utf-8
+	set sts=4 "softabstop
+	set ts=4 " tabstop
+	set sw=4 " shiftwidth
+
+	autocmd FileType * setlocal autoindent
 ]]
