@@ -192,7 +192,6 @@ local plugins = {
   ["junegunn/gv.vim"] = {},
   ["prettier/vim-prettier"] = {},
   ["mg979/vim-visual-multi"] = {},
-  ["github/copilot.vim"] ={}
 
 }
 
