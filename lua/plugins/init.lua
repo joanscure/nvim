@@ -97,6 +97,22 @@ local plugins = {
     config = function()
       require "plugins.configs.mason"
     end,
+	ensure_installed = {
+        -- lua stuff
+        "lua-language-server",
+        "stylua",
+
+		"intelephense",
+		"typescript-language-server",
+
+        -- web dev
+        "css-lsp",
+        "eslint-lsp",
+        "html-lsp",
+        "typescript-language-server",
+        "emmet-ls",
+        "json-lsp",
+      },
   },
 
   ["neovim/nvim-lspconfig"] = {
@@ -230,6 +246,8 @@ local plugins = {
   ["peitalin/vim-jsx-typescript"]={},
   ["styled-components/vim-styled-components"]={},
   ["jparise/vim-graphql"]={},
+  ["yuezk/vim-js"]={},
+  ["maxmellon/vim-jsx-pretty"]={},
 
 }
 

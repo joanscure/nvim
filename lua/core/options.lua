@@ -28,8 +28,6 @@ opt.tabstop = 4
 -- opt.softabstop = 4
 -- opt.smartindent = true
 
-opt.foldmethod = "expr"
-opt.foldexpr = "nvim_treesitter#foldexpr()"
 opt.foldnestmax = 10
 opt.foldlevel = 2
 
