@@ -151,7 +151,7 @@ M.lspconfig = {
 
     ["gvd"] = {
        '<cmd> vsplit <CR> <ESC> <cmd> lua vim.lsp.buf.definition()<CR>',
-       "   lsp definition",
+       "lsp definition on window split",
     },
 
     ["K"] = {

@@ -225,6 +225,12 @@ local plugins = {
   ["airblade/vim-gitgutter"] = {},
   ["tpope/vim-fugitive"] = {},
 
+  -- jsx
+  ["MaxMEllon/vim-jsx-pretty"]={},
+  ["peitalin/vim-jsx-typescript"]={},
+  ["styled-components/vim-styled-components"]={},
+  ["jparise/vim-graphql"]={},
+
 }
 
 require("core.packer").run(plugins)
