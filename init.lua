@@ -25,9 +25,9 @@ pcall(require, "custom")
 require("core.utils").load_mappings()
 
 -- using vim in lua
+
+-- using vim in lua
 vim.cmd[[
-	let g:python3_host_prog='C:\Users\joans\AppData\Local\Programs\Python\Python310\python.exe'
-	let g:loaded_python3_provider='C:\Users\joans\AppData\Local\Programs\Python\Python310\python.exe'
 	syntax on
 	filetype plugin indent on
 	set nofoldenable
@@ -41,7 +41,7 @@ vim.cmd[[
 	set sts=4 "softabstop
 	set ts=4 " tabstop
 	set sw=4 " shiftwidth
+
 	autocmd FileType * setlocal autoindent
-	autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
-	autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
 ]]
+--vim.cmd[[ let g:vsnip_filetypes.javascript = ['react'] ]]

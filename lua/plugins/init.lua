@@ -216,6 +216,7 @@ local plugins = {
     end,
   },
 
+
   -- -- Only load whichkey after all the gui
   -- ["folke/which-key.nvim"] = {
   --   disable = true,
@@ -241,13 +242,13 @@ local plugins = {
   ["airblade/vim-gitgutter"] = {},
   ["tpope/vim-fugitive"] = {},
 
-  -- jsx
-  ["MaxMEllon/vim-jsx-pretty"]={},
-  ["peitalin/vim-jsx-typescript"]={},
-  ["styled-components/vim-styled-components"]={},
-  ["jparise/vim-graphql"]={},
-  ["yuezk/vim-js"]={},
-  ["maxmellon/vim-jsx-pretty"]={},
+
+ ["jose-elias-alvarez/null-ls.nvim"] = {
+      after = "nvim-lspconfig",
+      config = function()
+         require "plugins.configs.null-ls"
+      end,
+ }
 
 }
 
