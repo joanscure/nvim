@@ -1,8 +1,8 @@
 vim.defer_fn(function()
   pcall(require, "impatient")
 end, 0)
-
 require "core"
+
 require "core.options"
 
 -- setup packer + plugins
@@ -21,27 +21,4 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 pcall(require, "custom")
-
 require("core.utils").load_mappings()
-
--- using vim in lua
-
--- using vim in lua
-vim.cmd[[
-	syntax on
-	filetype plugin indent on
-	set nofoldenable
-	set cindent
-	set encoding=utf-8
-	set foldmethod=indent   
-	set foldnestmax=10
-	set nofoldenable
-	set foldlevel=2
-	set encoding=utf-8
-	set sts=4 "softabstop
-	set ts=4 " tabstop
-	set sw=4 " shiftwidth
-
-	autocmd FileType * setlocal autoindent
-]]
---vim.cmd[[ let g:vsnip_filetypes.javascript = ['react'] ]]

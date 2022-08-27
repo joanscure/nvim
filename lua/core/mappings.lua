@@ -6,6 +6,7 @@ end
 
 local M = {}
 
+
 M.general = {
   i = {
     -- go to  beginning and end
@@ -84,30 +85,30 @@ M.general = {
   },
 }
 
-M.tabufline = {
-  plugin = true,
-
-  n = {
-    -- cycle through buffers
-    ["<TAB>"] = {
-      function()
-        require("core.utils").tabuflineNext()
-      end,
-      "goto next buffer",
-    },
-
-    ["<S-Tab>"] = {
-      function()
-        require("core.utils").tabuflinePrev()
-      end,
-      "goto prev buffer",
-    },
-
-    -- pick buffers via numbers
-    ["<Bslash>"] = { "<cmd> TbufPick <CR>", "Pick buffer" },
-  },
-}
-
+-- M.tabufline = {
+--   plugin = true,
+--
+--   n = {
+--     -- cycle through buffers
+--     ["<TAB>"] = {
+--       function()
+--         require("core.utils").tabuflineNext()
+--       end,
+--       "goto next buffer",
+--     },
+--
+--     ["<S-Tab>"] = {
+--       function()
+--         require("core.utils").tabuflinePrev()
+--       end,
+--       "goto prev buffer",
+--     },
+--
+--     -- pick buffers via numbers
+--     ["<Bslash>"] = { "<cmd> TbufPick <CR>", "Pick buffer" },
+--   },
+-- }
+--
 M.comment = {
   plugin = true,
 
@@ -443,6 +444,24 @@ M.prettier = {
    n = {
      ["<leader>p"] = { "<cmd> :Prettier<CR>", "Format prettier", opts = { noremap = true, silent = true}},
    },
+
+}
+
+M.fzf = {
+   n = {
+     ["<c-p>"] = { ":FZF -i<CR>", "Fzf"},
+     ["<c-f>"] = { ":Rg<CR>", "Rg"},
+   },
+
+}
+
+
+M.bufferline = {
+   n = {
+     ["<TAB>"] = { "<cmd> :BufferLineCycleNext<CR>", "Tab Next", opts = { noremap = true, silent = true}},
+     ["<S-Tab>"] = { "<cmd> :BufferLineCyclePrev<CR>", "Tab previous", opts = { noremap = true, silent = true}},
+   },
+
 
 }
 

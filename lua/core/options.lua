@@ -1,49 +1,25 @@
+local api = vim.api
 local opt = vim.opt
+
 local g = vim.g
-local config = require("core.utils").load_config()
 
-g.vim_version = vim.version().minor
-g.nvchad_theme = config.ui.theme
-g.toggle_theme_icon = "   "
-g.transparency = config.ui.transparency
-g.theme_switcher_loaded = false
-
--- use filetype.lua instead of filetype.vim. it's enabled by default in neovim 0.8 (nightly)
-if g.vim_version < 8 then
-  g.did_load_filetypes = 0
-  g.do_filetype_lua = 1
-end
-
-opt.laststatus = 3 -- global statusline
-opt.showmode = false
-
-opt.title = true
 opt.clipboard = "unnamedplus"
-opt.cul = true -- cursor line
+opt.cul = false
 
 -- Indenting
--- opt.expandtab = true
 opt.shiftwidth = 4
 opt.tabstop = 4
--- opt.softabstop = 4
--- opt.smartindent = true
-
 opt.foldnestmax = 10
 opt.foldlevel = 2
 
-opt.fillchars = { eob = " " }
-opt.ignorecase = true
-opt.smartcase = true
-opt.mouse = "a"
-
 -- Numbers
-opt.number = false
-opt.numberwidth = 2
+opt.number = true
+opt.numberwidth = 1
 opt.ruler = false
 
-
--- disable nvim intro
-opt.shortmess:append "sI"
+opt.fillchars = { eob = " "}
+opt.smartcase = true
+opt.mouse = "a"
 
 opt.signcolumn = "yes"
 opt.splitbelow = true
@@ -51,6 +27,14 @@ opt.splitright = true
 opt.termguicolors = true
 opt.timeoutlen = 400
 opt.undofile = true
+
+-- Extra
+opt.syntax = "on"
+opt.encoding = "utf-8"
+opt.sts = 4
+opt.ts = 4
+opt.sw = 4
+opt.cindent = true
 
 -- interval for writing swap file to disk, also used by gitsigns
 opt.updatetime = 250
@@ -61,7 +45,8 @@ opt.whichwrap:append "<>[]hl"
 
 g.mapleader = " "
 
--- disable some builtin vim plugins
+
+-- install default plugins
 local default_plugins = {
   "2html_plugin",
   "getscript",
@@ -95,6 +80,7 @@ for _, plugin in pairs(default_plugins) do
   g["loaded_" .. plugin] = 1
 end
 
+-- default install providers
 local default_providers = {
   "node",
   "perl",
@@ -105,3 +91,6 @@ local default_providers = {
 for _, provider in ipairs(default_providers) do
   vim.g["loaded_" .. provider .. "_provider"] = 0
 end
+
+
+

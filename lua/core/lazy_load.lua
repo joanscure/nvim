@@ -44,6 +44,32 @@ M.on_file_open = function(plugin_name)
   }
 end
 
+-- lspinstaller & lspconfig cmds for lazyloading
+M.lsp_cmds = {
+   "LspInfo",
+   "LspStart",
+   "LspRestart",
+   "LspStop",
+   "LspInstall",
+   "LspUnInstall",
+   "LspUnInstallAll",
+   "LspInstall",
+   "LspInstallInfo",
+   "LspInstallLog",
+   "LspLog",
+   "LspPrintInstalled",
+}
+
+-- treesitter 
+M.treesitter_cmds = {
+  "TSInstall",
+  "TSBufEnable",
+  "TSBufDisable",
+  "TSEnable",
+  "TSDisable",
+  "TSModuleInfo",
+}
+
 M.packer_cmds = {
   "PackerSnapshot",
   "PackerSnapshotRollback",
@@ -56,24 +82,6 @@ M.packer_cmds = {
   "PackerStatus",
   "PackerProfile",
   "PackerLoad",
-}
-
-M.treesitter_cmds = {
-  "TSInstall",
-  "TSBufEnable",
-  "TSBufDisable",
-  "TSEnable",
-  "TSDisable",
-  "TSModuleInfo",
-}
-
-M.mason_cmds = {
-  "Mason",
-  "MasonInstall",
-  "MasonInstallAll",
-  "MasonUninstall",
-  "MasonUninstallAll",
-  "MasonLog",
 }
 
 M.gitsigns = function()
