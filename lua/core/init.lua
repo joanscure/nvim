@@ -67,3 +67,10 @@ autocmd("BufDelete", {
     end
   end,
 })
+
+
+-- react
+vim.cmd[[ autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart ]]
+
+vim.cmd[[ autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear ]]
+

@@ -71,18 +71,28 @@ M.treesitter_cmds = {
 }
 
 M.packer_cmds = {
-  "PackerSnapshot",
-  "PackerSnapshotRollback",
-  "PackerSnapshotDelete",
+  -- "PackerSnapshot",
+  -- "PackerSnapshotRollback",
+  -- "PackerSnapshotDelete",
   "PackerInstall",
   "PackerUpdate",
   "PackerSync",
-  "PackerClean",
-  "PackerCompile",
+  -- "PackerClean",
+  -- "PackerCompile",
   "PackerStatus",
-  "PackerProfile",
-  "PackerLoad",
+  -- "PackerProfile",
+  -- "PackerLoad",
 }
+
+M.mason_cmds = {
+   "Mason",
+   "MasonInstall",
+   "MasonUninstall",
+   "MasonUninstallAll",
+   "MasonLog",
+}
+
+
 
 M.gitsigns = function()
   autocmd({ "BufRead" }, {

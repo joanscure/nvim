@@ -89,30 +89,16 @@ local plugins = {
 			require "plugins.configs.lspconfig"
 		end,
 	},
-	["L3MON4D3/LuaSnip"] = {
-	after = "nvim-lspconfig",
-  -- config = function()
-  --     require("plugins.configs.others").luasnip()
-  --   end,
-
-	},
-
-  ["saadparwaiz1/cmp_luasnip"] = {
-    after = "LuaSnip",
-  },
-
-	["hrsh7th/cmp-nvim-lua"] = {
-		after = "LuaSnip",
+	["williamboman/nvim-lsp-installer"] = {
+		after = "nvim-lspconfig",
 	},
 
 	["hrsh7th/cmp-nvim-lsp"] = {
-		after = "LuaSnip",
+		after = "nvim-lsp-installer",
 	},
-
 	["hrsh7th/cmp-buffer"] = {
 		after = "cmp-nvim-lsp",
 	},
-
 	["hrsh7th/cmp-path"] = {
 		after = "cmp-buffer",
 	},
@@ -120,12 +106,53 @@ local plugins = {
 		after = "cmp-path"
 	},
 	['hrsh7th/nvim-cmp'] = {
-		after = "cmp-nvim-lsp",
+		after = "cmp-cmdline",
 		config = function()
 			require "plugins.configs.cmp"
 		end,
-	}
+	},
+	["L3MON4D3/LuaSnip"] = {
+		after = "nvim-lspconfig",
+		config = function()
+			require("plugins.configs.others").luasnip()
+		end,
+	},
+	["saadparwaiz1/cmp_luasnip"] = {
+		after = "LuaSnip",
+	},
+	["hrsh7th/cmp-nvim-lua"] = {
+		after = "LuaSnip",
+	},
 
+	["williamboman/mason.nvim"] = {
+		cmd = require("core.lazy_load").mason_cmds,	
+		config = function()
+			require("mason").setup({
+				ui = {
+					icons = {
+						package_installed = "✓",
+						package_pending = "➜",
+						package_uninstalled = "✗"
+					}
+				}
+			})
+		end
+	},
+	['pangloss/vim-javascript'] = {} ,
+	['leafgarland/typescript-vim'] = {} ,
+	['peitalin/vim-jsx-typescript'] = {} ,
+	['styled-components/vim-styled-components'] = { 
+		branch =  'main' 
+	} ,
+	['jparise/vim-graphql'] = {} ,
+	['nvim-treesitter/nvim-treesitter'] = {
+		cmd = require("core.lazy_load").treesitter_cmds,
+		run = ":TSUpdate",
+	},
+
+	['nvim-treesitter/nvim-treesitter-textobjects'] = {
+		after = "nvim-treesitter"
+	},
 }
 
 require("core.packer").run(plugins)
