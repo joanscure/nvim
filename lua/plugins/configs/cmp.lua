@@ -118,9 +118,9 @@ cmp.setup {
     end, { 'i', 's' }),
   }),
   sources = {
-    { name = 'nvim_lsp' },
-    { name = 'luasnip' },
-      { name = "buffer" },
-      { name = "nvim_lua" },
+	{ name = "nvim_lua" , score	= 2},
+	{ name = 'nvim_lsp' ,score = 1},
+    { name = 'luasnip' , score = 3},
+	  { name = "buffer" , score = 4 },
   },
 }

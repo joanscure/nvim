@@ -84,16 +84,6 @@ M.packer_cmds = {
   -- "PackerLoad",
 }
 
-M.mason_cmds = {
-   "Mason",
-   "MasonInstall",
-   "MasonUninstall",
-   "MasonUninstallAll",
-   "MasonLog",
-}
-
-
-
 M.gitsigns = function()
   autocmd({ "BufRead" }, {
     callback = function()

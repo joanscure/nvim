@@ -5,7 +5,7 @@ if not present then
 end
 
 local options = { 
-	auto_reload_on_write = true,
+	auto_reload_on_write = false,
 	create_in_closed_folder = false,
 	disable_netrw = false,
 	hijack_cursor = false,
@@ -13,7 +13,7 @@ local options = {
 	hijack_unnamed_buffer_when_opening = true,
 	ignore_buffer_on_setup = false,
 	open_on_setup = true,
-	open_on_setup_file = true,
+	open_on_setup_file = false,
 	open_on_tab = false,
 	ignore_buf_on_tab_change = {},
 	sort_by = "name",
@@ -22,7 +22,6 @@ local options = {
 	sync_root_with_cwd = false,
 	reload_on_bufenter = false,
 	respect_buf_cwd = false,
-	on_attach = "disable", -- function(bufnr). If nil, will use the deprecated mapping strategy
 	remove_keymaps = false, -- boolean (disable totally or not) or list of key (lhs)
 	view = {
 		adaptive_size = false,
@@ -57,9 +56,9 @@ local options = {
 	renderer = {
 		add_trailing = false,
 		group_empty = false,
-		highlight_git = false,
+		highlight_git = true,
 		full_name = false,
-		highlight_opened_files = "none",
+		highlight_opened_files = "all",
 		root_folder_modifier = ":~",
 		indent_markers = {
 			enable = false,
@@ -201,5 +200,6 @@ local options = {
 options = require("core.utils").load_override(options, "kyazdani42/nvim-tree.lua")
 
 vim.g.nvimtree_side = options.view.side
+
 
 nvimtree.setup(options)

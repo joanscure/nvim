@@ -43,6 +43,16 @@ opt.updatetime = 250
 -- when cursor reaches end/beginning of line
 opt.whichwrap:append "<>[]hl"
 
+-- coc
+
+--Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+--delays and poor user experience.
+opt.updatetime=300
+
+-- Always show the signcolumn, otherwise it would shift the text each time
+-- diagnostics appear/become resolved.
+opt.signcolumn="yes"
+
 g.mapleader = " "
 
 
