@@ -44,7 +44,7 @@ source ~/AppData/Local/nvim/helpers.vim
 
 source ~/AppData/Local/nvim/conf/nerdtree-lua.conf.vim
 
-source ~/AppData/Local/nvim/conf/prettier.conf.vim
+"source ~/AppData/Local/nvim/conf/prettier.conf.vim
 
 source ~/AppData/Local/nvim/conf/plugins.conf.vim
 

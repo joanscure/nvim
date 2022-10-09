@@ -13,18 +13,15 @@ inoremap <A-k> <Esc>:m .-2<CR>==gi
 vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
-inoremap jk <ESC>
-
 " NERDTREE
 
 nmap <c-p> :FZF -i<CR>
-nmap <leader>f :Rg<CR>
-nmap <leader>w :w<CR>
+nmap <c-f> :Rg<CR>
+nmap <c-s> :wall<CR>
+nmap <leader>s :w<CR>
 nmap <leader>bd :bd<CR>
 nmap <leader>bb :Buffers<CR>
-nnoremap <leader>nd :NvimTreeToggle<CR>
-nnoremap <leader>r :NvimTreeRefresh<CR>
-nnoremap <c-f> :NvimTreeFindFile<CR>
+nnoremap <c-b> :NvimTreeFindFile<CR>
 
 " RESIZE TAB
 nnoremap <A-up> :resize -5<CR>
@@ -33,37 +30,7 @@ nnoremap <A-left> :vertical resize -5<CR>
 nnoremap <A-right> :vertical resize +5<CR>
 nmap <C-F6> :!start explorer /select,%:p<CR>
 
-noremap <leader>s :wall<CR>
-
 inoremap <silent>;; <end>;<End>
 
-" Delete highlight search
-nmap <leader>/ :noh<CR>
-
-
-"PRETTIER
-function FormatPrettier()
-  let fts = ['php']
-  if (index(fts, &filetype) > -1)
-    :PrettierPhp
-  else 
-    :Prettier
-  endif
-endfunction
-
-"PRETTIER
-nnoremap <leader>p :call FormatPrettier()<CR>
-nmap <Leader>p :call FormatPrettier()<CR>
-
-
-" EMMET
-let g:user_emmet_leader_key='<c-y>'
-
-
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsSnippetDirectories=['../UltiSnips']
-let g:UltiSnipsExpandTrigger="<C-j>"
-let g:UltiSnipsListSnippets="<C-_>"
-let g:UltiSnipsJumpForwardTrigger="<C-j>"
-let g:UltiSnipsJumpBackwardTrigger="<C-k>"
-
+xnoremap <silent> p p:let @+=@0<CR>:let @"=@0<CR>
+nmap <ESC> :noh<CR>

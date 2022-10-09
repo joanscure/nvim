@@ -6,11 +6,9 @@ Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'editorconfig/editorconfig-vim'
 Plug 'gregsexton/MatchTag'
 Plug 'pantharshit00/vim-prisma'
-Plug 'github/copilot.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'neovim/nvim-lspconfig'
-Plug 'mattn/emmet-vim'
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'sirver/ultisnips'
 Plug 'vim-vdebug/vdebug'
@@ -59,7 +57,7 @@ Plug 'StanAngeloff/php.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
-Plug 'prettier/vim-prettier', {
+"Plug 'prettier/vim-prettier', {
   \ 'do': 'npm install --frozen-lockfile --production',
   \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
 " END TYPING
