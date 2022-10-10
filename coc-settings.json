@@ -1,3 +1,5 @@
 {
-	"typescript.preferences.importModuleSpecifier": "relative"
+	"typescript.preferences.importModuleSpecifier": "relative",
+	"suggest.timeout": 10000,
+	"documentHighlight.timeout": 5000
 }

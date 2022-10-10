@@ -1,6 +1,5 @@
-" FZF
 let $FZF_DEFAULT_OPTS='--layout=reverse'
-let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
+"let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
 
 let $PATH = "C:/Program Files/Git/usr/bin;". $PATH
 
@@ -25,3 +24,4 @@ let g:fzf_colors = {
       \ 'spinner': ['fg', 'Label'],
       \ 'header':  ['fg', 'Comment'] 
       \ }
+
