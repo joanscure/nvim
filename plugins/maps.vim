@@ -6,7 +6,7 @@ nmap <ESC> :noh<CR>
 nmap <C-F6> :!start explorer /select,%:p<CR>
 
 nmap <c-p> :FZF -i<CR>
-nmap <c-f> :Ag<CR>
+nmap <c-f> :Rg!
 
 nmap <c-s> :wall<CR>
 nmap <leader>s :w<CR>

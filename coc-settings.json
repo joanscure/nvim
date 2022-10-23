@@ -1,5 +1,20 @@
 {
 	"typescript.preferences.importModuleSpecifier": "relative",
 	"suggest.timeout": 10000,
-	"documentHighlight.timeout": 5000
+	"documentHighlight.timeout": 5000,
+	"javascript.suggest.autoImports": true, 
+	"typescript.suggest.autoImports": true,
+	"coc.preferences.formatOnSaveFiletypes": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "eslint.autoFixOnSave": true,
+	"tsserver.formatOnType": true,
+  "coc.preferences.formatOnType": true,
+  "angular.enable-strict-mode-prompt": false,
+  "snippets.extends" : {
+		 "php": ["php"]
+	 }
 }

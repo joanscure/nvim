@@ -1,5 +1,12 @@
-lua << EOF
 
+" set
+autocmd TermEnter term://*toggleterm#*
+      \ tnoremap <silent><c-t> <Cmd>exe v:count1 . "ToggleTerm"<CR>
+
+nnoremap <silent><c-t> <Cmd>exe v:count1 . "ToggleTerm"<CR>
+inoremap <silent><c-t> <Esc><Cmd>exe v:count1 . "ToggleTerm"<CR>
+
+lua << EOF
 require("toggleterm").setup{
 	size = 20,
 	open_mapping = [[<c-\>]],
@@ -18,5 +25,4 @@ require("toggleterm").setup{
 		winblend = 3,
 	},
 }
-
 EOF

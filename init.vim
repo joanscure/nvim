@@ -36,6 +36,10 @@ set foldnestmax=10
 set nofoldenable
 set foldlevel=2
 
+let g:python3_host_prog='C:\Users\joans\AppData\Local\Programs\Python\Python310\python.exe'
+
+autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart 
+autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
 
 " Imports Scripts
 source ~/AppData/Local/nvim/plugins/maps.vim

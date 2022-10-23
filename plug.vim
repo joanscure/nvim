@@ -32,5 +32,11 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'gregsexton/MatchTag'
 Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
 
+" Langs
+Plug 'dart-lang/dart-vim-plugin'
+Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 
 call plug#end()
