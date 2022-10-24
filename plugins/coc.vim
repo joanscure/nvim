@@ -77,6 +77,7 @@ let g:coc_global_extensions = [
       \ 'coc-emmet', 
       \ 'coc-angular', 
       \ 'coc-css', 
+      \ 'coc-sql', 
       \ 'coc-tsserver',
       \ 'coc-prettier',
       \ 'coc-flutter',

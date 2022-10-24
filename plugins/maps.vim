@@ -14,7 +14,6 @@ nmap <leader>s :w<CR>
 nmap <leader>bd :bd<CR>
 nmap <leader>bb :Buffers<CR>
 
-
 " NERDTREE
 nnoremap <c-b> :NvimTreeToggle<CR>
 
@@ -28,5 +27,9 @@ inoremap <A-k> <Esc>:m .-2<CR>==gi
 vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
+" Nerd Commenter
+let g:NERDCreateDefaultMappings = 0
 
+nmap  <leader>cc <plug>NERDCommenterToggle
+vnoremap <leader>cc <plug>NERDCommenterToggle
 

@@ -1,5 +1,5 @@
 syntax on
-
+filetype plugin on
 set number
 set mouse=a
 set numberwidth=1
@@ -42,8 +42,8 @@ autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
 autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
 
 " Imports Scripts
-source ~/AppData/Local/nvim/plugins/maps.vim
 source ~/AppData/Local/nvim/plug.vim
+source ~/AppData/Local/nvim/plugins/maps.vim
 
 source ~/AppData/Local/nvim/plugins/nerdtree-lua.vim
 source ~/AppData/Local/nvim/plugins/coc.vim
@@ -51,6 +51,7 @@ source ~/AppData/Local/nvim/plugins/lualine.vim
 source ~/AppData/Local/nvim/plugins/bufferline.vim
 source ~/AppData/Local/nvim/plugins/term.vim
 source ~/AppData/Local/nvim/plugins/fzf.vim
+source ~/AppData/Local/nvim/plugins/vimspector.vim
 
 let g:gruvbox_termcolors=16
 let g:gruvbox_contrast_dark='hard'

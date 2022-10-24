@@ -1,20 +1,24 @@
 {
-	"typescript.preferences.importModuleSpecifier": "relative",
-	"suggest.timeout": 10000,
-	"documentHighlight.timeout": 5000,
-	"javascript.suggest.autoImports": true, 
-	"typescript.suggest.autoImports": true,
-	"coc.preferences.formatOnSaveFiletypes": [
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "suggest.timeout": 10000,
+  "documentHighlight.timeout": 5000,
+  "javascript.suggest.autoImports": true,
+  "typescript.suggest.autoImports": true,
+  "coc.preferences.formatOnSaveFiletypes": [
     "javascript",
     "javascriptreact",
     "typescript",
+    "json",
     "typescriptreact"
   ],
   "eslint.autoFixOnSave": true,
-	"tsserver.formatOnType": true,
+  "tsserver.formatOnType": true,
   "coc.preferences.formatOnType": true,
   "angular.enable-strict-mode-prompt": false,
-  "snippets.extends" : {
-		 "php": ["php"]
-	 }
+  "snippets.extends": {
+    "php": ["php"]
+  },
+
+  "coc.source.around.firstMatch": false,
+  "coc.source.buffer.firstMatch": false
 }

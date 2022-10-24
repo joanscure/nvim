@@ -4,6 +4,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'sickill/vim-monokai'
 Plug 'morhetz/gruvbox'
+Plug 'puremourning/vimspector'
 
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-tree/nvim-tree.lua'
