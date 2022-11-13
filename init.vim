@@ -52,6 +52,7 @@ source ~/AppData/Local/nvim/plugins/bufferline.vim
 source ~/AppData/Local/nvim/plugins/term.vim
 source ~/AppData/Local/nvim/plugins/fzf.vim
 source ~/AppData/Local/nvim/plugins/vimspector.vim
+"source ~/AppData/Local/nvim/plugins/autopairs.vim
 
 let g:gruvbox_termcolors=16
 let g:gruvbox_contrast_dark='hard'

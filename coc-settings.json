@@ -1,9 +1,10 @@
 {
   "typescript.preferences.importModuleSpecifier": "relative",
+  "typescript.suggest.autoImports": true,
   "suggest.timeout": 10000,
+  "notification.timeout": 10000,
   "documentHighlight.timeout": 5000,
   "javascript.suggest.autoImports": true,
-  "typescript.suggest.autoImports": true,
   "coc.preferences.formatOnSaveFiletypes": [
     "javascript",
     "javascriptreact",
@@ -18,7 +19,6 @@
   "snippets.extends": {
     "php": ["php"]
   },
-
-  "coc.source.around.firstMatch": false,
-  "coc.source.buffer.firstMatch": false
+  "intelephense.diagnostics.unusedSymbols": true,
+  "codeLens.enable": true
 }

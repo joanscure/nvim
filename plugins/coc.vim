@@ -82,7 +82,7 @@ let g:coc_global_extensions = [
       \ 'coc-prettier',
       \ 'coc-flutter',
       \ 'coc-react-refactor',
-			\ 'coc-snippets'
+			\ 'coc-snippets',
       \ ]
 
 if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')

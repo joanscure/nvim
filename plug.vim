@@ -5,6 +5,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'sickill/vim-monokai'
 Plug 'morhetz/gruvbox'
 Plug 'puremourning/vimspector'
+Plug 'github/copilot.vim'
+Plug 'windwp/nvim-autopairs'
 
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-tree/nvim-tree.lua'
