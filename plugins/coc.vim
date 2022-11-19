@@ -74,6 +74,7 @@ let g:coc_global_extensions = [
       \ '@yaegassy/coc-intelephense', 
       \ 'coc-json', 
       \ 'coc-html', 
+      \ 'coc-eslint', 
       \ 'coc-emmet', 
       \ 'coc-angular', 
       \ 'coc-css', 

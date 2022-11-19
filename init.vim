@@ -36,7 +36,7 @@ set foldnestmax=10
 set nofoldenable
 set foldlevel=2
 
-let g:python3_host_prog='C:\Users\joans\AppData\Local\Programs\Python\Python310\python.exe'
+let g:python3_host_prog='C:\Users\joans\AppData\Local\Programs\Python\Python311\python.exe'
 
 autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart 
 autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear

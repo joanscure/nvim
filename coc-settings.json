@@ -19,6 +19,5 @@
   "snippets.extends": {
     "php": ["php"]
   },
-  "intelephense.diagnostics.unusedSymbols": true,
   "codeLens.enable": true
 }
