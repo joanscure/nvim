@@ -4,7 +4,7 @@ nmap <leader>dd :call vimspector#Launch()<CR>
 nmap <leader>dx :VimspectorReset<CR>
 nmap <leader>de :VimspectorEval
 nmap <leader>dw :VimspectorWatch
-nmap <leader>do :VimspectorShowOutput
+"nmap <leader>do :VimspectorShowOutput
 
 "autocmd FileType java nmap <leader>dd :CocComand java.debug.vimspector.start<CR>
 

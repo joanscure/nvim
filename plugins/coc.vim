@@ -28,12 +28,13 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gvd :vsplit<CR><Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gf <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 xmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>do <Plug>(coc-codeaction)
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call ShowDocumentation()<CR>
@@ -84,6 +85,8 @@ let g:coc_global_extensions = [
       \ 'coc-flutter',
       \ 'coc-react-refactor',
 			\ 'coc-snippets',
+			\ 'coc-react-refactor',
+			\ 'coc-vetur',
       \ ]
 
 if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')

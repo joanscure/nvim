@@ -12,12 +12,12 @@
     "json",
     "typescriptreact"
   ],
-  "eslint.autoFixOnSave": true,
   "tsserver.formatOnType": true,
   "coc.preferences.formatOnType": true,
   "angular.enable-strict-mode-prompt": false,
   "snippets.extends": {
     "php": ["php"]
   },
-  "codeLens.enable": true
+  "codeLens.enable": true,
+  "snippets.ultisnips.pythonPrompt": false
 }
