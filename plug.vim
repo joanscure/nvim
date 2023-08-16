@@ -24,6 +24,7 @@ Plug 'tpope/vim-fugitive'
 " FZF 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 
 " TYPING
 Plug 'tpope/vim-surround'
@@ -44,5 +45,6 @@ Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'udalov/kotlin-vim'
 
 call plug#end()

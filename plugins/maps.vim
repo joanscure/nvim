@@ -13,6 +13,8 @@ nmap <leader>s :w<CR>
 
 nmap <leader>bd :bd<CR>
 nmap <leader>bb :Buffers<CR>
+" close all buffer but this one
+nmap <leader>abd :%bd\|e#\|bd#<cr><CR> 
 
 " NERDTREE
 nnoremap <c-b> :NvimTreeToggle<CR>

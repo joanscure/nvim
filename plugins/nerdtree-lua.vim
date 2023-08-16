@@ -5,20 +5,23 @@ let g:loaded_netrwPlugin = 1
 lua << EOF
 
 require("nvim-tree").setup{
-	sync_root_with_cwd = false,
-	auto_reload_on_write =  false,
-	hijack_directories = {
-		enable = false,
-		auto_open = false,
-	},
-	update_focused_file = {
-		enable = true,
-		update_root = true,
-	},
-	filesystem_watchers = {
-		enable = false,
-	},
- actions = {
+sync_root_with_cwd = false,
+auto_reload_on_write =  false,
+view = {
+side = "right",
+     },
+hijack_directories = {
+  enable = false,
+  auto_open = false,
+  },
+  update_focused_file = {
+    enable = true,
+    update_root = true,
+    },
+    filesystem_watchers = {
+      enable = false,
+      },
+      actions = {
         use_system_clipboard = true,
         change_dir = {
           enable = true,
@@ -53,8 +56,7 @@ require("nvim-tree").setup{
         remove_file = {
           close_window = true,
         },
-      },
-
+        },
 }
 
 EOF
