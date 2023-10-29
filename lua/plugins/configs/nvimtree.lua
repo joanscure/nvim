@@ -7,11 +7,11 @@ local options = {
   hijack_netrw = true,
   hijack_cursor = true,
   hijack_unnamed_buffer_when_opening = false,
-  sync_root_with_cwd = false,
-  auto_reload_on_write = false,
+  sync_root_with_cwd = true,
   update_focused_file = {
     enable = true,
     update_root = false,
+    ignore_list = {'node_modules', "dist", "build"}
   },
   view = {
     adaptive_size = false,
@@ -24,7 +24,8 @@ local options = {
     ignore = true,
   },
   filesystem_watchers = {
-    enable = false,
+    enable = true,
+    ignore_dirs = {'node_modules', 'dist', 'build'},
   },
   actions = {
     open_file = {

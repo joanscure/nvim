@@ -266,15 +266,7 @@ local default_plugins = {
     "mg979/vim-visual-multi",
     lazy = false,
   },
-  {"tpope/vim-surround",
-    lazy = false,
-  },
-  {"junegunn/gv.vim"},
-  {"windwp/nvim-ts-autotag",
-    init = function ()
-      require('nvim-ts-autotag').setup()
-    end 
-  }
+  { "tpope/vim-surround", lazy = false },
 }
 
 local config = require("core.utils").load_config()

@@ -1,17 +1,9 @@
-local function ignore_svg(prompt_bufnr, text)
-  local _, _, ext = string.find(text, '^.+(%..+)$')
-  if ext == '.svg' then
-    return false -- Ignora archivos SVG
-  else
-    return true
-  end
-end
+local current_directory = vim.fn.getcwd()
 
 local options = {
   defaults = {
     vimgrep_arguments = {
       "rg",
-      "-L",
       "--color=never",
       "--no-heading",
       "--with-filename",
@@ -40,7 +32,7 @@ local options = {
       preview_cutoff = 120,
     },
     file_sorter = require("telescope.sorters").get_fuzzy_file,
-    file_ignore_patterns = { "node_modules" , ".svg"},
+    file_ignore_patterns = { "node_modules", ".svg", '.lock' },
     generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
     path_display = { "truncate" },
     winblend = 0,
