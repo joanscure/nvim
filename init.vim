@@ -1,9 +1,9 @@
 syntax on
 filetype plugin on
-set number
+"set number
 set mouse=a
 set numberwidth=1
-set ruler
+"set ruler
 set encoding=utf-8
 
 set noshowmatch
@@ -57,9 +57,6 @@ source ~/AppData/Local/nvim/plugins/lualine.vim
 source ~/AppData/Local/nvim/plugins/bufferline.vim
 source ~/AppData/Local/nvim/plugins/term.vim
 source ~/AppData/Local/nvim/plugins/fzf.vim
-source ~/AppData/Local/nvim/plugins/vimspector.vim
-source ~/AppData/Local/nvim/plugins/translator.vim
-"source ~/AppData/Local/nvim/plugins/autopairs.vim
 
  if (has("termguicolors"))
   set termguicolors

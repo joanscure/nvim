@@ -11,7 +11,7 @@ nmap <c-f> :Rg!
 nmap <c-s> :wall<CR>
 nmap <leader>s :w<CR>
 
-nmap <leader>bd :bd<CR>
+nmap <leader>x :bd<CR>
 nmap <leader>bb :Buffers<CR>
 " close all buffer but this one
 nmap <leader>abd :%bd\|e#\|bd#<cr><CR> 
@@ -35,8 +35,8 @@ let g:NERDCreateDefaultMappings = 0
 nmap  <leader>cc <plug>NERDCommenterToggle
 vnoremap <leader>cc <plug>NERDCommenterToggle
 
-imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
-let g:copilot_no_tab_map = v:true
+nmap <leader>n <cmd> set nu! <CR>
+nmap <leader>rn <cmd> set rnu! <CR>
 
 " Fugitive Conflict Resolution
 nnoremap <leader>gd :Gvdiff<CR>

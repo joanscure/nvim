@@ -4,10 +4,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'sickill/vim-monokai'
 Plug 'morhetz/gruvbox'
-Plug 'puremourning/vimspector'
 Plug 'mhartington/oceanic-next'
-Plug 'windwp/nvim-autopairs'
-Plug 'voldikss/vim-translator'
+"Plug 'windwp/nvim-autopairs'
 
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-tree/nvim-tree.lua'
@@ -41,10 +39,6 @@ Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
 Plug 'dart-lang/dart-vim-plugin'
 Plug 'othree/yajs.vim'
 Plug 'pangloss/vim-javascript'
-Plug 'leafgarland/typescript-vim'
-Plug 'peitalin/vim-jsx-typescript'
-Plug 'MaxMEllon/vim-jsx-pretty'
-Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'udalov/kotlin-vim'
 
 call plug#end()
