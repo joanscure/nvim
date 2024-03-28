@@ -16,6 +16,23 @@ auto_reload_on_write =  false,
   git = {
     enable = true,
     ignore = true,
+    timeout = 1000,
+  },
+  diagnostics = {
+    enable = true,
+    show_on_dirs = false,
+    show_on_open_dirs = true,
+    debounce_delay = 50,
+    severity = {
+      min = vim.diagnostic.severity.HINT,
+      max = vim.diagnostic.severity.ERROR,
+    },
+    icons = {
+      hint = "",
+      info = "",
+      warning = "",
+      error = "",
+    },
   },
 hijack_directories = {
   enable = false,

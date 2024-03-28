@@ -83,12 +83,12 @@ let g:coc_global_extensions = [
       \ 'coc-tsserver',
       \ 'coc-prettier',
       \ 'coc-flutter',
-      \ 'coc-react-refactor',
 			\ 'coc-snippets',
 			\ 'coc-react-refactor',
-			\ 'coc-vetur',
       \ 'coc-pairs',
-      \ 'coc-prisma'
+      \ 'coc-prisma',
+      \ 'coc-fzf-preview',
+      \ 'coc-nav',
       \ ]
 
 if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
@@ -98,3 +98,12 @@ endif
 if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
   let g:coc_global_extensions += ['coc-eslint']
 endif
+
+" Remap keys for applying refactor code actions
+nmap <silent> <leader>re <Plug>(coc-codeaction-refactor)
+xmap <silent> <leader>r  <Plug>(coc-codeaction-refactor-selected)
+nmap <silent> <leader>r  <Plug>(coc-codeaction-refactor-selected)
+
+command! -nargs=0 Prettier :CocCommand prettier.forceFormatDocument
+
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}

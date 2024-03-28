@@ -1,11 +1,11 @@
 syntax on
 filetype plugin on
-"set number
+set number
 set mouse=a
 set numberwidth=1
-"set ruler
+set ruler
 set encoding=utf-8
-
+"set fileformat=unix
 set noshowmatch
 set clipboard=unnamed
 set cindent
@@ -42,7 +42,7 @@ filetype plugin indent on
 autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
 autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
 
-let g:python3_host_prog='C:\Users\joans\AppData\Local\Programs\Python\Python311\python.exe'
+let g:python3_host_prog='C:\Users\joans\AppData\Local\Programs\Python\Python312\python.exe'
 
 autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart 
 autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
@@ -57,21 +57,13 @@ source ~/AppData/Local/nvim/plugins/lualine.vim
 source ~/AppData/Local/nvim/plugins/bufferline.vim
 source ~/AppData/Local/nvim/plugins/term.vim
 source ~/AppData/Local/nvim/plugins/fzf.vim
+source ~/AppData/Local/nvim/plugins/surround-vim.vim
+source ~/AppData/Local/nvim/plugins/leap.vim
+source ~/AppData/Local/nvim/plugins/colorscheme.vim
 
  if (has("termguicolors"))
   set termguicolors
  endif
-hi Normal guibg=NONE ctermbg=NONE
-hi LineNr guibg=NONE ctermbg=NONE
-hi SignColumn guibg=NONE ctermbg=NONE
-hi EndOfBuffer guibg=NONE ctermbg=NONE
-let g:oceanic_next_terminal_bold = 1
-let g:oceanic_next_terminal_italic = 1
-
-colorscheme OceanicNext
-"let g:gruvbox_termcolors=16
-"let g:gruvbox_contrast_dark='hard'
-"let g:gruvbox_contrast_light='soft'
-
-"colorscheme gruvbox
+let ayucolor="dark"   " for dark version of theme
+colorscheme ayu
 

@@ -1,0 +1,15 @@
+Note: When the `change.replwacement` key is provided, the user is not
+    urlmple, when changing HTML
+    tag types, only `cst` is needed, instead of `cstt`.
+  
+There is a special key in the `surrounds` table, `invalid_key_behavior`, that
+defines how |nvim-surround| behaves when a given "key in the delimiter table is"
+h
+<h1>
+
+</h1>
+h
+<h1>
+is to treat the character literally, and add/modify the surrounding pair:
+</h1>
+>lua

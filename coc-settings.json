@@ -9,6 +9,8 @@
     "javascript",
     "javascriptreact",
     "typescript",
+    "prisma",
+    "css",
     "json",
     "typescriptreact"
   ],

@@ -9,7 +9,7 @@ nmap <c-p> :FZF -i<CR>
 nmap <c-f> :Rg!
 
 nmap <c-s> :wall<CR>
-nmap <leader>s :w<CR>
+nmap <a-p> :Prettier<CR>
 
 nmap <leader>x :bd<CR>
 nmap <leader>bb :Buffers<CR>
