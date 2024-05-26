@@ -2,14 +2,10 @@ call plug#begin('~/.vim/plugged')
 
 " IDE
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'sickill/vim-monokai'
 Plug 'morhetz/gruvbox'
-Plug 'mhartington/oceanic-next'
 Plug 'NvChad/nvim-colorizer.lua'
-"Plug 'windwp/nvim-autopairs'
-Plug 'othree/html5.vim'
-Plug 'pangloss/vim-javascript'
-Plug 'evanleck/vim-svelte', {'branch': 'main'}
+Plug 'stevearc/vim-vscode-snippets'
+"Plug 'L3MON4D3/LuaSnip', {'tag': 'v2.*', 'do': 'make install_jsregexp'} " Replace <CurrentMajor> by the latest released major (first number of latest release)
 
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-tree/nvim-tree.lua'
@@ -45,9 +41,8 @@ Plug 'gregsexton/MatchTag'
 Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
 
 " Langs
-Plug 'dart-lang/dart-vim-plugin'
+"Plug 'dart-lang/dart-vim-plugin'
 Plug 'othree/yajs.vim'
 Plug 'pangloss/vim-javascript'
-"Plug 'udalov/kotlin-vim'
 
 call plug#end()

@@ -1,8 +1,11 @@
-
 inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#pum#visible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ CheckBackspace() ? "\<TAB>" :
       \ coc#refresh()
+
+
+let g:coc_snippet_next = '<tab>'
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
@@ -51,10 +54,10 @@ endfunction
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Add `:Format` command to format current buffer.
-command! -nargs=0 Format :call CocActionAsync('format')
+"command! -nargs=0 Format :call CocActionAsync('format')
 
 " Add `:Fold` command to fold current buffer.
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+"command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 " Add `:OR` command for organize imports of the current buffer.
 command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
@@ -88,7 +91,6 @@ let g:coc_global_extensions = [
       \ 'coc-pairs',
       \ 'coc-prisma',
       \ 'coc-fzf-preview',
-      \ 'coc-nav',
       \ ]
 
 if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
@@ -106,4 +108,4 @@ nmap <silent> <leader>r  <Plug>(coc-codeaction-refactor-selected)
 
 command! -nargs=0 Prettier :CocCommand prettier.forceFormatDocument
 
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+"set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}

@@ -39,13 +39,8 @@ set nofoldenable
 set foldlevel=2
 
 filetype plugin indent on
-autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
-autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
 
 let g:python3_host_prog='C:\Users\joans\AppData\Local\Programs\Python\Python312\python.exe'
-
-autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart 
-autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
 
 " Imports Scripts
 source ~/AppData/Local/nvim/plug.vim
@@ -60,6 +55,7 @@ source ~/AppData/Local/nvim/plugins/fzf.vim
 source ~/AppData/Local/nvim/plugins/surround-vim.vim
 source ~/AppData/Local/nvim/plugins/leap.vim
 source ~/AppData/Local/nvim/plugins/colorscheme.vim
+"source ~/AppData/Local/nvim/plugins/luasnip.vim
 
  if (has("termguicolors"))
   set termguicolors

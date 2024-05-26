@@ -1,6 +1,9 @@
 let $FZF_DEFAULT_OPTS='--layout=reverse'
 let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
 
+command! -bang -nargs=? -complete=dir Files
+    \ call fzf#vim#files(<q-args>, {'options': ['--layout=reverse', '--info=inline', '--preview', 'cat {}']}, <bang>0)
+
 let $PATH = "C:/Program Files/Git/usr/bin;". $PATH
 
 let g:fzf_action = {

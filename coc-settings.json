@@ -18,8 +18,9 @@
   "coc.preferences.formatOnType": true,
   "angular.enable-strict-mode-prompt": false,
   "snippets.extends": {
-    "php": ["php"]
+    "php": ["php"],
+    "javascriptreact": ["javascript"],
+    "typescript": ["javascript"]
   },
-  "codeLens.enable": true,
-  "snippets.ultisnips.pythonPrompt": false
+  "codeLens.enable": true
 }
