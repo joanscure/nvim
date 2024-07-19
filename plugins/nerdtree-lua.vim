@@ -6,6 +6,12 @@ lua << EOF
 
 require("nvim-tree").setup{
 sync_root_with_cwd = false,
+filters = {
+        dotfiles = false,
+        git_clean = false,
+        no_buffer = false,
+        custom = { 'node_modules','dist','.git' },
+    },
 auto_reload_on_write =  false,
   view = {
     adaptive_size = false,

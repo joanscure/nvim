@@ -1,7 +1,8 @@
 {
-  "typescript.preferences.importModuleSpecifier": "relative",
   "typescript.suggest.autoImports": true,
   "suggest.timeout": 10000,
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "tsserver.maxTsServerMemory": 4096,
   "notification.timeout": 10000,
   "documentHighlight.timeout": 5000,
   "javascript.suggest.autoImports": true,
@@ -11,8 +12,7 @@
     "typescript",
     "prisma",
     "css",
-    "json",
-    "typescriptreact"
+    "json"
   ],
   "tsserver.formatOnType": true,
   "coc.preferences.formatOnType": true,
@@ -22,5 +22,6 @@
     "javascriptreact": ["javascript"],
     "typescript": ["javascript"]
   },
-  "codeLens.enable": true
+  "codeLens.enable": true,
+  "snippets.ultisnips.pythonPrompt": false
 }

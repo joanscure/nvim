@@ -86,9 +86,10 @@ let g:coc_global_extensions = [
       \ 'coc-tsserver',
       \ 'coc-prettier',
       \ 'coc-flutter',
-			\ 'coc-snippets',
-			\ 'coc-react-refactor',
+      \ 'coc-snippets',
+      \ 'coc-react-refactor',
       \ 'coc-pairs',
+      \ 'coc-htmlhint',
       \ 'coc-prisma',
       \ 'coc-fzf-preview',
       \ ]

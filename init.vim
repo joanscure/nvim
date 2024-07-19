@@ -57,9 +57,8 @@ source ~/AppData/Local/nvim/plugins/leap.vim
 source ~/AppData/Local/nvim/plugins/colorscheme.vim
 "source ~/AppData/Local/nvim/plugins/luasnip.vim
 
- if (has("termguicolors"))
-  set termguicolors
- endif
+"autocmd BufWritePost *.php silent! call PhpCsFixerFixFile()
+
 let ayucolor="dark"   " for dark version of theme
 colorscheme ayu
 
