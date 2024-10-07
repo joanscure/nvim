@@ -10,7 +10,7 @@ filters = {
         dotfiles = false,
         git_clean = false,
         no_buffer = false,
-        custom = { 'node_modules','dist','.git' },
+        custom = { 'node_modules','dist','.git' ,'.yarn', '.vscode', '.bundle'},
     },
 auto_reload_on_write =  false,
   view = {
@@ -22,23 +22,10 @@ auto_reload_on_write =  false,
   git = {
     enable = true,
     ignore = true,
-    timeout = 1000,
+    timeout = 5000,
   },
   diagnostics = {
-    enable = true,
-    show_on_dirs = false,
-    show_on_open_dirs = true,
-    debounce_delay = 50,
-    severity = {
-      min = vim.diagnostic.severity.HINT,
-      max = vim.diagnostic.severity.ERROR,
-    },
-    icons = {
-      hint = "",
-      info = "",
-      warning = "",
-      error = "",
-    },
+    enable = false,
   },
 hijack_directories = {
   enable = false,
@@ -46,7 +33,7 @@ hijack_directories = {
   },
   update_focused_file = {
     enable = true,
-    update_root = true,
+    update_root = false,
   },
   filesystem_watchers = {
     enable = true,

@@ -6,6 +6,7 @@
   "notification.timeout": 10000,
   "documentHighlight.timeout": 5000,
   "javascript.suggest.autoImports": true,
+  "coc.preferences.formatOnSave": false,
   "coc.preferences.formatOnSaveFiletypes": [
     "javascript",
     "javascriptreact",
