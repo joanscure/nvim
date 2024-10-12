@@ -51,7 +51,8 @@ source ~/AppData/Local/nvim/plugins/coc.vim
 source ~/AppData/Local/nvim/plugins/lualine.vim
 source ~/AppData/Local/nvim/plugins/bufferline.vim
 source ~/AppData/Local/nvim/plugins/term.vim
-source ~/AppData/Local/nvim/plugins/fzf.vim
+"source ~/AppData/Local/nvim/plugins/fzf.vim
+source ~/AppData/Local/nvim/plugins/fzf.lua.vim
 source ~/AppData/Local/nvim/plugins/surround-vim.vim
 source ~/AppData/Local/nvim/plugins/leap.vim
 source ~/AppData/Local/nvim/plugins/colorscheme.vim

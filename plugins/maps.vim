@@ -3,10 +3,8 @@ let mapleader= " "
 "xnoremap <silent> p p:let @+=@0<CR>:let @"=@0<CR>
 nmap <ESC> :noh<CR>
 
-nmap <C-F6> :!start explorer /select,%:p<CR>
-
-nmap <c-p> :GFiles<CR>
-nmap <c-f> :Rg!
+nmap <c-p> :Files<CR>
+nmap <c-f> :Rg
 
 nmap <c-s> :wall<CR>
 nmap <a-p> :Prettier<CR>

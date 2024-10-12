@@ -5,7 +5,6 @@ Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'npm ci'}
 Plug 'morhetz/gruvbox'
 Plug 'NvChad/nvim-colorizer.lua'
 Plug 'stevearc/vim-vscode-snippets'
-Plug 'prisma/vim-prisma'
 "Plug 'L3MON4D3/LuaSnip', {'tag': 'v2.*', 'do': 'make install_jsregexp'} " Replace <CurrentMajor> by the latest released major (first number of latest release)
 "Plug 'stephpy/vim-php-cs-fixer'
 
@@ -27,8 +26,8 @@ Plug 'tpope/vim-fugitive'
 
 " FZF 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
+Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
+"Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 
 " TYPING
 Plug 'kylechui/nvim-surround'
