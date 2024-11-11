@@ -11,7 +11,7 @@ nmap <a-p> :Prettier<CR>
 
 nmap <leader>x :bd<CR>
 nmap <leader>bb :Buffers<CR>
-" close all buffer but this one
+" close all buffer but keep this one
 nmap <leader>abd :%bd\|e#\|bd#<cr><CR> 
 
 " NERDTREE
