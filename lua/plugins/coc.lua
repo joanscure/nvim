@@ -1,57 +1,77 @@
--- Mapeos de teclas
-vim.api.nvim_set_keymap('i', '<silent><expr> <TAB>',
-  [[coc#pum#visible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ CheckBackspace() ? "\<TAB>" :
-      \ coc#refresh()]], { noremap = true, silent = true, expr = true })
+local keyset = vim.keymap.set
 
--- Función CheckBackspace en Lua
-function CheckBackspace()
+-- Autocomplete with <TAB>
+function _G.check_back_space()
     local col = vim.fn.col('.') - 1
-    return col == 0 or string.match(vim.fn.getline('.'), col - 1, col) == '%s'
+    return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
 end
 
--- Mapeos para navegar entre los diagnósticos
-vim.api.nvim_set_keymap('n', '[g', '<Plug>(coc-diagnostic-prev)', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', ']g', '<Plug>(coc-diagnostic-next)', { noremap = true, silent = true })
+local opts = { silent = true, noremap = true, expr = true, replace_keycodes = false }
+keyset("i", "<TAB>", 'coc#pum#visible() ? coc#_select_confirm() : coc#expandableOrJumpable() ? "<C-r>=coc#rpc#request(\'doKeymap\', [\'snippets-expand-jump\',\'\'])<CR>" : v:lua.check_back_space() ? "<TAB>" : coc#refresh()', opts)
+keyset("i", "<S-TAB>", 'coc#pum#visible() ? coc#pum#prev(1) : "<C-h>"', opts)
 
--- Mapeos para navegación de código
-vim.api.nvim_set_keymap('n', 'gd', '<Plug>(coc-definition)', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', 'gvd', ':vsplit<CR><Plug>(coc-definition)', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', 'gf', '<Plug>(coc-type-definition)', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', 'gi', '<Plug>(coc-implementation)', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', 'gr', '<Plug>(coc-references)', { noremap = true, silent = true })
+-- Use <CR> to confirm completion or continue line break
+keyset("i", "<CR>", 'coc#pum#visible() ? coc#pum#confirm() : "\\<C-g>u\\<CR><c-r>=coc#on_enter()<CR>"', opts)
 
--- Mapeo para la acción de código (código seleccionado)
-vim.api.nvim_set_keymap('x', '<leader>a', '<Plug>(coc-codeaction-selected)', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>a', '<Plug>(coc-codeaction-selected)', { noremap = true, silent = true })
+-- Trigger completion with <c-k>
+if vim.fn.has("nvim") == 1 then
+    keyset("i", "<c-k>", "coc#refresh()", { silent = true, expr = true })
+else
+    keyset("i", "<c-@>", "coc#refresh()", { silent = true, expr = true })
+end
 
--- Mapeo para mostrar documentación
-vim.api.nvim_set_keymap('n', 'K', ':call ShowDocumentation()<CR>', { noremap = true, silent = true })
+-- Diagnostic navigation
+keyset("n", "[g", "<Plug>(coc-diagnostic-prev)", { silent = true })
+keyset("n", "]g", "<Plug>(coc-diagnostic-next)", { silent = true })
 
--- Función para mostrar documentación en Lua
-function ShowDocumentation()
-    if vim.fn['CocAction']('hasProvider', 'hover') then
-        vim.fn['CocActionAsync']('doHover')
+-- GoTo code navigation
+keyset("n", "gd", "<Plug>(coc-definition)", { silent = true })
+keyset("n", "gvd", ":vsplit<CR><Plug>(coc-definition)", { silent = true })
+keyset("n", "gf", "<Plug>(coc-type-definition)", { silent = true })
+keyset("n", "gi", "<Plug>(coc-implementation)", { silent = true })
+keyset("n", "gr", "<Plug>(coc-references)", { silent = true })
+
+-- Code actions
+keyset("x", "<leader>a", "<Plug>(coc-codeaction-selected)", { silent = true })
+keyset("n", "<leader>a", "<Plug>(coc-codeaction-selected)", { silent = true })
+keyset("n", "<leader>do", "<Plug>(coc-codeaction)", { silent = true })
+
+-- Show documentation with K
+function _G.show_docs()
+    if vim.fn.CocAction("hasProvider", "hover") then
+        vim.fn.CocActionAsync("doHover")
     else
-        vim.fn.feedkeys('K', 'in')
+        vim.api.nvim_feedkeys("K", "in", true)
     end
 end
+keyset("n", "K", "<CMD>lua _G.show_docs()<CR>", { silent = true })
 
--- Resaltado de símbolos cuando el cursor está sobre ellos
-vim.cmd([[
-autocmd CursorHold * silent call CocActionAsync('highlight')
-]])
+-- Highlight symbol on cursor hold
+vim.api.nvim_create_augroup("CocGroup", {})
+vim.api.nvim_create_autocmd("CursorHold", {
+    group = "CocGroup",
+    command = "silent call CocActionAsync('highlight')",
+    desc = "Highlight symbol under cursor on CursorHold"
+})
 
--- Comando Format para formatear el documento
-vim.api.nvim_create_user_command('Format', 'CocCommand editor.action.formatDocument', {})
+-- Commands
+vim.api.nvim_create_user_command("Format", "call CocAction('format')", {})
+vim.api.nvim_create_user_command("Fold", "call CocAction('fold', <f-args>)", { nargs = '?' })
+vim.api.nvim_create_user_command("OR", "call CocActionAsync('runCommand', 'editor.action.organizeImport')", {})
 
--- Comando para organizar imports
-vim.api.nvim_create_user_command('OR', 'CocCommand editor.action.organizeImports', {})
+-- Statusline support
+vim.opt.statusline:prepend("%{coc#status()}%{get(b:,'coc_current_function','')}")
 
--- Añadir soporte para el statusline de coc.nvim
-vim.opt.statusline = '%{coc#status()}%{get(b:,"coc_current_function","")}'
+-- Symbol renaming
+keyset("n", "<leader>rn", "<Plug>(coc-rename)", { silent = true })
 
--- Mapeo para navegar en el menú de autocompletado
-vim.api.nvim_set_keymap('i', '<silent><expr><S-TAB>', [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], { noremap = true, silent = true, expr = true })
-vim.api.nvim_set_keymap('i', '<silent><expr> <CR>', [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], { noremap = true, silent = true, expr = true })
+-- Code Lens action
+keyset("n", "<leader>cl", "<Plug>(coc-codelens-action)", { silent = true })
+
+-- Refactoring
+keyset("n", "<leader>re", "<Plug>(coc-codeaction-refactor)", { silent = true })
+keyset("x", "<leader>r", "<Plug>(coc-codeaction-refactor-selected)", { silent = true })
+keyset("n", "<leader>r", "<Plug>(coc-codeaction-refactor-selected)", { silent = true })
+
+-- Prettier command
+vim.api.nvim_create_user_command("Prettier", "CocCommand prettier.forceFormatDocument", {})

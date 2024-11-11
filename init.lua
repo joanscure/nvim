@@ -53,7 +53,7 @@ require("plugins.maps")
 require("plugins.nerdtree-lua")
 require("plugins.coc")
 --require("plugins.lualine")
---require("plugins.bufferline")
+require("plugins.bufferline")
 require("plugins.term")
 -- require("plugins.fzf")  -- Descomenta si conviertes fzf a Lua
 require("plugins.fzf") -- si tienes un archivo Lua para fzf

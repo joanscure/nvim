@@ -73,6 +73,16 @@ nmap <leader>rn <Plug>(coc-rename)
 " Run the Code Lens action on the current line.
 nmap <leader>cl  <Plug>(coc-codelens-action)
 
+
+
+" Remap keys for applying refactor code actions
+nmap <silent> <leader>re <Plug>(coc-codeaction-refactor)
+xmap <silent> <leader>r  <Plug>(coc-codeaction-refactor-selected)
+nmap <silent> <leader>r  <Plug>(coc-codeaction-refactor-selected)
+
+command! -nargs=0 Prettier :CocCommand prettier.forceFormatDocument
+
+"set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 " coc config
 let g:coc_global_extensions = [
       \ '@yaegassy/coc-intelephense', 
@@ -101,12 +111,3 @@ endif
 if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
   let g:coc_global_extensions += ['coc-eslint']
 endif
-
-" Remap keys for applying refactor code actions
-nmap <silent> <leader>re <Plug>(coc-codeaction-refactor)
-xmap <silent> <leader>r  <Plug>(coc-codeaction-refactor-selected)
-nmap <silent> <leader>r  <Plug>(coc-codeaction-refactor-selected)
-
-command! -nargs=0 Prettier :CocCommand prettier.forceFormatDocument
-
-"set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
