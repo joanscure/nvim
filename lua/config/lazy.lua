@@ -62,6 +62,15 @@ require('lazy').setup({
     -- 'stephpy/vim-php-cs-fixer',
 
     -- Nvim Tree
+    {
+      'navarasu/onedark.nvim',
+      config = function()
+        require('onedark').setup {
+            style = 'darker'
+        }
+        require('onedark').load()
+      end
+    },
     'nvim-tree/nvim-web-devicons',
     {
       'kyazdani42/nvim-tree.lua',
@@ -168,6 +177,22 @@ require('lazy').setup({
             require('fzf-lua').setup({
                 -- Puedes agregar opciones aquí si lo deseas
                 fzf_bin = 'fzf',  -- Ejemplo de configuración adicional
+                winopts = {
+                      border = 'rounded', -- Bordes redondeados
+                      hl = {
+                          normal = 'Normal',
+                          border = 'FloatBorder',
+                          cursor = 'Cursor',
+                          cursorline = 'CursorLine',
+                          search = 'IncSearch',
+                      }
+                  },
+                  fzf_opts = {
+                      ['--color'] = 'fg:#ebdbb2,bg:#282828,hl:#fabd2f',
+                      ['--color'] = 'fg+:#ebdbb2,bg+:#3c3836,hl+:#fe8019',
+                      ['--color'] = 'info:#83a598,prompt:#b8bb26,pointer:#fb4934',
+                      ['--color'] = 'marker:#fabd2f,spinner:#d3869b,header:#458588',
+                  }
             })
         end
     },

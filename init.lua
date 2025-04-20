@@ -63,5 +63,5 @@ require("plugins.fzf") -- si tienes un archivo Lua para fzf
 -- require("plugins.luasnip")  -- Descomenta si conviertes luasnip a Lua
 
 -- Configuración de colores
-vim.g.ayucolor = "dark" -- para tema oscuro
-vim.cmd("colorscheme ayu")
+--vim.g.ayucolor = "dark" -- para tema oscuro
+--vim.cmd("colorscheme ayu")
