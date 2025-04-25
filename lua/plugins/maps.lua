@@ -4,8 +4,8 @@ vim.g.mapleader = " "
 vim.api.nvim_set_keymap("n", "<ESC>", ":noh<CR>", { noremap = true, silent = true })
 
 -- FZF para archivos y búsqueda
-vim.api.nvim_set_keymap("n", "<C-p>", ":Files<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<C-f>", ":Rg<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-p>", "<cmd>FzfLua files<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-f>", "<cmd>FzfLua live_grep<CR>", { noremap = true, silent = true })
 
 -- Guardar todo y formateo
 vim.api.nvim_set_keymap("n", "<C-s>", ":wall<CR>", { noremap = true, silent = true })

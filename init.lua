@@ -45,7 +45,7 @@ vim.opt.foldlevel = 2
 vim.cmd("filetype plugin indent on")
 
 -- Python3 host
-vim.g.python3_host_prog = 'C:\\Users\\joans\\AppData\\Local\\Programs\\Python\\Python312\\python.exe'
+vim.g.python3_host_prog = 'C:\\Users\\joans\\AppData\\Local\\Programs\\Python\\Python313\\python.exe'
 
 -- Cargar archivos de configuración adicionales como módulos Lua
 require("config.lazy")
@@ -55,8 +55,7 @@ require("plugins.coc")
 --require("plugins.lualine")
 require("plugins.bufferline")
 require("plugins.term")
--- require("plugins.fzf")  -- Descomenta si conviertes fzf a Lua
-require("plugins.fzf") -- si tienes un archivo Lua para fzf
+--require("plugins.fzf") -- si tienes un archivo Lua para fzf
 --require("plugins.surround")
 --require("plugins.leap")
 --require("plugins.colorscheme")

@@ -1,0 +1,8 @@
+Install chocolatey
+Install neovim
+Install ag
+Install python
+Install volta
+Install ripgrep
+Install fzf
+Install pynvim
