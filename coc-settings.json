@@ -18,6 +18,8 @@
   "tsserver.formatOnType": false,
   "coc.preferences.formatOnType": true,
   "angular.enable-strict-mode-prompt": false,
+  "html.format.templating": true,
+  "html.format.indentHandlebars": true,
   "snippets.extends": {
     "php": ["php"],
     "javascriptreact": ["javascript"],

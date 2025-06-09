@@ -189,7 +189,19 @@ require('lazy').setup({
             prompt = 'Grep❯ ',
             input_prompt = 'Grep For❯ ',
             --cmd = "rg --hidden --column --line-number --no-heading --color=always --smart-case --glob '!.git/*'",  -- Cambié la ruta
-            rg_opts = "--hidden --column --line-number --no-heading --color=always --smart-case",
+            rg_opts = table.concat({
+              "--hidden",
+              "--column",
+              "--line-number",
+              "--no-heading",
+              "--color=always",
+              "--smart-case",
+              "--glob=!**/.git/*",
+              "--glob=!**/node_modules/*",
+              "--glob=!**/vendor/*",
+              "--glob=!**/dist/*",
+              "--glob=!**/build/*",
+            }, " "),
             actions = {
               ["ctrl-q"] = require("fzf-lua.actions").quickfix,
             },

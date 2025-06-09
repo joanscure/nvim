@@ -4,7 +4,6 @@
   "bufferline.nvim": { "branch": "main", "commit": "655133c3b4c3e5e05ec549b9f8cc2894ac6f51b3" },
   "coc.nvim": { "branch": "master", "commit": "0449efb6908aec786cb9548fad90ab3a9c931c9a" },
   "editorconfig-vim": { "branch": "master", "commit": "6a58b7c11f79c0e1d0f20533b3f42f2a11490cf8" },
-  "fzf": { "branch": "master", "commit": "d2c662e54f7d5d011d42915c543c265c0f555d97" },
   "fzf-lua": { "branch": "main", "commit": "18ac8df2e878d4975ad9b316aceeb673f7975a2b" },
   "gruvbox": { "branch": "master", "commit": "697c00291db857ca0af00ec154e5bd514a79191f" },
   "gv.vim": { "branch": "master", "commit": "b6bb6664e2c95aa584059f195eb3a9f3cb133994" },
