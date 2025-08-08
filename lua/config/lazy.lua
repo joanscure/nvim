@@ -24,9 +24,12 @@ require('lazy').setup({
       "hrsh7th/cmp-path",
     },
     config = function()
+      local lsp_conf = require("config.lsp")
+
       require("mason").setup()
       require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls",
+        ensure_installed = {
+          "lua_ls",
           "ts_ls",
           "pyright",
           "prismals",
@@ -34,12 +37,12 @@ require('lazy').setup({
           "html",
           "cssls",
           "jsonls",
-          "eslint", }, -- ajusta según tu stack
+          "eslint",
+          "emmet_ls",
+        },
       })
 
       local lsp = require("lspconfig")
-      local lsp_conf = require("config.lsp")
-
       local servers = {
         "ts_ls",
         "prismals",
@@ -50,26 +53,27 @@ require('lazy').setup({
         "eslint",
         "lua_ls",
         "pyright",
+        "emmet_ls",
       }
 
       for _, server in ipairs(servers) do
-        if server == "emmet_ls" then
-          lsp[server].setup({
-            on_attach = lsp_conf.on_attach,
-            capabilities = lsp_conf.capabilities,
-            filetypes = {
-              "html", "css", "scss", "javascriptreact", "typescriptreact", "vue",
-            },
-          })
+        local opts = {
+          on_attach = lsp_conf.on_attach,
+          capabilities = lsp_conf.capabilities,
+        }
 
-        else
-          lsp[server].setup({
-            on_attach = lsp_conf.on_attach,
-            capabilities = lsp_conf.capabilities,
-          })
+        if lsp_conf.server_settings[server] then
+          opts = vim.tbl_deep_extend(
+            "force",
+            opts,
+            lsp_conf.server_settings[server]
+          )
         end
+
+        lsp[server].setup(opts)
       end
 
+      -- CMP config
       local cmp = require("cmp")
       cmp.setup({
         snippet = {
@@ -84,7 +88,6 @@ require('lazy').setup({
               fallback()
             end
           end, { "i", "s" }),
-
           ["<S-Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_prev_item()
@@ -94,12 +97,21 @@ require('lazy').setup({
           end, { "i", "s" }),
           ["<CR>"] = cmp.mapping.confirm({ select = true }),
         }),
-        sources = cmp.config.sources({
-          { name = "nvim_lsp" },
-          { name = "luasnip" },
-          { name = "buffer" },
-          { name = "path" },
-        }),
+        sorting = {
+          priority_weight = 1.0,
+          comparators = {
+            cmp.config.compare.offset,
+            cmp.config.compare.exact,
+            cmp.config.compare.score,
+            cmp.config.compare.order,
+          },
+        },
+        sources = {
+          { name = "nvim_lsp", priority = 1000 },
+          { name = "buffer",   priority = 500 },
+          { name = "path",     priority = 250 },
+          { name = "luasnip",  priority = 50 },
+        },
       })
     end,
   },
@@ -129,7 +141,7 @@ require('lazy').setup({
     config = function()
       require("nvim-ts-autotag").setup()
     end
-  }
+  },
 
   -- =========================
   -- 🪶 mini.nvim módulos
@@ -154,6 +166,7 @@ require('lazy').setup({
   'junegunn/gv.vim',
   -- 'Exafunction/codeium.vim',
   'ayu-theme/ayu-vim',
+  'prisma/vim-prisma',
 
   -- Plugins de Git
   'airblade/vim-gitgutter',

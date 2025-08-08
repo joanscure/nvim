@@ -50,7 +50,6 @@ vim.g.python3_host_prog = 'C:\\Users\\joans\\AppData\\Local\\Programs\\Python\\P
 -- Cargar archivos de configuración adicionales como módulos Lua
 require("config.lazy")
 require("plugins.maps")
-require("plugins.nerdtree-lua")
 require("plugins.bufferline")
 
 vim.opt.undofile = true

@@ -1,39 +1,50 @@
+-- lua/config/lsp.lua
+local M = {}
 
-local on_attach = function(client, bufnr)
-  local bufmap = function(mode, lhs, rhs)
-    vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, silent = true })
+M.capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+M.on_attach = function(client, bufnr)
+  local map = function(mode, lhs, rhs, desc)
+    vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
   end
 
-  -- Navegación y acciones básicas
-  bufmap("n", "gd", vim.lsp.buf.definition)
-  bufmap("n", "gvd", function()
-    vim.cmd("vsplit")
-    vim.lsp.buf.definition()
-  end)
-  bufmap("n", "gf", vim.lsp.buf.type_definition)
-  bufmap("n", "gi", vim.lsp.buf.implementation)
-  bufmap("n", "gr", vim.lsp.buf.references)
-
-  -- Documentación
-  bufmap("n", "K", vim.lsp.buf.hover)
-
-  -- Acciones y refactor
-  bufmap("n", "<leader>a", vim.lsp.buf.code_action)
-  bufmap("x", "<leader>a", vim.lsp.buf.code_action)
-  bufmap("n", "<leader>rn", vim.lsp.buf.rename)
-
-  -- Diagnósticos
-  bufmap("n", "[g", vim.diagnostic.goto_prev)
-  bufmap("n", "]g", vim.diagnostic.goto_next)
-
-  -- Formateo
-  bufmap("n", "<leader>f", function()
-    vim.lsp.buf.format({ async = true })
-  end)
+  -- Atajos útiles LSP
+  map("n", "gd", vim.lsp.buf.definition, "Go to definition")
+  map("n", "K", vim.lsp.buf.hover, "Hover docs")
+  map("n", "gi", vim.lsp.buf.implementation, "Go to implementation")
+  map("n", "gr", vim.lsp.buf.references, "References")
+  map("n", "<leader>rn", vim.lsp.buf.rename, "Rename symbol")
+  map("n", "<leader>ca", vim.lsp.buf.code_action, "Code actions")
+  map("n", "[d", vim.diagnostic.goto_prev, "Prev diagnostic")
+  map("n", "]d", vim.diagnostic.goto_next, "Next diagnostic")
 end
 
--- Exportar para usarlo en lazy.nvim
-return {
-  on_attach = on_attach,
-  capabilities = require("cmp_nvim_lsp").default_capabilities()
+M.server_settings = {
+  lua_ls = {
+    settings = {
+      Lua = {
+        diagnostics = { globals = { "vim" } },
+        workspace = { checkThirdParty = false },
+      },
+    },
+  },
+  eslint = {
+    on_attach = function(client, bufnr)
+      M.on_attach(client, bufnr)
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        buffer = bufnr,
+        command = "EslintFixAll",
+      })
+    end,
+  },
+  emmet_ls = {
+    filetypes = {
+      "html",
+    },
+    init_options = {
+      html = { options = { ["bem.enabled"] = true } },
+    },
+  },
 }
+
+return M
