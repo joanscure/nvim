@@ -1,4 +1,4 @@
-Install chocolatey
+Install Winget
 Install neovim
 Install ag
 Install python
