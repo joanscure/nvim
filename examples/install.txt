@@ -6,3 +6,12 @@ Install volta
 Install ripgrep
 Install fzf
 Install pynvim
+
+npm install -g prettier
+winget install sharkdp.fd
+
+npm install -g typescript typescript-language-server
+
+npm install -g vscode-langservers-extracted
+npm install -g emmet-ls
+

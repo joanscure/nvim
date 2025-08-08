@@ -32,8 +32,8 @@ vim.cmd("highlight Normal ctermbg=NONE")
 
 -- Opciones de formato
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = "*",
-    command = "setlocal formatoptions-=c formatoptions-=r formatoptions-=o"
+  pattern = "*",
+  command = "setlocal formatoptions-=c formatoptions-=r formatoptions-=o"
 })
 
 -- Configuración de pliegues
@@ -51,16 +51,7 @@ vim.g.python3_host_prog = 'C:\\Users\\joans\\AppData\\Local\\Programs\\Python\\P
 require("config.lazy")
 require("plugins.maps")
 require("plugins.nerdtree-lua")
-require("plugins.coc")
---require("plugins.lualine")
 require("plugins.bufferline")
-require("plugins.term")
---require("plugins.fzf") -- si tienes un archivo Lua para fzf
---require("plugins.surround")
---require("plugins.leap")
---require("plugins.colorscheme")
--- require("plugins.luasnip")  -- Descomenta si conviertes luasnip a Lua
 
--- Configuración de colores
---vim.g.ayucolor = "dark" -- para tema oscuro
---vim.cmd("colorscheme ayu")
+vim.opt.undofile = true
+vim.opt.undodir = vim.fn.stdpath("config") .. "/undodir"
