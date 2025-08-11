@@ -18,8 +18,6 @@ require('lazy').setup({
       "williamboman/mason-lspconfig.nvim",
       "hrsh7th/nvim-cmp",
       "hrsh7th/cmp-nvim-lsp",
-      "L3MON4D3/LuaSnip",
-      "saadparwaiz1/cmp_luasnip",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
     },
@@ -38,7 +36,7 @@ require('lazy').setup({
           "cssls",
           "jsonls",
           "eslint",
-          "emmet_ls",
+          -- "emmet_ls",
         },
       })
 
@@ -53,7 +51,7 @@ require('lazy').setup({
         "eslint",
         "lua_ls",
         "pyright",
-        "emmet_ls",
+        -- "emmet_ls",
       }
 
       for _, server in ipairs(servers) do
@@ -76,9 +74,6 @@ require('lazy').setup({
       -- CMP config
       local cmp = require("cmp")
       cmp.setup({
-        snippet = {
-          expand = function(args) require("luasnip").lsp_expand(args.body) end,
-        },
         mapping = cmp.mapping.preset.insert({
           ["<C-k>"] = cmp.mapping.complete(),
           ["<Tab>"] = cmp.mapping(function(fallback)
@@ -97,20 +92,27 @@ require('lazy').setup({
           end, { "i", "s" }),
           ["<CR>"] = cmp.mapping.confirm({ select = true }),
         }),
+        sources = {
+          { name = "nvim_lsp" },
+          { name = "buffer" },
+          { name = "path" },
+        },
         sorting = {
-          priority_weight = 1.0,
           comparators = {
+            function(entry1, entry2)
+              local kind1 = entry1:get_kind()
+              local kind2 = entry2:get_kind()
+              if kind1 == cmp.lsp.CompletionItemKind.Snippet then
+                return false
+              elseif kind2 == cmp.lsp.CompletionItemKind.Snippet then
+                return true
+              end
+            end,
             cmp.config.compare.offset,
             cmp.config.compare.exact,
             cmp.config.compare.score,
             cmp.config.compare.order,
           },
-        },
-        sources = {
-          { name = "nvim_lsp", priority = 1000 },
-          { name = "buffer",   priority = 500 },
-          { name = "path",     priority = 250 },
-          { name = "luasnip",  priority = 50 },
         },
       })
     end,
@@ -210,7 +212,6 @@ require('lazy').setup({
     end
   },
 
-  'stevearc/vim-vscode-snippets',
   -- Nvim Tree
   {
     'navarasu/onedark.nvim',
