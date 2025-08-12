@@ -7,3 +7,5 @@ Install ripgrep
 Install fzf
 Install pynvim
 
+winget install -e --id BurntSushi.ripgrep   # rg
+winget install -e --id sharkdp.fd           # fd

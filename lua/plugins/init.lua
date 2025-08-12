@@ -62,12 +62,47 @@ return {
       update_focused_file = { enable = true },
     },
   },
-  {
+ {
     "ibhagwan/fzf-lua",
-    keys = { "<C-p>", "<C-f>", { "<leader>fb", mode = "n" } },
-    opts = { files = { cmd = "fd --type f --hidden --exclude .git" } },
+    cmd = "FzfLua",
+    keys = {
+      { "<C-p>",      function() require("fzf-lua").files() end,            mode = "n", desc = "Buscar archivos" },
+      { "<C-f>",      function() require("fzf-lua").live_grep_native() end, mode = "n", desc = "Buscar texto" },
+      { "<leader>fb", function() require("fzf-lua").buffers() end,          mode = "n", desc = "Buffers" },
+      { "<leader>fh", function() require("fzf-lua").help_tags() end,        mode = "n", desc = "Help" },
+    },
+    opts = {
+      files = {
+        cmd = table.concat({
+          "fd", "--type", "f", "--hidden",
+          "--exclude", ".git",
+          "--exclude", "node_modules",
+          "--exclude", "dist",
+          "--exclude", "build",
+          "--exclude", ".next",
+          "--exclude", "coverage",
+          "--exclude", ".cache",
+        }, " "),
+      },
+      grep = {
+        rg_opts = table.concat({
+          "--hidden",
+          "--column",
+          "--line-number",
+          "--no-heading",
+          "--smart-case",
+          "--max-columns=4096",
+          "-g", "!.git",
+          "-g", "!node_modules",
+          "-g", "!dist",
+          "-g", "!build",
+          "-g", "!.next",
+          "-g", "!coverage",
+          "-g", "!.cache",
+        }, " "),
+      },
+    },
   },
-
   -- === Git ===
   { "tpope/vim-fugitive", cmd = { "G", "Git", "Gvdiff" } },
   {
@@ -168,19 +203,37 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     opts = {
       formatters_by_ft = {
-        javascript = { "prettierd", "prettier" },
-        typescript = { "prettierd", "prettier" },
-        javascriptreact = { "prettierd", "prettier" },
-        typescriptreact = { "prettierd", "prettier" },
-        json = { "prettierd", "prettier" },
-        css = { "prettierd", "prettier" },
-        html = { "prettierd", "prettier" },
-        markdown = { "prettierd", "prettier" },
-        yaml = { "prettierd", "prettier" },
-        lua = { "stylua" },
-        python = { "black" },
-        prisma = { "prismaFmt" },
-      },
+  -- lo que ya tienes...
+  lua = { "stylua" },
+  -- añade prisma si lo usas
+  prisma = { "prismaFmt" },
+  -- JS/TS/… ya están con prettierd/prettier
+},
+
+-- Fuerza comandos robustos (Windows)
+formatters = {
+  -- Usa el .exe real de Stylua para evitar el problema del espacio en la ruta
+  stylua = function()
+    local util = require("conform.util")
+    local mason = vim.fn.stdpath("data")
+    local exe = mason .. "/mason/packages/stylua/stylua/bin/stylua"
+    if vim.loop.os_uname().sysname == "Windows_NT" then
+      exe = exe .. ".exe"
+    end
+    return {
+      command = util.find_executable({ exe }, "stylua"),
+      args = { "--search-parent-directories", "--stdin-filepath", "$FILENAME", "-" },
+      stdin = true,
+    }
+  end,
+
+  -- Prisma: formatea al archivo (no por stdin)
+  prismaFmt = {
+    command = "prisma",
+    args = { "format", "--schema", "$FILENAME" },
+    stdin = false,
+  },
+},
       format_on_save = false
     },
   },
@@ -227,7 +280,7 @@ return {
   },
   { "echasnovski/mini.surround", version = false, event = "VeryLazy", opts = {
     mappings = {
-      add = "ys",        -- antes: sa
+      add = "sa",        -- antes: sa
       delete = "ds",     -- antes: sd
       replace = "cs",    -- antes: sr
       find = "", find_left = "", highlight = "",
@@ -249,6 +302,17 @@ return {
   -- Tmux
   { "christoomey/vim-tmux-navigator", event = "VeryLazy" },
 
-  -- Multicursor (visual-multi clásico)
-  { "mg979/vim-visual-multi", branch = "master", event = "VeryLazy" },
+-- Multicursor (visual-multi clásico)
+  {
+    "smoka7/multicursors.nvim",
+    event = "VeryLazy",
+    dependencies = { "nvimtools/hydra.nvim" },
+    cmd = { "MCstart", "MCvisual", "MCclear", "MCpattern", "MCvisualPattern", "MCunderCursor" },
+    keys = {
+      { "<leader>m", "<cmd>MCstart<CR>", mode = { "n", "v" }, desc = "Multicursor: start/select" },
+    },
+    opts = {},
+  }
+
+  -- { "RRethy/vim-illuminate", event = "VeryLazy", opts = {} },
 }
