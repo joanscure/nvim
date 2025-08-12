@@ -6,3 +6,4 @@ Install volta
 Install ripgrep
 Install fzf
 Install pynvim
+
