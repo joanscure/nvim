@@ -108,7 +108,52 @@ return {
   {
     "lewis6991/gitsigns.nvim",
     event = { "BufReadPre", "BufNewFile" },
-    opts = { current_line_blame = false },
+    opts = {
+      current_line_blame = false,
+      on_attach = function(bufnr)
+        local gs = package.loaded.gitsigns
+        local function map(mode, lhs, rhs, desc, extra)
+          local o = { buffer = bufnr, silent = true, desc = "Git: " .. desc }
+          if extra then for k,v in pairs(extra) do o[k]=v end end
+          vim.keymap.set(mode, lhs, rhs, o)
+        end
+
+        -- Navegación entre cambios (igual que GitGutter)
+        map('n', ']c', function()
+          if vim.wo.diff then return ']c' end
+          vim.schedule(gs.next_hunk); return '<Ignore>'
+        end, 'Siguiente cambio', { expr = true })
+        map('n', '[c', function()
+          if vim.wo.diff then return '[c' end
+          vim.schedule(gs.prev_hunk); return '<Ignore>'
+        end, 'Cambio anterior', { expr = true })
+
+        -- Alternativo por si recuerdas ]g / [g
+        map('n', ']g', gs.next_hunk, 'Siguiente cambio (alt)')
+        map('n', '[g', gs.prev_hunk, 'Cambio anterior (alt)')
+
+        -- Acciones sobre el hunk actual
+        map({'n','v'}, '<leader>hs', ':Gitsigns stage_hunk<CR>', 'Stage hunk')
+        map({'n','v'}, '<leader>hr', ':Gitsigns reset_hunk<CR>', 'Revertir hunk (dejar como antes)')
+        map('n',        '<leader>hS', gs.stage_buffer,               'Stage buffer entero')
+        map('n',        '<leader>hR', gs.reset_buffer,               'Reset buffer entero')
+        map('n', '<leader>hp', gs.preview_hunk, 'Preview hunk')
+        map('n', '<leader>hu', gs.undo_stage_hunk, 'Undo stage hunk')
+
+        -- Extras útiles
+        map('n', '<leader>hb', function() gs.blame_line{ full = true } end, 'Blame (línea)')
+        map('n', '<leader>hd', gs.diffthis, 'Diff contra index')
+        map('n', '<leader>hD', function() gs.diffthis('~') end, 'Diff contra último commit')
+        map('n', '<leader>td', gs.toggle_deleted, 'Mostrar líneas borradas')
+
+        -- (Opcional) atajos “tipo memoria muscular”:
+        map('n', 'ghu', gs.reset_hunk,   'Revertir hunk (ghu)')
+        map('n', 'ghp', gs.preview_hunk, 'Preview hunk (ghp)')
+        -- Si de verdad quieres 'hgu'/'hgp' SIN prefijo (no recomendado porque pisa la tecla 'h'):
+        -- vim.keymap.set('n','hgu', gs.reset_hunk,   { buffer=bufnr, silent=true, desc='Git: Revertir hunk' })
+        -- vim.keymap.set('n','hgp', gs.preview_hunk, { buffer=bufnr, silent=true, desc='Git: Preview hunk' })
+      end,
+    },
   },
 
   -- === LSP + Autocompletado ===
@@ -117,7 +162,7 @@ return {
     "williamboman/mason.nvim",
     cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonUpdate", "MasonLog" },
     build = ":MasonUpdate",
-    opts = { PATH = "append" }, -- añade ~/.local/share/nvim/mason/bin al PATH
+    opts = { PATH = "append" },
   },
   {
     "williamboman/mason-lspconfig.nvim",
@@ -142,7 +187,6 @@ return {
         map("n", "<leader>ca", vim.lsp.buf.code_action, "Code Action")
         map("n", "[d", vim.diagnostic.goto_prev, "Prev diag")
         map("n", "]d", vim.diagnostic.goto_next, "Next diag")
-        -- Formateo con Conform
         map("n", "<A-f>", function() require("conform").format({ async = true, lsp_fallback = true }) end, "Formatear")
       end
 
@@ -154,14 +198,12 @@ return {
         settings = { Lua = { diagnostics = { globals = { "vim" } }, workspace = { checkThirdParty = false } } },
       })
 
-      -- TypeScript/JS (vtsls es muy rápido)
       if lsp.vtsls then
         lsp.vtsls.setup({ capabilities = cmp_caps, on_attach = on_attach })
       else
         lsp.ts_ls.setup({ capabilities = cmp_caps, on_attach = on_attach })
       end
 
-      -- Otros
       for _, server in ipairs({ "html", "cssls", "jsonls", "marksman", "prismals", "pyright", "eslint" }) do
         if lsp[server] then lsp[server].setup({ capabilities = cmp_caps, on_attach = on_attach }) end
       end
@@ -303,16 +345,6 @@ formatters = {
   { "christoomey/vim-tmux-navigator", event = "VeryLazy" },
 
 -- Multicursor (visual-multi clásico)
-  {
-    "smoka7/multicursors.nvim",
-    event = "VeryLazy",
-    dependencies = { "nvimtools/hydra.nvim" },
-    cmd = { "MCstart", "MCvisual", "MCclear", "MCpattern", "MCvisualPattern", "MCunderCursor" },
-    keys = {
-      { "<leader>m", "<cmd>MCstart<CR>", mode = { "n", "v" }, desc = "Multicursor: start/select" },
-    },
-    opts = {},
-  }
-
+  { "mg979/vim-visual-multi", branch = "master", event = "VeryLazy" },
   -- { "RRethy/vim-illuminate", event = "VeryLazy", opts = {} },
 }
