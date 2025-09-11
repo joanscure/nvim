@@ -9,3 +9,7 @@ Install pynvim
 
 winget install -e --id BurntSushi.ripgrep   # rg
 winget install -e --id sharkdp.fd           # fd
+
+
+Para habilitar rutas largas en Command Prompt (cmd) como administrador:
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\FileSystem" /v LongPathsEnabled /t REG_DWORD /d 1 /f
