@@ -1,10 +1,15 @@
 Install Winget
+
 Install neovim
+winget install Neovim.Neovim
 Install ag
+winget install "The Silver Searcher"
 Install python
 Install volta
 Install ripgrep
+winget install BurntSushi.ripgrep.MSVC
 Install fzf
+
 Install pynvim
 
 winget install -e --id BurntSushi.ripgrep   # rg
@@ -13,3 +18,6 @@ winget install -e --id sharkdp.fd           # fd
 
 Para habilitar rutas largas en Command Prompt (cmd) como administrador:
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\FileSystem" /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
+
+install compiler: https://www.msys2.org/

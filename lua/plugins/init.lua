@@ -173,41 +173,65 @@ return {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = { "hrsh7th/cmp-nvim-lsp", "folke/neodev.nvim" },
-    config = function()
-      local lsp = require("lspconfig")
-      local cmp_caps = require("cmp_nvim_lsp").default_capabilities()
+  config = function()
+    local cmp_caps = require("cmp_nvim_lsp").default_capabilities()
 
-      local on_attach = function(_, bufnr)
-        local map = function(m, lhs, rhs, desc) vim.keymap.set(m, lhs, rhs, { buffer = bufnr, desc = desc }) end
-        map("n", "gd", vim.lsp.buf.definition, "Definición")
-        map("n", "gr", vim.lsp.buf.references, "Referencias")
-        map("n", "gi", vim.lsp.buf.implementation, "Implementaciones")
-        map("n", "K", vim.lsp.buf.hover, "Hover")
-        map("n", "<leader>rn", vim.lsp.buf.rename, "Renombrar")
-        map("n", "<leader>ca", vim.lsp.buf.code_action, "Code Action")
-        map("n", "[d", vim.diagnostic.goto_prev, "Prev diag")
-        map("n", "]d", vim.diagnostic.goto_next, "Next diag")
-        map("n", "<A-f>", function() require("conform").format({ async = true, lsp_fallback = true }) end, "Formatear")
+    local on_attach = function(_, bufnr)
+      local map = function(m, lhs, rhs, desc)
+        vim.keymap.set(m, lhs, rhs, { buffer = bufnr, desc = desc })
       end
+      map("n", "gd", vim.lsp.buf.definition, "Definición")
+      map("n", "gr", vim.lsp.buf.references, "Referencias")
+      map("n", "gi", vim.lsp.buf.implementation, "Implementaciones")
+      map("n", "K", vim.lsp.buf.hover, "Hover")
+      map("n", "<leader>rn", vim.lsp.buf.rename, "Renombrar")
+      map("n", "<leader>ca", vim.lsp.buf.code_action, "Code Action")
+      map("n", "[d", vim.diagnostic.goto_prev, "Prev diag")
+      map("n", "]d", vim.diagnostic.goto_next, "Next diag")
+      map("n", "<A-f>", function()
+        require("conform").format({ async = true, lsp_fallback = true })
+      end, "Formatear")
+    end
 
-      -- Servidores
-      -- Lua
-      lsp.lua_ls.setup({
-        capabilities = cmp_caps,
-        on_attach = on_attach,
-        settings = { Lua = { diagnostics = { globals = { "vim" } }, workspace = { checkThirdParty = false } } },
-      })
+    local servers = {
+      lua_ls = {
+        settings = {
+          Lua = {
+            diagnostics = { globals = { "vim" } },
+            workspace = { checkThirdParty = false },
+          },
+        },
+      },
+      vtsls = {},
+      html = {},
+      cssls = {},
+      jsonls = {},
+      marksman = {},
+      prismals = {},
+      pyright = {},
+      eslint = {},
+    }
 
-      if lsp.vtsls then
-        lsp.vtsls.setup({ capabilities = cmp_caps, on_attach = on_attach })
-      else
-        lsp.ts_ls.setup({ capabilities = cmp_caps, on_attach = on_attach })
+    local use_new_api = vim.fn.has("nvim-0.11") == 1
+
+    if use_new_api then
+      for name, config in pairs(servers) do
+        vim.lsp.config[name] = vim.tbl_deep_extend("force", config, {
+          capabilities = cmp_caps,
+          on_attach = on_attach,
+        })
+        vim.lsp.enable(name)
       end
-
-      for _, server in ipairs({ "html", "cssls", "jsonls", "marksman", "prismals", "pyright", "eslint" }) do
-        if lsp[server] then lsp[server].setup({ capabilities = cmp_caps, on_attach = on_attach }) end
+    else
+      local lspconfig = require("lspconfig")
+      for name, config in pairs(servers) do
+        lspconfig[name].setup(vim.tbl_deep_extend("force", config, {
+          capabilities = cmp_caps,
+          on_attach = on_attach,
+        }))
       end
-    end,
+    end
+  end,
   },
   -- CMP + snippets
   { "L3MON4D3/LuaSnip", event = "InsertEnter", dependencies = { "rafamadriz/friendly-snippets" }, config = function() require("luasnip.loaders.from_vscode").lazy_load() end },
