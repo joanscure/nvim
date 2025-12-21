@@ -1,5 +1,4 @@
 return {
-  -- === Tema ===
   {
     "catppuccin/nvim",
     name = "catppuccin",
@@ -40,7 +39,6 @@ return {
     end,
   },
 
-  -- === Barra de Estado ===
   {
     "nvim-lualine/lualine.nvim",
     event = "VeryLazy",
@@ -57,7 +55,6 @@ return {
     },
   },
 
-  -- === UI de Pestañas (Bufferline) ===
   {
     "akinsho/bufferline.nvim",
     event = "VeryLazy",
@@ -73,22 +70,17 @@ return {
     },
   },
 
-  -- === Iconos ===
   { "nvim-tree/nvim-web-devicons", lazy = true },
 
-  -- === Mejoras de UI (Inputs/Selects) ===
   { "stevearc/dressing.nvim", event = "VeryLazy", opts = {} },
 
-  -- === Notificaciones ===
   { "rcarriga/nvim-notify", event = "VeryLazy", opts = {} },
 
-  -- === NUEVO: Noice (UI Experimental y Cmdline) ===
   {
     "folke/noice.nvim",
     event = "VeryLazy",
     opts = {
       lsp = {
-        -- Sobrescribe el manejo de docs/hover de LSP para usar Noice
         override = {
           ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
           ["vim.lsp.util.stylize_markdown"] = true,
@@ -96,11 +88,11 @@ return {
         },
       },
       presets = {
-        bottom_search = true, -- Barra de búsqueda abajo (como VS Code)
-        command_palette = true, -- Paleta de comandos centrada
-        long_message_to_split = true, -- Mensajes largos a split
-        inc_rename = false, -- Diálogo de renombrado (requiere plugin inc-rename)
-        lsp_doc_border = false, -- Borde en docs
+        bottom_search = true, 
+        command_palette = true, 
+        long_message_to_split = true, 
+        inc_rename = false, 
+        lsp_doc_border = false, 
       },
     },
     dependencies = {
@@ -109,6 +101,5 @@ return {
     },
   },
 
-  -- === Ayuda de Teclas ===
   { "folke/which-key.nvim", event = "VeryLazy", opts = {} },
 }

@@ -6,14 +6,12 @@ local function has_c_compiler()
 end
 
 return {
-  -- === Autocompletado Moderno (Blink.cmp) ===
   {
     "saghen/blink.cmp",
     dependencies = "rafamadriz/friendly-snippets",
     version = "*",
     event = "InsertEnter",
     opts = {
-      -- Configuración de teclas para imitar tu setup anterior
       keymap = {
         preset = "none",
         ["<C-k>"] = { "show", "show_documentation", "hide_documentation" }, -- Disparar menú
@@ -37,10 +35,8 @@ return {
     opts_extend = { "sources.default" },
   },
 
-  -- === Autocierre de Etiquetas ===
   { "windwp/nvim-ts-autotag", cond = has_c_compiler, event = "InsertEnter", opts = {} },
 
-  -- === Comentarios Inteligentes ===
   {
     "numToStr/Comment.nvim",
     event = "VeryLazy",
@@ -61,7 +57,6 @@ return {
     opts = { enable_autocmd = false },
   },
 
-  -- === Surround (Rodear texto) ===
   {
     "echasnovski/mini.surround",
     version = false,
@@ -75,7 +70,6 @@ return {
     },
   },
 
-  -- === Mejores Objetos de Texto ===
   {
     "echasnovski/mini.ai",
     event = "VeryLazy",

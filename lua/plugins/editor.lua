@@ -1,5 +1,4 @@
 return {
-  -- === Explorador de Archivos (Neo-tree) ===
   {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
@@ -24,10 +23,10 @@ return {
         follow_current_file = { enabled = true },
         use_libuv_file_watcher = true,
         filtered_items = {
-          visible = true, -- Mostrar ocultos (.config, etc) por defecto
+          visible = true, 
           hide_dotfiles = false,
-          hide_gitignored = true, -- Ocultar ignorados por git (.env) por defecto (usa 'I' para verlos)
-          never_show = { -- Estos NUNCA se mostrarán, ni siquiera con 'I'
+          hide_gitignored = true, 
+          never_show = { 
             ".git",
             ".ds_store",
             "node_modules",
@@ -41,7 +40,7 @@ return {
       },
       default_component_configs = {
         indent = {
-          with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
+          with_expanders = true, 
           expander_collapsed = "",
           expander_expanded = "",
           expander_highlight = "NeoTreeExpander",
@@ -50,7 +49,6 @@ return {
     },
   },
 
-  -- === Buscador (Fzf) ===
   {
     "ibhagwan/fzf-lua",
     cmd = "FzfLua",
@@ -81,7 +79,6 @@ return {
     },
   },
 
-  -- === Flash (Navegación Rápida) ===
   {
     "folke/flash.nvim",
     event = "VeryLazy",
@@ -96,7 +93,6 @@ return {
     },
   },
 
-  -- === Trouble (Lista de Diagnósticos) ===
   {
     "folke/trouble.nvim",
     cmd = { "Trouble" },
@@ -111,7 +107,6 @@ return {
     },
   },
 
-  -- === Git ===
   { "tpope/vim-fugitive", cmd = { "G", "Git", "Gvdiff" } },
   {
     "lewis6991/gitsigns.nvim",
@@ -148,12 +143,9 @@ return {
     },
   },
 
-  -- === Comentarios TODO ===
   { "folke/todo-comments.nvim", event = "VeryLazy", dependencies = { "nvim-lua/plenary.nvim" }, opts = {} },
 
-  -- === Tmux ===
   { "christoomey/vim-tmux-navigator", event = "VeryLazy" },
 
-  -- === Multicursor ===
   { "mg979/vim-visual-multi", branch = "master", event = "VeryLazy" },
 }

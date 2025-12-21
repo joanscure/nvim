@@ -1,5 +1,4 @@
 return {
-  -- === LSP Config ===
   { "folke/neodev.nvim", ft = "lua", opts = {} },
   {
     "williamboman/mason.nvim",
@@ -40,7 +39,6 @@ return {
         },
       })
 
-      -- Capabilidades modernas con Blink
       local capabilities = require('blink.cmp').get_lsp_capabilities()
 
       local on_attach = function(_, bufnr)
@@ -52,7 +50,14 @@ return {
         map("n", "gi", vim.lsp.buf.implementation, "Implementaciones")
         map("n", "K", vim.lsp.buf.hover, "Hover")
         map("n", "<leader>rn", vim.lsp.buf.rename, "Renombrar")
-        map("n", "<leader>ca", vim.lsp.buf.code_action, "Code Action")
+        map("n", "<leader>ca", function()
+          local ok, fzf = pcall(require, "fzf-lua")
+          if ok then
+            fzf.lsp_code_actions()
+          else
+            vim.lsp.buf.code_action()
+          end
+        end, "Code Action")
         map("n", "[d", vim.diagnostic.goto_prev, "Prev diag")
         map("n", "]d", vim.diagnostic.goto_next, "Next diag")
       end
@@ -97,8 +102,6 @@ return {
       end
     end,
   },
-
-  -- === Formateo (Conform) ===
   {
     "stevearc/conform.nvim",
     event = { "BufReadPre", "BufNewFile" },
@@ -137,6 +140,5 @@ return {
     opts = { ensure_installed = { "prettierd", "prettier", "stylua", "eslint_d", "black", "prisma-language-server" } },
   },
 
-  -- === Notificaciones de Progreso LSP ===
   { "j-hui/fidget.nvim", event = "LspAttach", opts = {} },
 }

@@ -1,4 +1,3 @@
--- Helper: carga Treesitter sólo si hay compilador disponible
 local function has_c_compiler()
   for _, c in ipairs({ "clang", "cl", "zig", "gcc", "cc" }) do
     if vim.fn.executable(c) == 1 then return true end

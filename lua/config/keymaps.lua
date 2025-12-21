@@ -4,13 +4,6 @@ local map, opts = vim.keymap.set, { noremap = true, silent = true }
 map("n", "<Esc>", ":noh<CR>", opts)
 map("n", "<C-s>", ":wall<CR>", opts)
 
--- fzf-lua
--- map("n", "<C-p>", function() require("fzf-lua").files() end, { desc = "Buscar archivos" })
--- map("n", "<C-f>", function() require("fzf-lua").live_grep_native() end, { desc = "Buscar texto" })
--- map("n", "<leader>fb", function() require("fzf-lua").buffers() end, { desc = "Buffers" })
--- map("n", "<leader>fh", function() require("fzf-lua").help_tags() end, { desc = "Help" })
-
-
 -- Bufferline (solo en NORMAL para no chocar con cmp en INSERT)
 map("n", "<Tab>", ":BufferLineCycleNext<CR>", { silent = true, desc = "Buffer siguiente" })
 map("n", "<S-Tab>", ":BufferLineCyclePrev<CR>", { silent = true, desc = "Buffer anterior" })
