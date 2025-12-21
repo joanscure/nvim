@@ -3,12 +3,12 @@
 Fast, modern Neovim config focused on **performance** and **developer ergonomics**. Includes:
 
 * **Lazy.nvim** plugin manager (lazy‑load everything)
-* **LSP** for JS/TS (vtsls/tsserver), Lua, HTML/CSS, JSON, Markdown, Prisma, Python
-* **nvim-cmp** completion + **LuaSnip**
+* **LSP** for JS/TS (vtsls), Lua, HTML/CSS, JSON, Markdown, Prisma, Python
+* **Blink.cmp** for high-performance completion
 * **Conform.nvim** for fast formatting (Prettierd/Prettier, Stylua, Black, PrismaFmt)
 * **Treesitter** (auto-install parsers, conditional on available C compiler)
-* **fzf-lua** fuzzy finder, **NvimTree** file explorer
-* Polished UI: Onedark theme, Lualine, Notify, Dressing, Which‑Key, Fidget, Gitsigns, Todo‑comments
+* **fzf-lua** fuzzy finder, **Neo-tree** file explorer
+* Polished UI: **Catppuccin** theme, Lualine, Noice, Notify, Dressing, Which‑Key, Fidget, Gitsigns, Todo‑comments, Dropbar
 
 ---
 
@@ -80,22 +80,21 @@ Fast, modern Neovim config focused on **performance** and **developer ergonomics
 | Area           | Plugin(s)                                                                                                    |
 | -------------- | ------------------------------------------------------------------------------------------------------------ |
 | Plugin manager | `folke/lazy.nvim`                                                                                            |
-| UI             | `navarasu/onedark.nvim`, `nvim-lualine/lualine.nvim`, `rcarriga/nvim-notify`, `stevearc/dressing.nvim`       |
-| Navigation     | `ibhagwan/fzf-lua`, `nvim-tree/nvim-tree.lua`, `nvim-tree/nvim-web-devicons`                                 |
+| UI             | `catppuccin/nvim`, `folke/noice.nvim`, `rcarriga/nvim-notify`, `stevearc/dressing.nvim`, `Bekaboo/dropbar.nvim` |
+| Navigation     | `ibhagwan/fzf-lua`, `nvim-neo-tree/neo-tree.nvim`, `folke/flash.nvim`, `christoomey/vim-tmux-navigator`      |
 | Git            | `lewis6991/gitsigns.nvim`, `tpope/vim-fugitive`                                                              |
-| LSP            | `neovim/nvim-lspconfig`, `williamboman/mason.nvim`, `williamboman/mason-lspconfig.nvim`, `folke/neodev.nvim` |
-| Completion     | `hrsh7th/nvim-cmp` + `cmp-nvim-lsp`, `cmp-buffer`, `cmp-path`, `cmp-nvim-lsp-signature-help`                 |
-| Snippets       | `L3MON4D3/LuaSnip` + `rafamadriz/friendly-snippets`                                                          |
+| LSP            | `neovim/nvim-lspconfig`, `williamboman/mason.nvim`, `williamboman/mason-lspconfig.nvim`, `folke/neodev.nvim`, `folke/trouble.nvim` |
+| Completion     | `saghen/blink.cmp` + `rafamadriz/friendly-snippets`                                                          |
 | Formatting     | `stevearc/conform.nvim`, `WhoIsSethDaniel/mason-tool-installer.nvim`                                         |
 | Treesitter     | `nvim-treesitter/nvim-treesitter`, `nvim-treesitter/nvim-treesitter-textobjects`, `windwp/nvim-ts-autotag`   |
-| QoL            | `folke/which-key.nvim`, `folke/todo-comments.nvim`, `j-hui/fidget.nvim`, `echasnovski/mini.surround`         |
+| QoL            | `folke/which-key.nvim`, `folke/todo-comments.nvim`, `j-hui/fidget.nvim`, `echasnovski/mini.surround`, `echasnovski/mini.ai`, `numToStr/Comment.nvim` |
 
 ---
 
 ## Defaults & Opinionated Choices
 
 * **Leader**: Space (`" "`)
-* **Theme**: Onedark (darker)
+* **Theme**: Catppuccin (Mocha)
 * **Statusline**: Lualine (global statusline)
 * **Search**: smartcase, highlight on yank
 * **Tabs/Indent**: spaces, width 2 (adjust in `options.lua`)
@@ -123,11 +122,12 @@ Fast, modern Neovim config focused on **performance** and **developer ergonomics
 
 ### Navigation & Files
 
-* Toggle file tree: **`<C-b>`**
+* Toggle file tree: **`<leader>e`** (`neo-tree`)
 * Find files: **`<C-p>`** (`fzf-lua`)
 * Live grep: **`<C-f>`** (`fzf-lua`)
 * Buffers: **`<leader>fb`**
 * Help tags: **`<leader>fh`**
+* Flash Jump: **`s`** (navigation) / **`S`** (treesitter)
 
 ### Editing
 
@@ -135,32 +135,35 @@ Fast, modern Neovim config focused on **performance** and **developer ergonomics
 * Save all: **`<C-s>`**
 * Move line/selection: **`Alt-j / Alt-k`** (normal/insert/visual)
 * Comment line/block: **`gcc`** / Visual select then **`gc`**
-* Surround: add **`sa`**, delete **`sd`**, replace **`sr`** (e.g., `sa)w` wraps word with `()`)
+* Surround: add **`sa`**, delete **`ds`**, replace **`cs`** (Mini.surround)
 
-### LSP
+### LSP & Diagnostics
 
 * Definition **`gd`**, References **`gr`**, Implementation **`gi`**
 * Hover **`K`**, Rename **`<leader>rn`**, Code Action **`<leader>ca`**
 * Diagnostics prev/next **`[d`** / **`]d`**
 * Format (Conform) **`Alt-f`**
+* Trouble (Diagnostics): **`<leader>xx`**
+* Trouble (Symbols): **`<leader>cs`**
 
 ### Git
 
 * Fugitive: `:G`, `:Git` (status/commits)
+* Preview Hunk: **`<leader>hp`**
+* Reset Hunk: **`<leader>hr`**
 
 ### Misc
 
 * Todos: `:TodoQuickFix`
 * Health: `:checkhealth`
+* Folding (UFO): **`zR`** (open all), **`zM`** (close all)
 
 ---
 
 ## Customization Tips
 
 * **Change theme**: set another colorscheme in `options.lua` or add your favorite theme plugin.
-* **Switch file explorer**: prefer NvimTree by default; you can swap for `neo-tree` if you like.
-* **Swap fuzzy finder**: `fzf-lua` is fast and simple; you can replace with Telescope if you need its ecosystem.
-* **Treesitter compilers**: preference order is `zig`, `clang`, `cl`, `gcc`, `cc`. You can change this in `plugins/init.lua`.
+* **Treesitter compilers**: preference order is `zig`, `clang`, `cl`, `gcc`, `cc`. You can change this in `plugins/treesitter.lua`.
 
 ---
 
@@ -192,9 +195,3 @@ Fast, modern Neovim config focused on **performance** and **developer ergonomics
 * Update plugins: `:Lazy sync`
 * Update Treesitter parsers: `:TSUpdate`
 * Update Mason tools: `:MasonToolsUpdate`
-
----
-
-## Credits
-
-This setup leans on the excellent work of the Neovim community: Lazy.nvim, Treesitter, nvim-lspconfig, mason, fzf-lua, and many more. ❤️
