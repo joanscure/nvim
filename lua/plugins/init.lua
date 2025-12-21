@@ -67,7 +67,7 @@ return {
     cmd = "FzfLua",
     keys = {
       { "<C-p>",      function() require("fzf-lua").files() end,            mode = "n", desc = "Buscar archivos" },
-      { "<C-f>",      function() require("fzf-lua").live_grep_native() end, mode = "n", desc = "Buscar texto" },
+      { "<C-f>",      function() require("fzf-lua").live_grep() end,        mode = "n", desc = "Buscar texto" },
       { "<leader>fb", function() require("fzf-lua").buffers() end,          mode = "n", desc = "Buffers" },
       { "<leader>fh", function() require("fzf-lua").help_tags() end,        mode = "n", desc = "Help" },
     },
@@ -174,6 +174,30 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     dependencies = { "hrsh7th/cmp-nvim-lsp", "folke/neodev.nvim" },
   config = function()
+    -- Configuración global de diagnósticos (Mejora visual)
+    vim.diagnostic.config({
+      virtual_text = true,
+      signs = true,
+      underline = true,
+      update_in_insert = false,
+      severity_sort = true,
+      float = {
+        focusable = false,
+        style = "minimal",
+        border = "rounded",
+        source = "always",
+        header = "",
+        prefix = "",
+      },
+    })
+
+    -- Iconos para la columna de signos
+    local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
+    for type, icon in pairs(signs) do
+      local hl = "DiagnosticSign" .. type
+      vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+    end
+
     local cmp_caps = require("cmp_nvim_lsp").default_capabilities()
 
     local on_attach = function(_, bufnr)
@@ -269,12 +293,18 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     opts = {
       formatters_by_ft = {
-  -- lo que ya tienes...
-  lua = { "stylua" },
-  -- añade prisma si lo usas
-  prisma = { "prismaFmt" },
-  -- JS/TS/… ya están con prettierd/prettier
-},
+        lua = { "stylua" },
+        prisma = { "prismaFmt" },
+        javascript = { "prettierd", "prettier", stop_after_first = true },
+        typescript = { "prettierd", "prettier", stop_after_first = true },
+        javascriptreact = { "prettierd", "prettier", stop_after_first = true },
+        typescriptreact = { "prettierd", "prettier", stop_after_first = true },
+        css = { "prettierd", "prettier", stop_after_first = true },
+        html = { "prettierd", "prettier", stop_after_first = true },
+        json = { "prettierd", "prettier", stop_after_first = true },
+        yaml = { "prettierd", "prettier", stop_after_first = true },
+        markdown = { "prettierd", "prettier", stop_after_first = true },
+      },
 
 -- Fuerza comandos robustos (Windows)
 formatters = {
