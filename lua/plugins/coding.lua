@@ -6,34 +6,35 @@ local function has_c_compiler()
 end
 
 return {
-  -- === Autocompletado (CMP) ===
-  { "L3MON4D3/LuaSnip", event = "InsertEnter", dependencies = { "rafamadriz/friendly-snippets" }, config = function() require("luasnip.loaders.from_vscode").lazy_load() end },
-  { "saadparwaiz1/cmp_luasnip", lazy = true },
-  { "hrsh7th/cmp-nvim-lsp", lazy = true },
-  { "hrsh7th/cmp-path", lazy = true },
-  { "hrsh7th/cmp-buffer", lazy = true },
-  { "hrsh7th/cmp-nvim-lsp-signature-help", lazy = true },
+  -- === Autocompletado Moderno (Blink.cmp) ===
   {
-    "hrsh7th/nvim-cmp",
+    "saghen/blink.cmp",
+    dependencies = "rafamadriz/friendly-snippets",
+    version = "*",
     event = "InsertEnter",
-    config = function()
-      local cmp = require("cmp")
-      cmp.setup({
-        mapping = cmp.mapping.preset.insert({
-          ["<C-k>"] = cmp.mapping.complete(),
-          ["<Tab>"] = cmp.mapping(function(fallback) if cmp.visible() then cmp.select_next_item() else fallback() end end, { "i", "s" }),
-          ["<S-Tab>"] = cmp.mapping(function(fallback) if cmp.visible() then cmp.select_prev_item() else fallback() end end, { "i", "s" }),
-          ["<CR>"] = cmp.mapping.confirm({ select = true }),
-        }),
-        sources = {
-          { name = "nvim_lsp" },
-          { name = "nvim_lsp_signature_help" },
-          { name = "luasnip" },
-          { name = "path" },
-          { name = "buffer" },
-        },
-      })
-    end,
+    opts = {
+      -- Configuración de teclas para imitar tu setup anterior
+      keymap = {
+        preset = "none",
+        ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+        ["<C-e>"] = { "hide" },
+        ["<CR>"] = { "accept", "fallback" },
+        ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
+        ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+        ["<C-k>"] = { "show_signature", "hide_signature", "fallback" },
+        ["<C-p>"] = { "select_prev", "fallback" },
+        ["<C-n>"] = { "select_next", "fallback" },
+      },
+      appearance = {
+        use_nvim_cmp_as_default = true,
+        nerd_font_variant = "mono",
+      },
+      sources = {
+        default = { "lsp", "path", "snippets", "buffer" },
+      },
+      signature = { enabled = true },
+    },
+    opts_extend = { "sources.default" },
   },
 
   -- === Autocierre de Etiquetas ===
@@ -60,23 +61,21 @@ return {
     opts = { enable_autocmd = false },
   },
 
-  -- === Surround (Rodear texto con " ' ( [ { ) ===
+  -- === Surround (Rodear texto) ===
   {
     "echasnovski/mini.surround",
     version = false,
     event = "VeryLazy",
     opts = {
       mappings = {
-        add = "sa",        -- Agregar
-        delete = "ds",     -- Borrar
-        replace = "cs",    -- Cambiar
+        add = "sa", delete = "ds", replace = "cs",
         find = "", find_left = "", highlight = "",
         update_n_lines = "", suffix_last = "", suffix_next = "",
       },
     },
   },
 
-  -- === NUEVO: Mini.ai (Mejores objetos de texto) ===
+  -- === Mejores Objetos de Texto ===
   {
     "echasnovski/mini.ai",
     event = "VeryLazy",

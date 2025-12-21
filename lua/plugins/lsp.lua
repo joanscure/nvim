@@ -15,7 +15,7 @@ return {
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
-    dependencies = { "hrsh7th/cmp-nvim-lsp", "folke/neodev.nvim" },
+    dependencies = { "saghen/blink.cmp", "folke/neodev.nvim" },
     config = function()
       vim.diagnostic.config({
         virtual_text = true,
@@ -39,7 +39,8 @@ return {
         vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
       end
 
-      local cmp_caps = require("cmp_nvim_lsp").default_capabilities()
+      -- Capabilidades modernas con Blink
+      local capabilities = require('blink.cmp').get_lsp_capabilities()
 
       local on_attach = function(_, bufnr)
         local map = function(m, lhs, rhs, desc)
@@ -82,7 +83,7 @@ return {
       if use_new_api then
         for name, config in pairs(servers) do
           vim.lsp.config[name] = vim.tbl_deep_extend("force", config, {
-            capabilities = cmp_caps,
+            capabilities = capabilities,
             on_attach = on_attach,
           })
           vim.lsp.enable(name)
@@ -91,7 +92,7 @@ return {
         local lspconfig = require("lspconfig")
         for name, config in pairs(servers) do
           lspconfig[name].setup(vim.tbl_deep_extend("force", config, {
-            capabilities = cmp_caps,
+            capabilities = capabilities,
             on_attach = on_attach,
           }))
         end

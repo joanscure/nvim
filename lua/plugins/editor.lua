@@ -1,13 +1,42 @@
 return {
-  -- === Explorador de Archivos ===
+  -- === Explorador de Archivos (Neo-tree) ===
   {
-    "nvim-tree/nvim-tree.lua",
-    cmd = { "NvimTreeToggle", "NvimTreeFindFile" },
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+    },
+    cmd = "Neotree",
+    keys = {
+      {
+        "<leader>e",
+        function()
+          require("neo-tree.command").execute({ toggle = true, dir = vim.loop.cwd() })
+        end,
+        desc = "Explorador (NeoTree)",
+      },
+    },
     opts = {
-      view = { side = "right", width = 30 },
-      filters = { custom = { "node_modules", "dist", ".git", ".yarn", ".vscode", ".bundle" } },
-      actions = { open_file = { quit_on_open = true } },
-      update_focused_file = { enable = true },
+      filesystem = {
+        bind_to_cwd = false,
+        follow_current_file = { enabled = true },
+        use_libuv_file_watcher = true,
+      },
+      window = {
+        mappings = {
+          ["<space>"] = "none",
+        },
+      },
+      default_component_configs = {
+        indent = {
+          with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
+          expander_collapsed = "",
+          expander_expanded = "",
+          expander_highlight = "NeoTreeExpander",
+        },
+      },
     },
   },
 
@@ -42,7 +71,7 @@ return {
     },
   },
 
-  -- === NUEVO: Flash (Navegación Rápida) ===
+  -- === Flash (Navegación Rápida) ===
   {
     "folke/flash.nvim",
     event = "VeryLazy",
@@ -57,7 +86,7 @@ return {
     },
   },
 
-  -- === NUEVO: Trouble (Lista de Diagnósticos) ===
+  -- === Trouble (Lista de Diagnósticos) ===
   {
     "folke/trouble.nvim",
     cmd = { "Trouble" },
