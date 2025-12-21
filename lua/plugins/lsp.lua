@@ -103,7 +103,11 @@ return {
   {
     "stevearc/conform.nvim",
     event = { "BufReadPre", "BufNewFile" },
+    keys = {
+      { "<leader>ci", "<cmd>ConformInfo<cr>", desc = "Info de Formateo" },
+    },
     opts = {
+      notify_on_error = true,
       formatters_by_ft = {
         lua = { "stylua" },
         prisma = { "prismaFmt" },
@@ -117,27 +121,7 @@ return {
         yaml = { "prettierd", "prettier", stop_after_first = true },
         markdown = { "prettierd", "prettier", stop_after_first = true },
       },
-      formatters = {
-        stylua = function()
-          local util = require("conform.util")
-          local mason = vim.fn.stdpath("data")
-          local exe = mason .. "/mason/packages/stylua/stylua/bin/stylua"
-          if vim.loop.os_uname().sysname == "Windows_NT" then
-            exe = exe .. ".exe"
-          end
-          return {
-            command = util.find_executable({ exe }, "stylua"),
-            args = { "--search-parent-directories", "--stdin-filepath", "$FILENAME", "-" },
-            stdin = true,
-          }
-        end,
-        prismaFmt = {
-          command = "prisma",
-          args = { "format", "--schema", "$FILENAME" },
-          stdin = false,
-        },
-      },
-      format_on_save = false
+      format_on_save = false,
     },
   },
   {
