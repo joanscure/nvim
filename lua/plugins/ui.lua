@@ -1,14 +1,42 @@
 return {
-  -- === Temas ===
+  -- === Tema ===
   {
-    "navarasu/onedark.nvim",
-    lazy = false,
+    "catppuccin/nvim",
+    name = "catppuccin",
     priority = 1000,
-    opts = { style = "darker" },
+    lazy = false,
+    opts = {
+      flavour = "mocha", -- latte, frappe, macchiato, mocha
+      transparent_background = false,
+      integrations = {
+        blink_cmp = true,
+        gitsigns = true,
+        native_lsp = {
+          enabled = true,
+          virtual_text = {
+            errors = { "italic" },
+            hints = { "italic" },
+            warnings = { "italic" },
+            info = { "italic" },
+          },
+          underlines = {
+            errors = { "underline" },
+            hints = { "underline" },
+            warnings = { "underline" },
+            info = { "underline" },
+          },
+        },
+        neotree = true,
+        noice = true,
+        notify = true,
+        semantic_tokens = true,
+        treesitter = true,
+        which_key = true,
+      },
+    },
     config = function(_, opts)
-      local onedark = require("onedark")
-      onedark.setup(opts)
-      onedark.load()
+      require("catppuccin").setup(opts)
+      vim.cmd.colorscheme("catppuccin")
     end,
   },
 
@@ -17,7 +45,7 @@ return {
     "nvim-lualine/lualine.nvim",
     event = "VeryLazy",
     opts = {
-      options = { theme = "onedark", globalstatus = true },
+      options = { theme = "catppuccin", globalstatus = true },
       sections = {
         lualine_a = { "mode" },
         lualine_b = { "branch", "diff", "diagnostics" },

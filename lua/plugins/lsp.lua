@@ -19,7 +19,14 @@ return {
     config = function()
       vim.diagnostic.config({
         virtual_text = true,
-        signs = true,
+        signs = {
+          text = {
+            [vim.diagnostic.severity.ERROR] = " ",
+            [vim.diagnostic.severity.WARN] = " ",
+            [vim.diagnostic.severity.HINT] = "󰠠 ",
+            [vim.diagnostic.severity.INFO] = " ",
+          },
+        },
         underline = true,
         update_in_insert = false,
         severity_sort = true,
@@ -32,12 +39,6 @@ return {
           prefix = "",
         },
       })
-
-      local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
-      for type, icon in pairs(signs) do
-        local hl = "DiagnosticSign" .. type
-        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-      end
 
       -- Capabilidades modernas con Blink
       local capabilities = require('blink.cmp').get_lsp_capabilities()
@@ -54,9 +55,6 @@ return {
         map("n", "<leader>ca", vim.lsp.buf.code_action, "Code Action")
         map("n", "[d", vim.diagnostic.goto_prev, "Prev diag")
         map("n", "]d", vim.diagnostic.goto_next, "Next diag")
-        map("n", "<A-f>", function()
-          require("conform").format({ async = true, lsp_fallback = true })
-        end, "Formatear")
       end
 
       local servers = {
@@ -106,6 +104,14 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     keys = {
       { "<leader>ci", "<cmd>ConformInfo<cr>", desc = "Info de Formateo" },
+      {
+        "<leader>fm",
+        function()
+          require("conform").format({ async = true, lsp_fallback = true })
+        end,
+        mode = "n",
+        desc = "Formatear (Conform)",
+      },
     },
     opts = {
       notify_on_error = true,

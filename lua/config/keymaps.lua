@@ -10,8 +10,6 @@ map("n", "<C-s>", ":wall<CR>", opts)
 -- map("n", "<leader>fb", function() require("fzf-lua").buffers() end, { desc = "Buffers" })
 -- map("n", "<leader>fh", function() require("fzf-lua").help_tags() end, { desc = "Help" })
 
--- NvimTree
-map("n", "<C-b>", ":NvimTreeToggle<CR>", opts)
 
 -- Bufferline (solo en NORMAL para no chocar con cmp en INSERT)
 map("n", "<Tab>", ":BufferLineCycleNext<CR>", { silent = true, desc = "Buffer siguiente" })

@@ -23,6 +23,16 @@ return {
         bind_to_cwd = false,
         follow_current_file = { enabled = true },
         use_libuv_file_watcher = true,
+        filtered_items = {
+          visible = true, -- Mostrar ocultos (.config, etc) por defecto
+          hide_dotfiles = false,
+          hide_gitignored = true, -- Ocultar ignorados por git (.env) por defecto (usa 'I' para verlos)
+          never_show = { -- Estos NUNCA se mostrarán, ni siquiera con 'I'
+            ".git",
+            ".ds_store",
+            "node_modules",
+          },
+        },
       },
       window = {
         mappings = {

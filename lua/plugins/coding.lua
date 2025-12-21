@@ -16,12 +16,12 @@ return {
       -- Configuración de teclas para imitar tu setup anterior
       keymap = {
         preset = "none",
-        ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+        ["<C-k>"] = { "show", "show_documentation", "hide_documentation" }, -- Disparar menú
         ["<C-e>"] = { "hide" },
         ["<CR>"] = { "accept", "fallback" },
         ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
         ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
-        ["<C-k>"] = { "show_signature", "hide_signature", "fallback" },
+        ["<C-g>"] = { "show_signature", "hide_signature", "fallback" }, -- Firma movida a Ctrl+g
         ["<C-p>"] = { "select_prev", "fallback" },
         ["<C-n>"] = { "select_next", "fallback" },
       },
