@@ -147,5 +147,19 @@ return {
 
   { "christoomey/vim-tmux-navigator", event = "VeryLazy" },
 
+  {
+    "kdheepak/lazygit.nvim",
+    cmd = {
+      "LazyGit",
+      "LazyGitConfig",
+      "LazyGitCurrentFile",
+      "LazyGitFilter",
+      "LazyGitFilterCurrentFile",
+    },
+    dependencies = { "nvim-lua/plenary.nvim" },
+    keys = {
+      { "<leader>gg", "<cmd>LazyGit<cr>", desc = "LazyGit" }
+    },
+  },
   { "mg979/vim-visual-multi", branch = "master", event = "VeryLazy" },
 }

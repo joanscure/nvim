@@ -24,7 +24,6 @@ o.shiftwidth = 2
 o.tabstop = 2
 
 o.updatetime = 200
-o.lazyredraw = true
 
 o.foldcolumn = "1"
 o.foldlevel = 99

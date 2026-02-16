@@ -1,23 +1,72 @@
-Install Winget
+==============================================================================
+WINDOWS NEOVIM SETUP GUIDE
+==============================================================================
 
-Install neovim
-winget install Neovim.Neovim
-Install ag
-winget install "The Silver Searcher"
-Install python
-Install volta
-Install ripgrep
-winget install BurntSushi.ripgrep.MSVC
-Install fzf
+1. CORE TOOLS & PACKAGE MANAGER
+------------------------------------------------------------------------------
+Run these commands in PowerShell as Administrator.
 
-Install pynvim
+:: Package Manager (Winget is usually built-in on Windows 10/11)
+winget install --id Git.Git -e --source winget
+winget install --id Microsoft.WindowsTerminal -e --source winget
 
-winget install -e --id BurntSushi.ripgrep   # rg
-winget install -e --id sharkdp.fd           # fd
+:: Neovim
+winget install --id Neovim.Neovim -e --source winget
 
+:: LazyGit (Terminal UI for Git)
+winget install --id JesseDuffield.lazygit -e --source winget
 
-Para habilitar rutas largas en Command Prompt (cmd) como administrador:
+2. SEARCH & NAVIGATION (TELESCOPE/FZF DEPENDENCIES)
+------------------------------------------------------------------------------
+:: Ripgrep (Fast searching)
+winget install --id BurntSushi.ripgrep.MSVC -e --source winget
+
+:: Fd (Fast file finding)
+winget install --id sharkdp.fd -e --source winget
+
+:: FZF (Fuzzy finder binary)
+winget install --id junegunn.fzf -e --source winget
+
+:: The Silver Searcher (Optional alternative)
+winget install --id "The Silver Searcher" -e --source winget
+
+3. RUNTIMES & COMPILERS
+------------------------------------------------------------------------------
+:: Node.js Version Manager (Volta)
+winget install --id Volta.Volta -e --source winget
+
+:: Python
+winget install --id Python.Python.3 -e --source winget
+
+:: C Compiler (REQUIRED for Treesitter parsers)
+:: Option A: MSYS2 (Recommended for full compatibility)
+:: Download: https://www.msys2.org/
+:: After install, open MSYS2 terminal and run: pacman -S mingw-w64-x86_64-gcc
+
+:: Option B: Zig (Lightweight alternative)
+winget install --id zig.zig -e --source winget
+
+4. LANGUAGE DEPENDENCIES & FORMATTERS
+------------------------------------------------------------------------------
+Note: Close and reopen your terminal after step 3 to ensure PATH is updated.
+
+:: Python Provider for Neovim
+pip install pynvim
+
+:: Node.js Provider & Tools
+:: (Ensure you install a node version first via Volta, e.g., 'volta install node')
+npm install -g neovim
+npm install -g @fsouza/prettierd
+
+5. SYSTEM CONFIGURATION
+------------------------------------------------------------------------------
+:: Enable Long Paths (Prevents errors with deeply nested node_modules)
+:: Run in CMD or PowerShell as Administrator:
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\FileSystem" /v LongPathsEnabled /t REG_DWORD /d 1 /f
 
-
-install compiler: https://www.msys2.org/
+6. FONTS (REQUIRED FOR ICONS)
+------------------------------------------------------------------------------
+You must manually install the Nerd Fonts included in this config.
+1. Navigate to: %LOCALAPPDATA%\nvim\resources\JetBrainsMono\
+2. Select all .ttf files.
+3. Right-click and choose "Install".
