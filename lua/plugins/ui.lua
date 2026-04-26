@@ -35,24 +35,32 @@ return {
     },
     config = function(_, opts)
       require("catppuccin").setup(opts)
-      vim.cmd.colorscheme("catppuccin")
+      vim.cmd.colorscheme("catppuccin-mocha")
     end,
   },
 
   {
     "nvim-lualine/lualine.nvim",
     event = "VeryLazy",
-    opts = {
-      options = { theme = "catppuccin", globalstatus = true },
-      sections = {
-        lualine_a = { "mode" },
-        lualine_b = { "branch", "diff", "diagnostics" },
-        lualine_c = { { "filename", path = 1 } },
-        lualine_x = { "encoding", "filetype" },
-        lualine_y = { "progress" },
-        lualine_z = { "location" },
-      },
-    },
+    dependencies = { "catppuccin/nvim" },
+    config = function()
+      -- Ensure catppuccin is loaded first
+      local theme = "auto"
+      local ok = pcall(require, "catppuccin")
+      if ok then theme = "catppuccin-mocha" end
+
+      require("lualine").setup({
+        options = { theme = theme, globalstatus = true },
+        sections = {
+          lualine_a = { "mode" },
+          lualine_b = { "branch", "diff", "diagnostics" },
+          lualine_c = { { "filename", path = 1 } },
+          lualine_x = { "encoding", "filetype" },
+          lualine_y = { "progress" },
+          lualine_z = { "location" },
+        },
+      })
+    end,
   },
 
   {

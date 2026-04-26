@@ -20,7 +20,7 @@ return {
   {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "mason.nvim" },
-    opts = { ensure_installed = { "lua_ls", "vtsls", "html", "cssls", "jsonls", "marksman", "prismals", "pyright", "eslint" } },
+    opts = { ensure_installed = { "lua_ls", "vtsls", "html", "cssls", "jsonls", "marksman", "prismals", "pyright", "eslint", "jdtls", "yamlls" } },
   },
   {
     "neovim/nvim-lspconfig",
@@ -90,6 +90,21 @@ return {
         prismals = {},
         pyright = {},
         eslint = {},
+        yamlls = {
+          settings = {
+            yaml = {
+              validate = true,
+              hover = true,
+              completion = true,
+              schemaStore = { enable = true, url = "https://www.schemastore.org/api/json/catalog.json" },
+              schemas = {
+                ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
+                ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "docker-compose*.yml",
+                ["https://json.schemastore.org/pre-commit-config.json"] = ".pre-commit-config.yaml",
+              },
+            },
+          },
+        },
       }
 
       local use_new_api = vim.fn.has("nvim-0.11") == 1
@@ -116,6 +131,7 @@ return {
   {
     "stevearc/conform.nvim",
     event = { "BufReadPre", "BufNewFile" },
+    cmd = { "ConformInfo" },
     keys = {
       { "<leader>ci", "<cmd>ConformInfo<cr>", desc = "Info de Formateo" },
       {
@@ -123,7 +139,7 @@ return {
         function()
           require("conform").format({ async = true, lsp_fallback = true })
         end,
-        mode = "n",
+        mode = { "n", "v" },
         desc = "Formatear (Conform)",
       },
     },
@@ -131,7 +147,6 @@ return {
       notify_on_error = true,
       formatters_by_ft = {
         lua = { "stylua" },
-        prisma = { "prismaFmt" },
         javascript = { "prettierd", "prettier", stop_after_first = true },
         typescript = { "prettierd", "prettier", stop_after_first = true },
         javascriptreact = { "prettierd", "prettier", stop_after_first = true },
@@ -141,14 +156,30 @@ return {
         json = { "prettierd", "prettier", stop_after_first = true },
         yaml = { "prettierd", "prettier", stop_after_first = true },
         markdown = { "prettierd", "prettier", stop_after_first = true },
+        java = { "google-java-format" },
       },
-      format_on_save = false,
+      formatters = {
+        ["google-java-format"] = {
+          command = vim.fn.stdpath("data") .. "/mason/bin/google-java-format.cmd",
+          args = { "-" },
+          stdin = true,
+        },
+      },
+      format_on_save = function(bufnr)
+        -- Solo auto-formatear estos lenguajes al guardar
+        local autoformat_fts = { "java", "lua" }
+        local ft = vim.bo[bufnr].filetype
+        if vim.tbl_contains(autoformat_fts, ft) then
+          return { timeout_ms = 3000, lsp_fallback = true }
+        end
+        return false
+      end,
     },
   },
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     cmd = { "MasonToolsInstall", "MasonToolsUpdate" },
-    opts = { ensure_installed = { "prettierd", "prettier", "stylua", "eslint_d", "black", "prisma-language-server" } },
+    opts = { ensure_installed = { "prettierd", "prettier", "stylua", "eslint_d", "black", "prisma-language-server", "google-java-format", "java-debug-adapter", "java-test" } },
   },
 
   { "j-hui/fidget.nvim", event = "LspAttach", opts = {} },

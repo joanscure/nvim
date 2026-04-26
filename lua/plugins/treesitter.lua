@@ -15,7 +15,7 @@ return {
       auto_install = true,
       highlight = { enable = true },
       indent = { enable = true },
-      ensure_installed = { "lua", "vim", "vimdoc", "javascript", "typescript", "tsx", "json", "css", "html", "markdown", "markdown_inline", "python", "prisma" },
+      ensure_installed = { "lua", "vim", "vimdoc", "javascript", "typescript", "tsx", "json", "css", "html", "markdown", "markdown_inline", "python", "prisma", "java", "yaml" },
       incremental_selection = { enable = true },
       textobjects = { select = { enable = true } },
     },
