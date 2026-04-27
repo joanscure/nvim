@@ -1,3 +1,9 @@
+-- Some plugins still call vim.tbl_flatten which was deprecated in Neovim 0.10.
+-- This shim replaces it with the equivalent modern API to silence the warning.
+if vim.fn.has("nvim-0.10") == 1 then
+  vim.tbl_flatten = function(t) return vim.iter(t):flatten(math.huge):totable() end
+end
+
 local o = vim.opt
 
 vim.g.skip_ts_context_commentstring_module = true

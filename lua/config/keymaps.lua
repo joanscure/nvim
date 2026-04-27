@@ -18,6 +18,11 @@ map("i", "<A-k>", "<Esc>:m .-2<CR>==gi", opts)
 map("v", "<A-j>", ":m '>+1<CR>gv=gv", opts)
 map("v", "<A-k>", ":m '<-2<CR>gv=gv", opts)
 
+map("n", "<C-h>", "<C-w>h", { desc = "Split izquierdo" })
+map("n", "<C-j>", "<C-w>j", { desc = "Split abajo" })
+map("n", "<C-k>", "<C-w>k", { desc = "Split arriba" })
+map("n", "<C-l>", "<C-w>l", { desc = "Split derecho" })
+
 map("n", "gl", vim.diagnostic.open_float, { desc = "Line diagnostics" })
 map("n", "[d", vim.diagnostic.goto_prev,   { desc = "Prev diagnostic" })
 map("n", "]d", vim.diagnostic.goto_next,   { desc = "Next diagnostic" })

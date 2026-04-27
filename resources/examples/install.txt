@@ -7,36 +7,38 @@ WINDOWS NEOVIM SETUP GUIDE
 Run these commands in PowerShell as Administrator.
 
 :: Package Manager (Winget is usually built-in on Windows 10/11)
-winget install --id Git.Git -e --source winget
-winget install --id Microsoft.WindowsTerminal -e --source winget
+winget install --id Git.Git 
+winget install --id Microsoft.WindowsTerminal 
 
 :: Neovim
-winget install --id Neovim.Neovim -e --source winget
+winget install --id Neovim.Neovim 
 
 :: LazyGit (Terminal UI for Git)
-winget install --id JesseDuffield.lazygit -e --source winget
+winget install --id JesseDuffield.lazygit 
 
 2. SEARCH & NAVIGATION (TELESCOPE/FZF DEPENDENCIES)
 ------------------------------------------------------------------------------
 :: Ripgrep (Fast searching)
-winget install --id BurntSushi.ripgrep.MSVC -e --source winget
+winget install --id BurntSushi.ripgrep.MSVC 
 
 :: Fd (Fast file finding)
-winget install --id sharkdp.fd -e --source winget
+winget install --id sharkdp.fd 
 
 :: FZF (Fuzzy finder binary)
-winget install --id junegunn.fzf -e --source winget
+winget install --id junegunn.fzf 
 
 :: The Silver Searcher (Optional alternative)
-winget install --id "The Silver Searcher" -e --source winget
+winget install --id "The Silver Searcher" 
+
+winget install -e --id mbuilov.sed
 
 3. RUNTIMES & COMPILERS
 ------------------------------------------------------------------------------
 :: Node.js Version Manager (Volta)
-winget install --id Volta.Volta -e --source winget
+winget install --id Volta.Volta 
 
 :: Python
-winget install --id Python.Python.3 -e --source winget
+winget install --id Python.Python.3 
 
 :: C Compiler (REQUIRED for Treesitter parsers)
 :: Option A: MSYS2 (Recommended for full compatibility)
@@ -44,7 +46,7 @@ winget install --id Python.Python.3 -e --source winget
 :: After install, open MSYS2 terminal and run: pacman -S mingw-w64-x86_64-gcc
 
 :: Option B: Zig (Lightweight alternative)
-winget install --id zig.zig -e --source winget
+winget install --id zig.zig 
 
 4. LANGUAGE DEPENDENCIES & FORMATTERS
 ------------------------------------------------------------------------------
@@ -57,6 +59,7 @@ pip install pynvim
 :: (Ensure you install a node version first via Volta, e.g., 'volta install node')
 npm install -g neovim
 npm install -g @fsouza/prettierd
+npm install -g vscode-langservers-extracted
 
 5. SYSTEM CONFIGURATION
 ------------------------------------------------------------------------------
@@ -64,7 +67,46 @@ npm install -g @fsouza/prettierd
 :: Run in CMD or PowerShell as Administrator:
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\FileSystem" /v LongPathsEnabled /t REG_DWORD /d 1 /f
 
-6. FONTS (REQUIRED FOR ICONS)
+7. JAVA DEVELOPMENT (SPRING BOOT / WEBFLUX)
+------------------------------------------------------------------------------
+Note: Mason will auto-install jdtls, java-debug-adapter, java-test, and
+google-java-format on first launch. You only need to install the JDK and
+build tools below manually.
+
+:: JDK 21 (Eclipse Temurin — recommended)
+winget install --id EclipseAdoptium.Temurin.21.JDK
+
+:: After install, set JAVA_HOME in PowerShell (as Administrator):
+[System.Environment]::SetEnvironmentVariable("JAVA_HOME", "C:\Program Files\Eclipse Adoptium\jdk-21.0.10.7-hotspot", "Machine")
+
+:: Or set it via the Windows GUI:
+:: Control Panel > System > Advanced > Environment Variables > System Variables > New
+:: Variable: JAVA_HOME
+:: Value:    C:\Program Files\Eclipse Adoptium\jdk-21.x.x.x-hotspot  (adjust version)
+
+:: Verify the install (restart terminal first):
+:: java -version   -> should show openjdk 21
+:: echo %JAVA_HOME%
+
+:: Build Tools (install at least one)
+winget install --id Apache.Maven
+winget install --id Gradle.Gradle
+
+:: Spring Boot CLI (optional — for 'spring init' scaffolding)
+winget install --id VMware.SpringBoot
+
+:: Lombok
+:: Lombok is bundled automatically by Mason inside the jdtls package.
+:: No manual installation required — the config picks it up from:
+:: %LOCALAPPDATA%\nvim-data\mason\packages\jdtls\lombok.jar
+
+:: Mason tools installed automatically (no manual action needed):
+::   jdtls              — Java language server
+::   java-debug-adapter — DAP support for debugging
+::   java-test          — Test runner integration
+::   google-java-format — Code formatter (used by conform.nvim)
+
+8. FONTS (REQUIRED FOR ICONS)
 ------------------------------------------------------------------------------
 You must manually install the Nerd Fonts included in this config.
 1. Navigate to: %LOCALAPPDATA%\nvim\resources\JetBrainsMono\

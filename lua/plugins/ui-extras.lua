@@ -1,4 +1,24 @@
 return {
+  -- Render markdown inline in the buffer (headings, tables, code blocks, etc.)
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    ft = { "markdown" },
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons",
+    },
+    keys = {
+      { "<leader>um", "<cmd>RenderMarkdown toggle<cr>", ft = "markdown", desc = "Toggle Markdown render" },
+    },
+    opts = {
+      heading  = { enabled = true },
+      code     = { enabled = true, style = "full" },
+      bullet   = { enabled = true },
+      checkbox = { enabled = true },
+      table    = { enabled = true },
+    },
+  },
+
   {
     "Bekaboo/dropbar.nvim",
     event = "VeryLazy",

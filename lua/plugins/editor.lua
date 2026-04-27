@@ -57,6 +57,9 @@ return {
       { "<C-f>",      function() require("fzf-lua").live_grep() end,        mode = "n", desc = "Buscar texto" },
       { "<leader>fb", function() require("fzf-lua").buffers() end,          mode = "n", desc = "Buffers" },
       { "<leader>fh", function() require("fzf-lua").help_tags() end,        mode = "n", desc = "Help" },
+      { "<leader>fg", function() require("fzf-lua").git_files() end,        mode = "n", desc = "Archivos git" },
+      { "<leader>fr", function() require("fzf-lua").resume() end,           mode = "n", desc = "Retomar búsqueda" },
+      { "<leader>ft", "<cmd>TodoFzfLua<cr>",                                mode = "n", desc = "TODOs del proyecto" },
     },
     opts = {
       files = {
@@ -144,8 +147,6 @@ return {
   },
 
   { "folke/todo-comments.nvim", event = "VeryLazy", dependencies = { "nvim-lua/plenary.nvim" }, opts = {} },
-
-  { "christoomey/vim-tmux-navigator", event = "VeryLazy" },
 
   {
     "kdheepak/lazygit.nvim",

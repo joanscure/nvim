@@ -83,72 +83,27 @@ return {
     },
   },
 
-  -- Search and replace across files
+  -- Search and replace across files (grug-far: funciona en Windows, sin dependencia de sed)
   {
-    "nvim-pack/nvim-spectre",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    cmd = "Spectre",
+    "MagicDuck/grug-far.nvim",
+    cmd = "GrugFar",
     keys = {
-      { "<leader>sr", function() require("spectre").toggle() end, desc = "Buscar y Reemplazar" },
-      { "<leader>sw", function() require("spectre").open_visual({ select_word = true }) end, desc = "Buscar palabra" },
-      { "<leader>sw", function() require("spectre").open_visual() end, mode = "v", desc = "Buscar selección" },
-      { "<leader>sp", function() require("spectre").open_file_search({ select_word = true }) end, desc = "Buscar en archivo" },
+      { "<leader>sr", function() require("grug-far").open() end,                                                          desc = "Buscar y Reemplazar (global)" },
+      { "<leader>sw", function() require("grug-far").open({ prefills = { search = vim.fn.expand("<cword>") } }) end,      desc = "Buscar palabra bajo cursor" },
+      { "<leader>sr", function() require("grug-far").open() end, mode = "v",                                              desc = "Buscar selección" },
+      { "<leader>sp", function() require("grug-far").open({ prefills = { paths = vim.fn.expand("%") } }) end,             desc = "Buscar en archivo actual" },
     },
     opts = {
-      open_cmd = "noswapfile vnew",
-      live_update = true,
-      is_insert_mode = false,
-      mapping = {
-        ["toggle_line"] = {
-          map = "dd",
-          cmd = "<cmd>lua require('spectre').toggle_line()<CR>",
-          desc = "toggle item",
-        },
-        ["enter_file"] = {
-          map = "<cr>",
-          cmd = "<cmd>lua require('spectre.actions').select_entry()<CR>",
-          desc = "open file",
-        },
-        ["send_to_qf"] = {
-          map = "<leader>q",
-          cmd = "<cmd>lua require('spectre.actions').send_to_qf()<CR>",
-          desc = "send to quickfix",
-        },
-        ["replace_cmd"] = {
-          map = "<leader>c",
-          cmd = "<cmd>lua require('spectre.actions').replace_cmd()<CR>",
-          desc = "input replace command",
-        },
-        ["show_option_menu"] = {
-          map = "<leader>o",
-          cmd = "<cmd>lua require('spectre').show_options()<CR>",
-          desc = "show options",
-        },
-        ["run_current_replace"] = {
-          map = "<leader>rc",
-          cmd = "<cmd>lua require('spectre.actions').run_current_replace()<CR>",
-          desc = "replace current line",
-        },
-        ["run_replace"] = {
-          map = "<leader>R",
-          cmd = "<cmd>lua require('spectre.actions').run_replace()<CR>",
-          desc = "replace all",
-        },
-        ["change_view_mode"] = {
-          map = "<leader>v",
-          cmd = "<cmd>lua require('spectre').change_view()<CR>",
-          desc = "change result view mode",
-        },
-        ["toggle_live_update"] = {
-          map = "tu",
-          cmd = "<cmd>lua require('spectre').toggle_live_update()<CR>",
-          desc = "toggle live update",
-        },
-        ["resume_last_search"] = {
-          map = "<leader>l",
-          cmd = "<cmd>lua require('spectre').resume_last_search()<CR>",
-          desc = "resume last search",
-        },
+      keymaps = {
+        replace          = { n = "<M-r>" },  -- Alt+R : reemplazar todos los resultados visibles
+        qflist           = { n = "<M-q>" },  -- Alt+Q : enviar resultados a quickfix
+        abort            = { n = "<M-a>" },  -- Alt+A : cancelar operación en curso
+        refresh          = { n = "<M-f>" },  -- Alt+F : refrescar resultados
+        openLocation     = { n = "<M-o>" },  -- Alt+O : abrir archivo en la ubicación
+        gotoLocation     = { n = "<CR>" },   -- Enter : ir al resultado bajo el cursor
+        openNextLocation = { n = "<C-j>" },  -- Ctrl+J: siguiente resultado (y abrirlo)
+        openPrevLocation = { n = "<C-k>" },  -- Ctrl+K: resultado anterior (y abrirlo)
+        help             = { n = "g?" },     -- g?    : mostrar todos los atajos
       },
     },
   },
