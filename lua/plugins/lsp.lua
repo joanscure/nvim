@@ -28,7 +28,7 @@ return {
     dependencies = { "saghen/blink.cmp" },
     config = function()
       vim.diagnostic.config({
-        virtual_text = false,
+        virtual_text = true,
         signs = {
           text = {
             [vim.diagnostic.severity.ERROR] = " ",
@@ -69,8 +69,6 @@ return {
             vim.lsp.buf.code_action()
           end
         end, "Code Action")
-        map("n", "[d", vim.diagnostic.goto_prev, "Prev diag")
-        map("n", "]d", vim.diagnostic.goto_next, "Next diag")
       end
 
       local servers = {
@@ -110,11 +108,14 @@ return {
       local use_new_api = vim.fn.has("nvim-0.11") == 1
 
       if use_new_api then
+        vim.lsp.config('*', {
+          capabilities = capabilities,
+          on_attach = on_attach,
+        })
         for name, config in pairs(servers) do
-          vim.lsp.config[name] = vim.tbl_deep_extend("force", config, {
-            capabilities = capabilities,
-            on_attach = on_attach,
-          })
+          if next(config) ~= nil then
+            vim.lsp.config(name, config)
+          end
           vim.lsp.enable(name)
         end
       else
@@ -137,7 +138,7 @@ return {
       {
         "<leader>fm",
         function()
-          require("conform").format({ async = true, lsp_fallback = true })
+          require("conform").format({ async = true, lsp_format = "fallback" })
         end,
         mode = { "n", "v" },
         desc = "Formatear (Conform)",
@@ -157,6 +158,7 @@ return {
         yaml = { "prettierd", "prettier", stop_after_first = true },
         markdown = { "prettierd", "prettier", stop_after_first = true },
         java = { "google-java-format" },
+        python = { "black" },
       },
       formatters = {
         ["google-java-format"] = {
@@ -170,7 +172,7 @@ return {
         local autoformat_fts = { "java", "lua" }
         local ft = vim.bo[bufnr].filetype
         if vim.tbl_contains(autoformat_fts, ft) then
-          return { timeout_ms = 3000, lsp_fallback = true }
+          return { timeout_ms = 3000, lsp_format = "fallback" }
         end
         return false
       end,
@@ -179,7 +181,7 @@ return {
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     cmd = { "MasonToolsInstall", "MasonToolsUpdate" },
-    opts = { ensure_installed = { "prettierd", "prettier", "stylua", "eslint_d", "black", "prisma-language-server", "google-java-format", "java-debug-adapter", "java-test" } },
+    opts = { ensure_installed = { "prettierd", "prettier", "stylua", "black", "prisma-language-server", "google-java-format", "java-debug-adapter", "java-test" } },
   },
 
   { "j-hui/fidget.nvim", event = "LspAttach", opts = {} },

@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(head *)",
+      "PowerShell(ls \"$env:LOCALAPPDATA\\\\nvim-data\\\\mason\\\\bin\" | Select-Object Name -First 30)",
+      "PowerShell(Get-ChildItem *)",
+      "PowerShell(Test-Path *)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\Joan\\\\AppData\\\\Local\\\\nvim-data\\\\lazy\\\\mason-lspconfig.nvim\" -Recurse -Force)",
+      "Bash(Select-Object -First 50)",
+      "Bash(Format-Table FullName)",
+      "Bash(git checkout *)",
+      "PowerShell(Get-Command *)",
+      "PowerShell(npm list *)",
+      "Bash(nvim --version)",
+      "Bash(xargs grep *)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\Joan\\\\AppData\\\\Local\\\\nvim\" -Recurse -Force)",
+      "Bash(Select-Object -Property FullName, PSIsContainer)",
+      "Bash(Sort-Object FullName)",
+      "Bash(Format-Table -AutoSize)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\Joan\\\\AppData\\\\Local\\\\nvim\" -Recurse -Force | Sort-Object FullName | Select-Object FullName, @{Name=\"IsDir\"; Expression={$_.PSIsContainer}})",
+      "Bash(python3 *)",
+      "Bash(node *)"
+    ]
+  }
+}

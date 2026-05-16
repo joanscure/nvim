@@ -31,7 +31,16 @@ map("n", "<leader>dd", function() require("fzf-lua").diagnostics_document() end,
 map("n", "<leader>dD", function() require("fzf-lua").diagnostics_workspace() end, { desc = "Diagnostics (workspace)" })
 
 map("n", "gvd", function()
+  if #vim.lsp.get_clients({ bufnr = 0 }) == 0 then return end
   vim.cmd("vsplit")
   vim.lsp.buf.definition()
 end, { desc = "Go to definition (vsplit)" })
+
+-- Terminal mode
+map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Salir de terminal mode" })
+map("t", "<C-h>", "<C-\\><C-n><C-w>h", { desc = "Terminal: moverse izquierda" })
+map("t", "<C-j>", "<C-\\><C-n><C-w>j", { desc = "Terminal: moverse abajo" })
+map("t", "<C-k>", "<C-\\><C-n><C-w>k", { desc = "Terminal: moverse arriba" })
+map("t", "<C-l>", "<C-\\><C-n><C-w>l", { desc = "Terminal: moverse derecha" })
+map("t", "<C-v>", '<C-\\><C-n>"+pi', { desc = "Pegar desde clipboard en terminal" })
 
