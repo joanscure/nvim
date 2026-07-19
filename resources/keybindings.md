@@ -44,10 +44,6 @@
 | `[d` / `]d` | n | Diagnóstico anterior/siguiente |
 | `<leader>dd` | n | Diagnósticos del buffer (fzf) |
 | `<leader>dD` | n | Diagnósticos del workspace (fzf) |
-| `<leader>xx` | n | Lista de diagnósticos (Trouble) |
-| `<leader>xX` | n | Diagnósticos buffer (Trouble) |
-| `<leader>xL` | n | Location list (Trouble) |
-| `<leader>xQ` | n | Quickfix list (Trouble) |
 
 ---
 
@@ -90,16 +86,20 @@
 
 ---
 
-## Navegación entre splits
+## Navegación entre splits — vim-tmux-navigator
 
 | Atajo | Acción |
 |-------|--------|
-| `<C-h>` | Moverse al split izquierdo |
-| `<C-j>` | Moverse al split de abajo |
-| `<C-k>` | Moverse al split de arriba |
-| `<C-l>` | Moverse al split derecho |
+| `<C-h>` | Moverse al split/pane izquierdo |
+| `<C-j>` | Moverse al split/pane de abajo |
+| `<C-k>` | Moverse al split/pane de arriba |
+| `<C-l>` | Moverse al split/pane derecho |
 
-> Funciona también para entrar/salir de NeoTree y el terminal.
+> Mapeos por defecto del propio plugin (modo normal), sin config nuestra
+> encima. Si estás dentro de una sesión real de tmux, cruza también a los
+> panes de tmux sin cambiar de tecla. No toca terminal mode, así que dentro
+> de un `:terminal` (ToggleTerm, fzf-lua, etc.) estas teclas no se
+> interceptan — llegan directo al proceso.
 
 ---
 
@@ -108,18 +108,6 @@
 | Atajo | Acción |
 |-------|--------|
 | `<leader>e` | Abrir/cerrar explorador |
-
----
-
-## Navegación rápida — Flash
-
-| Atajo | Modo | Acción |
-|-------|------|--------|
-| `s` | n/x/o | Saltar a etiqueta (Flash Jump) |
-| `S` | n/o/x | Saltar por nodo Treesitter |
-| `r` | o | Flash remoto (operator-pending) |
-| `R` | o/x | Búsqueda por Treesitter |
-| `<C-s>` | c | Activar Flash en búsqueda `/` |
 
 ---
 
@@ -143,17 +131,6 @@
 | Atajo | Acción |
 |-------|--------|
 | `<leader>gg` | Abrir LazyGit |
-| `:G` / `:Git` | Fugitive status |
-| `:Gvdiff` | Diff en split vertical |
-
----
-
-## Símbolos y código — Trouble
-
-| Atajo | Acción |
-|-------|--------|
-| `<leader>cs` | Árbol de símbolos |
-| `<leader>cl` | Referencias/definiciones LSP |
 
 ---
 
@@ -216,5 +193,5 @@
 |-----------|---------|
 | `[d` / `]d` | Definidos en `keymaps.lua` (global) y en `lsp.lua` `on_attach` (buffer-local). El buffer-local tiene prioridad cuando hay LSP activo — sin efecto práctico. |
 | `<C-p>` | fzf-lua (normal) y blink.cmp (insert) — modos distintos, sin conflicto. |
-| `<C-s>` | Guardar (normal) y Flash toggle (command) — modos distintos, sin conflicto. |
+| `<C-s>` | Guardar (normal). |
 | `<Tab>` | Bufferline (normal) y blink.cmp (insert) — modos distintos, sin conflicto. |

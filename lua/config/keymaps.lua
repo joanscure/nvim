@@ -1,6 +1,9 @@
 local map, opts = vim.keymap.set, { noremap = true, silent = true }
 
-map("n", "<Esc>", ":noh<CR>", opts)
+map("n", "<Esc>", function()
+  vim.cmd("noh")
+  require("noice").cmd("dismiss")
+end, opts)
 map("n", "<C-s>", ":wall<CR>", opts)
 
 map("n", "<Tab>", ":BufferLineCycleNext<CR>", { silent = true, desc = "Buffer siguiente" })
@@ -18,12 +21,17 @@ map("i", "<A-k>", "<Esc>:m .-2<CR>==gi", opts)
 map("v", "<A-j>", ":m '>+1<CR>gv=gv", opts)
 map("v", "<A-k>", ":m '<-2<CR>gv=gv", opts)
 
-map("n", "<C-h>", "<C-w>h", { desc = "Split izquierdo" })
-map("n", "<C-j>", "<C-w>j", { desc = "Split abajo" })
-map("n", "<C-k>", "<C-w>k", { desc = "Split arriba" })
-map("n", "<C-l>", "<C-w>l", { desc = "Split derecho" })
+-- Navegación entre splits/panes: ver christoomey/vim-tmux-navigator en editor.lua
 
-map("n", "gl", vim.diagnostic.open_float, { desc = "Line diagnostics" })
+map("n", "gl", function()
+  local diags = vim.diagnostic.get(0, { lnum = vim.api.nvim_win_get_cursor(0)[1] - 1 })
+  if #diags > 0 then
+    local text = table.concat(vim.tbl_map(function(d) return d.message end, diags), "\n")
+    vim.fn.setreg("+", text)
+    vim.notify("Diagnóstico copiado al portapapeles", vim.log.levels.INFO)
+  end
+  vim.diagnostic.open_float(nil, { source = true })
+end, { desc = "Ver diagnóstico (copia al portapapeles)" })
 map("n", "[d", vim.diagnostic.goto_prev,   { desc = "Prev diagnostic" })
 map("n", "]d", vim.diagnostic.goto_next,   { desc = "Next diagnostic" })
 
@@ -38,9 +46,11 @@ end, { desc = "Go to definition (vsplit)" })
 
 -- Terminal mode
 map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Salir de terminal mode" })
-map("t", "<C-h>", "<C-\\><C-n><C-w>h", { desc = "Terminal: moverse izquierda" })
-map("t", "<C-j>", "<C-\\><C-n><C-w>j", { desc = "Terminal: moverse abajo" })
-map("t", "<C-k>", "<C-\\><C-n><C-w>k", { desc = "Terminal: moverse arriba" })
-map("t", "<C-l>", "<C-\\><C-n><C-w>l", { desc = "Terminal: moverse derecha" })
-map("t", "<C-v>", '<C-\\><C-n>"+pi', { desc = "Pegar desde clipboard en terminal" })
+
+local function safe_terminal_paste()
+  local text = (vim.fn.getreg("+") or ""):gsub("[\r\n]+", " ")
+  vim.api.nvim_paste(text, false, -1)
+end
+map("t", "<C-v>", safe_terminal_paste, { desc = "Pegar (saneado) en terminal" })
+map("t", "<C-S-v>", safe_terminal_paste, { desc = "Pegar (saneado) en terminal" })
 

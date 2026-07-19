@@ -112,3 +112,30 @@ You must manually install the Nerd Fonts included in this config.
 1. Navigate to: %LOCALAPPDATA%\nvim\resources\JetBrainsMono\
 2. Select all .ttf files.
 3. Right-click and choose "Install".
+
+9. MASON BOOTSTRAP (RUN ONCE, AFTER EVERYTHING ABOVE)
+------------------------------------------------------------------------------
+Mason auto-installs LSP servers/tools on first launch, but this depends on
+node/npm already being on PATH at that exact moment. If that first attempt
+fails silently (e.g. Neovim was opened before Volta's shims were on PATH),
+servers like vtsls or angularls are left uninstalled with no warning, and
+things like TypeScript/Angular support or "gd" (go to definition) just won't
+work until you notice and fix it manually.
+
+Run this once, in a fresh terminal, after completing steps 1-8:
+
+  Windows (PowerShell):
+    powershell -ExecutionPolicy Bypass -File .\bootstrap.ps1
+
+  Linux:
+    chmod +x bootstrap.sh && ./bootstrap.sh
+
+Both scripts live in this same resources/examples/ folder and force-install
+vtsls, angularls, html, cssls, jsonls, jdtls, yamlls, eslint, marksman,
+prismals, pyright plus the mason-tool-installer formatters/DAP tools via
+`nvim --headless`. Verify afterwards with `:Mason` inside Neovim.
+
+Note for Angular projects: angularls itself is installed by Mason, but full
+functionality (go-to-definition inside templates, etc.) also requires the
+project to have "@angular/language-service" as a devDependency:
+  npm install --save-dev @angular/language-service

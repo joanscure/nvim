@@ -81,9 +81,9 @@ Fast, modern Neovim config focused on **performance** and **developer ergonomics
 | -------------- | ------------------------------------------------------------------------------------------------------------ |
 | Plugin manager | `folke/lazy.nvim`                                                                                            |
 | UI             | `catppuccin/nvim`, `folke/noice.nvim`, `rcarriga/nvim-notify`, `stevearc/dressing.nvim`, `Bekaboo/dropbar.nvim` |
-| Navigation     | `ibhagwan/fzf-lua`, `nvim-neo-tree/neo-tree.nvim`, `folke/flash.nvim`, `christoomey/vim-tmux-navigator`      |
-| Git            | `lewis6991/gitsigns.nvim`, `tpope/vim-fugitive`                                                              |
-| LSP            | `neovim/nvim-lspconfig`, `williamboman/mason.nvim`, `williamboman/mason-lspconfig.nvim`, `folke/neodev.nvim`, `folke/trouble.nvim` |
+| Navigation     | `ibhagwan/fzf-lua`, `nvim-neo-tree/neo-tree.nvim`, `christoomey/vim-tmux-navigator`      |
+| Git            | `lewis6991/gitsigns.nvim`, `kdheepak/lazygit.nvim`                                                           |
+| LSP            | `neovim/nvim-lspconfig`, `williamboman/mason.nvim`, `williamboman/mason-lspconfig.nvim`, `folke/neodev.nvim` |
 | Completion     | `saghen/blink.cmp` + `rafamadriz/friendly-snippets`                                                          |
 | Formatting     | `stevearc/conform.nvim`, `WhoIsSethDaniel/mason-tool-installer.nvim`                                         |
 | Treesitter     | `nvim-treesitter/nvim-treesitter`, `nvim-treesitter/nvim-treesitter-textobjects`, `windwp/nvim-ts-autotag`   |
@@ -127,7 +127,6 @@ Fast, modern Neovim config focused on **performance** and **developer ergonomics
 * Live grep: **`<C-f>`** (`fzf-lua`)
 * Buffers: **`<leader>fb`**
 * Help tags: **`<leader>fh`**
-* Flash Jump: **`s`** (navigation) / **`S`** (treesitter)
 
 ### Editing
 
@@ -143,12 +142,10 @@ Fast, modern Neovim config focused on **performance** and **developer ergonomics
 * Hover **`K`**, Rename **`<leader>rn`**, Code Action **`<leader>ca`**
 * Diagnostics prev/next **`[d`** / **`]d`**
 * Format (Conform) **`Alt-f`**
-* Trouble (Diagnostics): **`<leader>xx`**
-* Trouble (Symbols): **`<leader>cs`**
 
 ### Git
 
-* Fugitive: `:G`, `:Git` (status/commits)
+* LazyGit: **`<leader>gg`** (status/commits/staging/conflicts)
 * Preview Hunk: **`<leader>hp`**
 * Reset Hunk: **`<leader>hr`**
 

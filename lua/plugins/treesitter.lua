@@ -10,7 +10,6 @@ return {
     "nvim-treesitter/nvim-treesitter",
     cond = has_c_compiler,
     event = { "BufReadPost", "BufNewFile" },
-    dependencies = { { "nvim-treesitter/nvim-treesitter-textobjects", cond = has_c_compiler } },
     opts = {
       auto_install = true,
       highlight = {

@@ -20,7 +20,7 @@ return {
   {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "mason.nvim" },
-    opts = { ensure_installed = { "lua_ls", "vtsls", "html", "cssls", "jsonls", "marksman", "prismals", "pyright", "eslint", "jdtls", "yamlls" } },
+    opts = { ensure_installed = { "lua_ls", "vtsls", "angularls", "html", "cssls", "jsonls", "marksman", "prismals", "pyright", "eslint", "jdtls", "yamlls" } },
   },
   {
     "neovim/nvim-lspconfig",
@@ -28,7 +28,7 @@ return {
     dependencies = { "saghen/blink.cmp" },
     config = function()
       vim.diagnostic.config({
-        virtual_text = true,
+        virtual_text = false,
         signs = {
           text = {
             [vim.diagnostic.severity.ERROR] = " ",
@@ -81,6 +81,7 @@ return {
           },
         },
         vtsls = {},
+        angularls = {},
         html = {},
         cssls = {},
         jsonls = {},
