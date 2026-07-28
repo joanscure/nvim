@@ -13,11 +13,16 @@ return {
   { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
   {
     "williamboman/mason.nvim",
-    -- No lazy-load por `cmd`: necesita correr su setup() (que agrega
-    -- mason/bin al PATH) antes de que nvim-lspconfig intente spawnear
-    -- servidores en BufReadPre. Si se carga solo por comando, hay una
-    -- carrera y el LSP falla con "is not executable" o "failed to spawn"
+    -- Sin `event`, con `defaults.lazy = true` (lazy.lua) este plugin no
+    -- tiene ningun disparador propio y nunca se carga solo por tener
+    -- `cmd`: hay que darle un evento real para que su setup() (que agrega
+    -- mason/bin al PATH) corra antes de que nvim-lspconfig intente
+    -- spawnear servidores en BufReadPre. Verificado con
+    -- `nvim --headless` + `lazy.core.config`: sin esto, mason.nvim queda
+    -- `loaded=false` para siempre y el LSP falla con "failed to spawn"
     -- aunque el binario ya este instalado.
+    event = { "BufReadPre", "BufNewFile" },
+    cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonUpdate", "MasonLog" },
     build = ":MasonUpdate",
     opts = {
       PATH = "append",
@@ -30,6 +35,7 @@ return {
   },
   {
     "williamboman/mason-lspconfig.nvim",
+    event = { "BufReadPre", "BufNewFile" },
     dependencies = { "mason.nvim" },
     opts = {
       ensure_installed = {
@@ -193,9 +199,12 @@ return {
       },
       formatters = {
         ["google-java-format"] = {
-          -- resuelto via PATH (no hardcodeado) para no depender de donde
-          -- este instalado mason en cada plataforma/maquina.
-          command = vim.fn.exepath("google-java-format"),
+          -- Ruta fija (no via PATH): el `opts` de conform se evalua una
+          -- sola vez al cargar el plugin, y en ese momento no hay garantia
+          -- de que mason.nvim ya haya corrido su setup() y agregado su
+          -- bin al PATH (ambos comparten el mismo `event`). Se resuelve
+          -- contra `install_root_dir` para no romperse si cambia.
+          command = (vim.fn.has("win32") == 1 and "C:\\mason" or vim.fn.stdpath("data") .. "/mason") .. "/bin/google-java-format.cmd",
           args = { "-" },
           stdin = true,
         },
@@ -213,6 +222,8 @@ return {
   },
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = { "mason.nvim" },
     cmd = { "MasonToolsInstall", "MasonToolsInstallSync", "MasonToolsUpdate", "MasonToolsUpdateSync" },
     opts = { ensure_installed = { "prettierd", "prettier", "stylua", "black", "prisma-language-server", "google-java-format", "java-debug-adapter", "java-test" } },
   },

@@ -56,7 +56,19 @@
       "Bash(powershell -NoProfile -Command \"tree-sitter --version\" 2>&1)",
       "PowerShell(Select-String *)",
       "Bash(nvim *)",
-      "Bash(\"/c/Users/Joan Leyton/AppData/Local/Microsoft/WindowsApps/tree-sitter.exe\" --version)"
+      "Bash(\"/c/Users/Joan Leyton/AppData/Local/Microsoft/WindowsApps/tree-sitter.exe\" --version)",
+      "Bash(nvim --headless -c 'lua print\\(vim.env.PATH\\)' -c 'qa')",
+      "Bash(nvim --headless -c 'qa')",
+      "Bash(git status *)",
+      "Bash(git stash *)",
+      "Bash(git fetch *)",
+      "Bash(awk *)",
+      "Bash(rm -rf /tmp/nvim-other-machine-check)",
+      "Bash(git worktree *)",
+      "Read(//tmp/**)",
+      "Bash(git pull *)",
+      "PowerShell(winget install *)",
+      "Bash(git add *)"
     ]
   }
 }

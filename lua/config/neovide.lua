@@ -2,11 +2,11 @@ if not vim.g.neovide then return end
 
 -- "FontName:hSIZE" — spaces in name must match the Windows-registered family name.
 -- Other flags: :b (bold), :i (italic), :w500 (weight). Multiple fonts separated by comma.
--- vim.o.guifont = "GeistMono Nerd Font:h13"
- vim.o.guifont = "JetBrainsMono Nerd Font:h13"
+ vim.o.guifont = "GeistMono Nerd Font:h13"
+-- vim.o.guifont = "JetBrainsMono Nerd Font:h13"
 
 -- Window opacity. Range: 0.0 (invisible) → 1.0 (fully opaque)
-vim.g.neovide_opacity = 0.92
+vim.g.neovide_opacity = 1
 
 -- Inner padding in pixels (breathing room between window border and editor content)
 vim.g.neovide_padding_top = 8

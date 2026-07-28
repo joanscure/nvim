@@ -79,6 +79,18 @@ arranca y no hay resaltado de sintaxis para ningún lenguaje.
 winget install --id zig.zig
 ```
 
+**Opción C — WinLibs (mas simple que MSYS2, un solo winget install):**
+
+Un GCC de MinGW-w64 standalone, sin necesidad de abrir una terminal MSYS2
+aparte ni correr `pacman`. El propio instalador de winget agrega su
+`mingw64\bin` al PATH del usuario.
+
+```powershell
+winget install --id BrechtSanders.WinLibs.POSIX.UCRT
+```
+
+Abre una terminal nueva y confirma con `gcc --version`.
+
 ### tree-sitter-cli (REQUERIDO por nvim-treesitter, branch `main`)
 
 Desde que `nvim-treesitter` pasó a la branch `main` (la vieja `master` quedó
@@ -282,6 +294,56 @@ espacios por convención y Mason/Treesitter usan sus ubicaciones por
 defecto (`~/.local/share/nvim/...`) sin problema.
 
 ## 10. Troubleshooting
+
+### LSP falla con "failed to spawn" / formatters con "unavailable", aunque el binario ya esté instalado en `mason/bin`
+
+**Síntoma** — `nvim-lspconfig` tira `Spawning language server with cmd:
+'vscode-json-language-server' ... failed. The language server is either not
+installed, missing from PATH, or not executable.` (o lo mismo con
+`vscode-eslint-language-server`), y/o `conform.nvim` avisa "Formatters
+unavailable for javascript file" — a pesar de que `mason/bin/*.cmd` sí
+existe en disco.
+
+**Causa raíz** — `lua/config/lazy.lua` define `defaults = { lazy = true }`.
+`mason.nvim`, `mason-lspconfig.nvim` y `mason-tool-installer.nvim` no tenían
+ningún disparador propio (`event`/`ft`/`keys`, o solo `cmd`, que no cuenta
+como uno automático). Con `lazy = true` por defecto, un plugin sin
+disparador **nunca se carga solo** — no hay ningún mecanismo que lo fuerce a
+correr `require(...).setup()` al iniciar Neovim. `mason.nvim` es el que
+antepone `mason/bin` al `$PATH`; si nunca corre su `setup()`, ese `$PATH`
+nunca se actualiza y `nvim-lspconfig`/`conform.nvim` intentan spawnear
+binarios usando solo el `PATH` del sistema, donde no están.
+
+Se puede verificar en cualquier máquina con:
+
+```bash
+nvim --headless -c 'lua vim.defer_fn(function()
+  local lazy = require("lazy.core.config")
+  for name, p in pairs(lazy.plugins) do
+    if name:match("mason") then print(name, p._.loaded ~= nil) end
+  end
+  print("PATH has mason:", vim.env.PATH:find("mason") ~= nil)
+  vim.cmd("qa")
+end, 2000)'
+```
+
+Si imprime `loaded=false` para los tres plugins de mason y `PATH has
+mason: false`, es este bug (probado así en dos máquinas distintas).
+
+**Fix aplicado** — se le agregó `event = { "BufReadPre", "BufNewFile" }`
+(el mismo evento de `nvim-lspconfig`) a `mason.nvim`, `mason-lspconfig.nvim`
+y `mason-tool-installer.nvim` en `lua/plugins/lsp.lua`, más
+`dependencies = { "mason.nvim" }` en `mason-tool-installer.nvim`. Así los
+tres cargan al abrir cualquier archivo, antes de que se necesite lanzar un
+LSP o un formatter. Reconfirmado con el mismo comando de arriba: los tres
+quedan `loaded=true` y `PATH has mason: true`.
+
+> Nota: por la misma razón, el `command` de `google-java-format` en
+> `conform.nvim` usa una ruta fija (`.../mason/bin/google-java-format.cmd`)
+> en vez de resolverse vía `vim.fn.exepath(...)` — ese `opts` se evalúa una
+> sola vez al cargar `conform.nvim`, sin garantía de orden respecto a
+> `mason.nvim` (comparten el mismo `event`), así que depender del `PATH` ahí
+> es más frágil que la ruta fija.
 
 ### Crash al abrir cualquier `.md`: `attempt to call method 'range' (a nil value)`
 
