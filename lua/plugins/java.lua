@@ -145,8 +145,8 @@ return {
             local fzf_ok, fzf = pcall(require, "fzf-lua")
             if fzf_ok then fzf.lsp_code_actions() else vim.lsp.buf.code_action() end
           end, "Code Action")
-          map("n", "[d", vim.diagnostic.goto_prev, "Prev diag")
-          map("n", "]d", vim.diagnostic.goto_next, "Next diag")
+          map("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, "Prev diag")
+          map("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, "Next diag")
 
           map("n", "<leader>jo", jdtls.organize_imports, "Organizar imports")
           map("n", "<leader>jv", jdtls.extract_variable, "Extraer variable")

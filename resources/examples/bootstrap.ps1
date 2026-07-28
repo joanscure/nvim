@@ -27,11 +27,13 @@ if (-not $nvimCmd) {
   exit 1
 }
 
-Write-Host "Instalando LSP servers y herramientas via Mason (headless)..."
-nvim --headless `
-  "+MasonInstall vtsls angularls html cssls jsonls jdtls yamlls eslint marksman prismals pyright" `
-  "+MasonToolsInstall" `
-  "+qa"
+$luaScript = Join-Path $PSScriptRoot "bootstrap.lua"
+
+Write-Host "Instalando LSP servers via Mason (headless, espera a que terminen)..."
+nvim --headless -c "luafile $luaScript"
+
+Write-Host "Instalando herramientas de mason-tool-installer (sync)..."
+nvim --headless "+MasonToolsInstallSync" "+qa"
 
 Write-Host "Listo. Verifica con ':Mason' dentro de Neovim que todo quedo instalado."
 Write-Host ""

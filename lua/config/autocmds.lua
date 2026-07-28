@@ -9,5 +9,5 @@ au("FileType", {
 })
 
 au("TextYankPost", { group = aug("yank", {}), callback = function()
-  vim.highlight.on_yank({ timeout = 120 })
+  vim.hl.on_yank({ timeout = 120 })
 end })

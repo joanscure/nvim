@@ -32,8 +32,8 @@ map("n", "gl", function()
   end
   vim.diagnostic.open_float(nil, { source = true })
 end, { desc = "Ver diagnóstico (copia al portapapeles)" })
-map("n", "[d", vim.diagnostic.goto_prev,   { desc = "Prev diagnostic" })
-map("n", "]d", vim.diagnostic.goto_next,   { desc = "Next diagnostic" })
+map("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, { desc = "Prev diagnostic" })
+map("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, { desc = "Next diagnostic" })
 
 map("n", "<leader>dd", function() require("fzf-lua").diagnostics_document() end, { desc = "Diagnostics (buffer)" })
 map("n", "<leader>dD", function() require("fzf-lua").diagnostics_workspace() end, { desc = "Diagnostics (workspace)" })
@@ -45,7 +45,7 @@ map("n", "gvd", function()
 end, { desc = "Go to definition (vsplit)" })
 
 -- Terminal mode
-map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Salir de terminal mode" })
+map("t", "<C-q>", "<C-\\><C-n>", { desc = "Salir de terminal mode" })
 
 local function safe_terminal_paste()
   local text = (vim.fn.getreg("+") or ""):gsub("[\r\n]+", " ")

@@ -13,14 +13,31 @@ return {
   { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
   {
     "williamboman/mason.nvim",
-    cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonUpdate", "MasonLog" },
+    -- No lazy-load por `cmd`: necesita correr su setup() (que agrega
+    -- mason/bin al PATH) antes de que nvim-lspconfig intente spawnear
+    -- servidores en BufReadPre. Si se carga solo por comando, hay una
+    -- carrera y el LSP falla con "is not executable" o "failed to spawn"
+    -- aunque el binario ya este instalado.
     build = ":MasonUpdate",
-    opts = { PATH = "append" },
+    opts = {
+      PATH = "append",
+      -- En Windows, "C:\Users\<nombre con espacio>" rompe el quoting de
+      -- cmd.exe al invocar los .cmd que instala Mason para servidores
+      -- Node (angularls, eslint, etc.), sin importar el usuario. Se
+      -- instala en una ruta fija sin espacios para evitarlo de raiz.
+      install_root_dir = vim.fn.has("win32") == 1 and "C:\\mason" or nil,
+    },
   },
   {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "mason.nvim" },
-    opts = { ensure_installed = { "lua_ls", "vtsls", "angularls", "html", "cssls", "jsonls", "marksman", "prismals", "pyright", "eslint", "jdtls", "yamlls" } },
+    opts = {
+      ensure_installed = {
+        "lua_ls", "vtsls", "angularls", "html", "cssls", "jsonls", "marksman",
+        "prismals", "pyright", "eslint", "jdtls", "yamlls", "intelephense",
+        "dockerls", "docker_compose_language_service",
+      },
+    },
   },
   {
     "neovim/nvim-lspconfig",
@@ -47,6 +64,16 @@ return {
           source = "always",
           header = "",
           prefix = "",
+        },
+      })
+
+      -- docker_compose_language_service solo arranca en filetype
+      -- "yaml.docker-compose"; Neovim detecta estos archivos como "yaml"
+      -- a secas por defecto.
+      vim.filetype.add({
+        pattern = {
+          [".*docker%-compose.*%.ya?ml"] = "yaml.docker-compose",
+          [".*compose%.ya?ml"] = "yaml.docker-compose",
         },
       })
 
@@ -89,6 +116,9 @@ return {
         prismals = {},
         pyright = {},
         eslint = {},
+        intelephense = {},
+        dockerls = {},
+        docker_compose_language_service = {},
         yamlls = {
           settings = {
             yaml = {
@@ -163,7 +193,9 @@ return {
       },
       formatters = {
         ["google-java-format"] = {
-          command = vim.fn.stdpath("data") .. "/mason/bin/google-java-format.cmd",
+          -- resuelto via PATH (no hardcodeado) para no depender de donde
+          -- este instalado mason en cada plataforma/maquina.
+          command = vim.fn.exepath("google-java-format"),
           args = { "-" },
           stdin = true,
         },
@@ -181,7 +213,7 @@ return {
   },
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
-    cmd = { "MasonToolsInstall", "MasonToolsUpdate" },
+    cmd = { "MasonToolsInstall", "MasonToolsInstallSync", "MasonToolsUpdate", "MasonToolsUpdateSync" },
     opts = { ensure_installed = { "prettierd", "prettier", "stylua", "black", "prisma-language-server", "google-java-format", "java-debug-adapter", "java-test" } },
   },
 

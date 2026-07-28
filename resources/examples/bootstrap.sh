@@ -25,11 +25,13 @@ if ! command -v nvim >/dev/null 2>&1; then
   exit 1
 fi
 
-echo "Instalando LSP servers y herramientas via Mason (headless)..."
-nvim --headless \
-  "+MasonInstall vtsls angularls html cssls jsonls jdtls yamlls eslint marksman prismals pyright" \
-  "+MasonToolsInstall" \
-  "+qa"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+echo "Instalando LSP servers via Mason (headless, espera a que terminen)..."
+nvim --headless -c "luafile $SCRIPT_DIR/bootstrap.lua"
+
+echo "Instalando herramientas de mason-tool-installer (sync)..."
+nvim --headless "+MasonToolsInstallSync" "+qa"
 
 echo "Listo. Verifica con ':Mason' dentro de Neovim que todo quedo instalado."
 echo

@@ -1,0 +1,1810 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<!--
+  Referencia de atajos de teclado — config de Neovim (lazy.nvim, sin distro).
+  Generado y mantenido por fases. Ver resources/PLUGINS.md para el inventario completo de plugins.
+
+  CÓMO AGREGAR UNA FASE NUEVA (sesiones futuras):
+    1. Copiar el patrón de <section> de abajo (una por plugin/grupo).
+    2. Cada <tr> lleva data-status="custom" | "default" | "disabled".
+    3. No hace falta tocar el TOC ni el buscador: se generan solos desde
+       main > section[data-plugin] al cargar la página.
+    4. Actualizar la checklist de cobertura en el <footer>.
+    5. Todo dato "default"/"disabled" debe venir de la doc oficial del plugin
+       (README / :help / fuente pineada en lazy-lock.json) — nunca inventado.
+       Todo dato "custom" sale del código real de este repo.
+-->
+<meta charset="UTF-8" />
+<title>Atajos — Neovim config</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root {
+    --bg: #f7f7f9;
+    --bg-elevated: #ffffff;
+    --bg-sidebar: #eef0f4;
+    --text: #1c1e26;
+    --text-dim: #5b5f6e;
+    --border: #dcdfe6;
+    --accent: #3b5bdb;
+    --accent-bg: #e8ecfb;
+    --kbd-bg: #ffffff;
+    --kbd-border: #c7cbd6;
+    --kbd-shadow: #b9bec9;
+    --status-custom-fg: #1f6f43;
+    --status-custom-bg: #e2f5ea;
+    --status-default-fg: #55596b;
+    --status-default-bg: #e7e8ee;
+    --status-disabled-fg: #a33636;
+    --status-disabled-bg: #fbe6e6;
+    --code-bg: #eef0f4;
+    --mark-bg: #ffe28a;
+    --shadow: 0 1px 3px rgba(20, 22, 30, 0.08);
+  }
+  :root[data-theme="dark"] {
+    --bg: #16171d;
+    --bg-elevated: #1d1f27;
+    --bg-sidebar: #191a21;
+    --text: #e5e6ee;
+    --text-dim: #9498a8;
+    --border: #2c2e3a;
+    --accent: #7c93ff;
+    --accent-bg: #232a4d;
+    --kbd-bg: #262835;
+    --kbd-border: #3a3d4d;
+    --kbd-shadow: #0c0d12;
+    --status-custom-fg: #6fd99a;
+    --status-custom-bg: #163627;
+    --status-default-fg: #aeb2c2;
+    --status-default-bg: #262835;
+    --status-disabled-fg: #e88888;
+    --status-disabled-bg: #3a2020;
+    --code-bg: #232530;
+    --mark-bg: #6b5a1e;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #16171d;
+      --bg-elevated: #1d1f27;
+      --bg-sidebar: #191a21;
+      --text: #e5e6ee;
+      --text-dim: #9498a8;
+      --border: #2c2e3a;
+      --accent: #7c93ff;
+      --accent-bg: #232a4d;
+      --kbd-bg: #262835;
+      --kbd-border: #3a3d4d;
+      --kbd-shadow: #0c0d12;
+      --status-custom-fg: #6fd99a;
+      --status-custom-bg: #163627;
+      --status-default-fg: #aeb2c2;
+      --status-default-bg: #262835;
+      --status-disabled-fg: #e88888;
+      --status-disabled-bg: #3a2020;
+      --code-bg: #232530;
+      --mark-bg: #6b5a1e;
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  code, kbd, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+
+  a { color: var(--accent); }
+
+  header.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: var(--bg-elevated);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+  header.topbar h1 {
+    font-size: 1.05rem;
+    margin: 0;
+    white-space: nowrap;
+  }
+  header.topbar .sub {
+    color: var(--text-dim);
+    font-size: 0.8rem;
+  }
+  #search {
+    flex: 1 1 220px;
+    min-width: 140px;
+    max-width: 420px;
+    padding: 0.45rem 0.7rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 0.9rem;
+  }
+  #search:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+  button.btn {
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--text);
+    padding: 0.4rem 0.7rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 0.82rem;
+    white-space: nowrap;
+  }
+  button.btn:hover { border-color: var(--accent); }
+
+  .legend {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+  }
+  .badge[data-badge="custom"] { color: var(--status-custom-fg); background: var(--status-custom-bg); }
+  .badge[data-badge="default"] { color: var(--status-default-fg); background: var(--status-default-bg); }
+  .badge[data-badge="disabled"] { color: var(--status-disabled-fg); background: var(--status-disabled-bg); }
+  .badge.off { opacity: 0.35; text-decoration: line-through; }
+
+  .layout {
+    display: flex;
+    align-items: flex-start;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+
+  nav#toc {
+    position: sticky;
+    top: 3.6rem;
+    align-self: flex-start;
+    width: 230px;
+    flex: 0 0 230px;
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+    padding: 1rem 0.75rem;
+    background: var(--bg-sidebar);
+    border-right: 1px solid var(--border);
+  }
+  nav#toc h2 {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-dim);
+    margin: 0.6rem 0 0.3rem;
+  }
+  nav#toc h2:first-child { margin-top: 0; }
+  nav#toc ul { list-style: none; margin: 0 0 0.4rem; padding: 0; }
+  nav#toc li a {
+    display: block;
+    padding: 0.28rem 0.5rem;
+    border-radius: 0.4rem;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.85rem;
+  }
+  nav#toc li a:hover { background: var(--accent-bg); }
+  nav#toc li a .count { color: var(--text-dim); font-size: 0.75rem; }
+
+  #tocToggle { display: none; }
+
+  main {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 1.25rem 1.5rem 4rem;
+  }
+
+  section[data-plugin] {
+    margin-bottom: 1rem;
+    scroll-margin-top: 4rem;
+  }
+  section[data-plugin].hidden-by-search { display: none; }
+
+  details.card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 0.6rem;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  details.card > summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 0.85rem 1rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+  details.card > summary::-webkit-details-marker { display: none; }
+  details.card > summary::before {
+    content: "▸";
+    color: var(--text-dim);
+    transition: transform 0.15s ease;
+    flex: 0 0 auto;
+  }
+  details.card[open] > summary::before { transform: rotate(90deg); }
+  details.card > summary h2 {
+    font-size: 1rem;
+    margin: 0;
+    display: inline;
+  }
+  details.card > summary .src {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    background: var(--code-bg);
+    padding: 0.1rem 0.4rem;
+    border-radius: 0.3rem;
+  }
+  .card-body { padding: 0 1rem 1rem; }
+  .meta {
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    margin: 0 0 0.75rem;
+    line-height: 1.5;
+  }
+  .meta a { color: var(--text-dim); text-decoration: underline; }
+
+  table.keys {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.86rem;
+  }
+  table.keys th {
+    text-align: left;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--text-dim);
+    padding: 0.3rem 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  table.keys td {
+    padding: 0.4rem 0.5rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  table.keys tr:last-child td { border-bottom: none; }
+  table.keys tr.row-note td { color: var(--text-dim); font-style: italic; }
+
+  kbd {
+    display: inline-block;
+    background: var(--kbd-bg);
+    border: 1px solid var(--kbd-border);
+    border-bottom-width: 2px;
+    box-shadow: 0 1px 0 var(--kbd-shadow);
+    border-radius: 0.3rem;
+    padding: 0.05rem 0.4rem;
+    font-size: 0.8rem;
+    margin: 0.1rem 0.15rem 0.1rem 0;
+    white-space: nowrap;
+  }
+  .mode {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-dim);
+    background: var(--code-bg);
+    padding: 0 0.35rem;
+    border-radius: 0.25rem;
+    margin: 0 0.1rem 0.1rem 0;
+  }
+  mark { background: var(--mark-bg); color: inherit; border-radius: 0.15rem; }
+
+  footer {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    color: var(--text-dim);
+    font-size: 0.82rem;
+    border-top: 1px solid var(--border);
+  }
+  footer h2 { font-size: 0.9rem; color: var(--text); }
+  footer table { border-collapse: collapse; font-size: 0.82rem; }
+  footer td, footer th { padding: 0.25rem 0.75rem 0.25rem 0; text-align: left; }
+  .ok { color: var(--status-custom-fg); }
+  .pending { color: var(--text-dim); }
+
+  @media (max-width: 820px) {
+    .layout { flex-direction: column; }
+    nav#toc {
+      position: static;
+      width: 100%;
+      flex: none;
+      max-height: none;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+      display: none;
+    }
+    nav#toc.open { display: block; }
+    #tocToggle { display: inline-flex; }
+    main { padding: 1rem; }
+  }
+
+  @media print {
+    header.topbar, nav#toc, #tocToggle { display: none !important; }
+    details.card { box-shadow: none; border: 1px solid #ccc; }
+    .layout { display: block; }
+    main { padding: 0; }
+    section[data-plugin].hidden-by-search { display: block !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <button class="btn" id="tocToggle" aria-label="Mostrar índice">☰ Índice</button>
+  <h1>⌨ Atajos — Neovim</h1>
+  <span class="sub">lazy.nvim · sin distro · construido por fases</span>
+  <input id="search" type="search" placeholder="Buscar tecla o acción… ( / )" autocomplete="off" />
+  <div class="legend" id="legend">
+    <span class="badge" data-badge="custom" data-filter="custom" title="Filtrar: solo mapeos personalizados">● Custom</span>
+    <span class="badge" data-badge="default" data-filter="default" title="Filtrar: solo defaults del plugin">● Default</span>
+    <span class="badge" data-badge="disabled" data-filter="disabled" title="Filtrar: solo defaults desactivados">● Disabled</span>
+  </div>
+  <button class="btn" id="expandAll">Expandir todo</button>
+  <button class="btn" id="collapseAll">Colapsar todo</button>
+  <button class="btn" id="themeToggle">🌓 Tema</button>
+</header>
+
+<div class="layout">
+  <nav id="toc" aria-label="Índice de plugins"></nav>
+
+  <main id="main">
+
+    <!-- ===================== FASE 1 ===================== -->
+
+    <section id="lsp" data-plugin="LSP y diagnósticos" data-phase="1">
+      <details class="card" open>
+        <summary>
+          <h2>LSP y diagnósticos</h2>
+          <span class="src">lsp.lua · keymaps.lua</span>
+        </summary>
+        <div class="card-body">
+          <p class="meta">
+            Sin distro (no LazyVim): todos los mapeos LSP son propios, definidos a mano en el
+            <code>on_attach</code> de <code>neovim/nvim-lspconfig</code> (buffer-local) y en
+            <code>lua/config/keymaps.lua</code> (globales). Formateo vía <code>stevearc/conform.nvim</code>
+            (no hay none-ls/null-ls). Servers gestionados con <code>mason.nvim</code> +
+            <code>mason-lspconfig.nvim</code> (sin mapeos propios, solo comandos: <code>:Mason</code>,
+            <code>:MasonInstall</code>).
+          </p>
+          <table class="keys">
+            <thead><tr><th>Teclas</th><th>Modo</th><th>Acción</th><th>Estado</th></tr></thead>
+            <tbody>
+              <tr data-status="custom">
+                <td><kbd>gd</kbd></td><td><span class="mode">n</span></td>
+                <td>Ir a definición (<code>vim.lsp.buf.definition</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>gr</kbd></td><td><span class="mode">n</span></td>
+                <td>Referencias (<code>vim.lsp.buf.references</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>gi</kbd></td><td><span class="mode">n</span></td>
+                <td>Implementaciones (<code>vim.lsp.buf.implementation</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>K</kbd></td><td><span class="mode">n</span></td>
+                <td>Hover / documentación (<code>vim.lsp.buf.hover</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;rn</kbd></td><td><span class="mode">n</span></td>
+                <td>Renombrar símbolo (<code>vim.lsp.buf.rename</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;ca</kbd></td><td><span class="mode">n</span></td>
+                <td>Code action — <code>fzf-lua</code> <code>lsp_code_actions()</code>, con fallback a
+                  <code>vim.lsp.buf.code_action()</code> si fzf-lua no está disponible</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>gvd</kbd></td><td><span class="mode">n</span></td>
+                <td>Ir a definición en vsplit (custom: abre <code>:vsplit</code> y llama a
+                  <code>vim.lsp.buf.definition()</code>; solo si hay un cliente LSP adjunto al buffer)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>gl</kbd></td><td><span class="mode">n</span></td>
+                <td>Ver diagnóstico bajo el cursor en floating window — además copia el mensaje al
+                  portapapeles (<code>+</code>) si hay diagnósticos en esa línea</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>[d</kbd></td><td><span class="mode">n</span></td>
+                <td>Diagnóstico anterior (<code>vim.diagnostic.goto_prev</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>]d</kbd></td><td><span class="mode">n</span></td>
+                <td>Diagnóstico siguiente (<code>vim.diagnostic.goto_next</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;dd</kbd></td><td><span class="mode">n</span></td>
+                <td>Diagnósticos del buffer actual (<code>fzf-lua</code> <code>diagnostics_document()</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;dD</kbd></td><td><span class="mode">n</span></td>
+                <td>Diagnósticos del workspace (<code>fzf-lua</code> <code>diagnostics_workspace()</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;fm</kbd></td><td><span class="mode">n</span><span class="mode">v</span></td>
+                <td>Formatear con <code>conform.nvim</code> (<code>format({ async = true, lsp_format = "fallback" })</code>
+                  — usa el formatter mapeado por filetype y si no hay ninguno cae al formateo del LSP)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;ci</kbd></td><td><span class="mode">n</span></td>
+                <td>Info de formatters activos (<code>:ConformInfo</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr class="row-note">
+                <td colspan="4">
+                  Diagnósticos configurados sin <code>virtual_text</code> (solo signo + subrayado);
+                  floating window con borde redondeado y <code>source = "always"</code>. Formateo automático
+                  al guardar (<code>format_on_save</code>) solo para <code>java</code> y <code>lua</code>;
+                  el resto de filetypes requiere <kbd>&lt;leader&gt;fm</kbd> manual.
+                  Fuente conform.nvim: <code>:h conform.format</code>.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <section id="toggleterm" data-plugin="ToggleTerm" data-phase="1">
+      <details class="card" open>
+        <summary>
+          <h2>ToggleTerm</h2>
+          <span class="src">akinsho/toggleterm.nvim · tools.lua</span>
+        </summary>
+        <div class="card-body">
+          <p class="meta">
+            Terminal integrada. Pin en <code>lazy-lock.json</code>: commit <code>50ea089</code> (branch
+            <code>main</code>). Fuente oficial de los defaults: README de
+            <code>akinsho/toggleterm.nvim</code> (secciones "Usage" y "Terminal window mappings").
+          </p>
+          <table class="keys">
+            <thead><tr><th>Teclas</th><th>Modo</th><th>Acción</th><th>Estado</th></tr></thead>
+            <tbody>
+              <tr data-status="custom">
+                <td><kbd>&lt;C-\&gt;</kbd></td>
+                <td><span class="mode">n</span><span class="mode">i</span><span class="mode">t</span></td>
+                <td><code>open_mapping</code>: toggle de la terminal (usa <code>direction = "float"</code>
+                  por defecto). Activo en insert (<code>insert_mappings = true</code>) y dentro de la propia
+                  terminal (<code>terminal_mappings = true</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;tf</kbd></td><td><span class="mode">n</span></td>
+                <td>Terminal flotante (<code>:ToggleTerm direction=float</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;th</kbd></td><td><span class="mode">n</span></td>
+                <td>Terminal horizontal, tamaño fijo 15 líneas (<code>:ToggleTerm size=15 direction=horizontal</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;tv</kbd></td><td><span class="mode">n</span></td>
+                <td>Terminal vertical, tamaño fijo 80 columnas (<code>:ToggleTerm size=80 direction=vertical</code>) —
+                  este <code>size=80</code> explícito en el atajo gana sobre la función <code>opts.size</code>
+                  del plugin (que devolvería <code>columns * 0.4</code> si se abriera sin el argumento)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;Esc&gt;&lt;Esc&gt;</kbd></td><td><span class="mode">t</span></td>
+                <td>Salir de terminal mode (<code>&lt;C-\&gt;&lt;C-n&gt;</code>) — custom, definido en
+                  <code>keymaps.lua</code>, no es un mapeo de toggleterm</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;C-v&gt;</kbd> / <kbd>&lt;C-S-v&gt;</kbd></td><td><span class="mode">t</span></td>
+                <td>Pegar desde el portapapeles con saneado de saltos de línea (custom, vía
+                  <code>vim.api.nvim_paste</code>) — no es un mapeo de toggleterm</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr class="row-note">
+                <td colspan="4">
+                  Verificado contra el README oficial (commit pineado): <code>insert_mappings</code> y
+                  <code>terminal_mappings</code> únicamente extienden a qué modos aplica
+                  <code>open_mapping</code> — no registran ningún atajo adicional por defecto. El bloque de
+                  "Terminal window mappings" del README (<kbd>&lt;C-h/j/k/l&gt;</kbd> para moverse entre
+                  splits desde dentro de la terminal) es un ejemplo opcional para copiar en tu config, <b>no
+                  viene activado por defecto</b> — y este repo no lo copió (usa
+                  <code>vim-tmux-navigator</code> para esa navegación en su lugar, ver Fase 2). Otras opciones
+                  activas sin atajo propio: <code>start_in_insert</code>, <code>persist_size</code>,
+                  <code>persist_mode</code>, <code>shade_terminals</code>, <code>close_on_exit</code>.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <section id="neo-tree" data-plugin="Neo-tree" data-phase="1">
+      <details class="card" open>
+        <summary>
+          <h2>Neo-tree — explorador de archivos</h2>
+          <span class="src">nvim-neo-tree/neo-tree.nvim · editor.lua</span>
+        </summary>
+        <div class="card-body">
+          <p class="meta">
+            Branch <code>v3.x</code>, pin <code>lazy-lock.json</code>: commit <code>84c75e7</code>. Único
+            mapeo custom en este repo: <kbd>&lt;leader&gt;e</kbd>. Todo lo demás de esta tabla es el default
+            de fábrica del plugin (fuente:
+            <code>lua/neo-tree/defaults.lua</code> y <code>lua/neo-tree/sources/filesystem/init.lua</code> en
+            ese mismo commit — cruzado con <code>:h neo-tree-mappings</code>), porque este repo solo
+            sobreescribe <code>window.mappings["&lt;space&gt;"]</code> y deja el resto intacto.
+          </p>
+          <table class="keys">
+            <thead><tr><th>Teclas</th><th>Modo</th><th>Acción</th><th>Estado</th></tr></thead>
+            <tbody>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;e</kbd></td><td><span class="mode">n</span></td>
+                <td>Abrir/cerrar el explorador (<code>require("neo-tree.command").execute({ toggle = true, dir = vim.loop.cwd() })</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="disabled">
+                <td><kbd>&lt;space&gt;</kbd></td><td><span class="mode">n</span> (buffer Neo-tree)</td>
+                <td>Default sería <code>toggle_node</code> (expandir/colapsar) — desactivado explícitamente
+                  con <code>["&lt;space&gt;"] = "none"</code></td>
+                <td><span class="badge" data-badge="disabled">Disabled</span></td>
+              </tr>
+
+              <tr class="row-note"><td colspan="4"><b>Dentro de la ventana de Neo-tree — defaults generales (todas las fuentes)</b></td></tr>
+              <tr data-status="default"><td><kbd>&lt;cr&gt;</kbd> / <kbd>&lt;2-LeftMouse&gt;</kbd></td><td><span class="mode">n</span></td><td>Abrir archivo/directorio (<code>open</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>&lt;esc&gt;</kbd></td><td><span class="mode">n</span></td><td>Cancelar / cerrar preview o Neo-tree flotante (<code>cancel</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>P</kbd></td><td><span class="mode">n</span></td><td>Preview flotante del nodo (<code>toggle_preview</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>&lt;C-f&gt;</kbd> / <kbd>&lt;C-b&gt;</kbd></td><td><span class="mode">n</span></td><td>Scroll del preview, arriba/abajo (<code>scroll_preview</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>l</kbd></td><td><span class="mode">n</span></td><td>Enfocar la ventana de preview (<code>focus_preview</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>S</kbd></td><td><span class="mode">n</span></td><td>Abrir en split horizontal (<code>open_split</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>s</kbd></td><td><span class="mode">n</span></td><td>Abrir en split vertical (<code>open_vsplit</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>t</kbd></td><td><span class="mode">n</span></td><td>Abrir en tab nueva (<code>open_tabnew</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>w</kbd></td><td><span class="mode">n</span></td><td>Abrir eligiendo ventana con window-picker (<code>open_with_window_picker</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>C</kbd></td><td><span class="mode">n</span></td><td>Cerrar/colapsar el nodo actual (<code>close_node</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>z</kbd></td><td><span class="mode">n</span></td><td>Cerrar todos los nodos (<code>close_all_nodes</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>R</kbd></td><td><span class="mode">n</span></td><td>Refrescar el árbol (<code>refresh</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>a</kbd></td><td><span class="mode">n</span></td><td>Crear archivo/directorio nuevo (<code>add</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>A</kbd></td><td><span class="mode">n</span></td><td>Crear directorio (<code>add_directory</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>d</kbd></td><td><span class="mode">n</span></td><td>Borrar (<code>delete</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>r</kbd></td><td><span class="mode">n</span></td><td>Renombrar (<code>rename</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>y</kbd> / <kbd>x</kbd> / <kbd>p</kbd></td><td><span class="mode">n</span></td><td>Copiar / cortar / pegar al portapapeles interno (<code>copy_to_clipboard</code> / <code>cut_to_clipboard</code> / <code>paste_from_clipboard</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>&lt;C-r&gt;</kbd></td><td><span class="mode">n</span></td><td>Limpiar el portapapeles interno (<code>clear_clipboard</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>c</kbd></td><td><span class="mode">n</span></td><td>Copiar a ruta (pide input) (<code>copy</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>m</kbd></td><td><span class="mode">n</span></td><td>Mover a ruta (pide input) (<code>move</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>e</kbd></td><td><span class="mode">n</span></td><td>Alternar auto-expansión del ancho de la ventana (<code>toggle_auto_expand_width</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>q</kbd></td><td><span class="mode">n</span></td><td>Cerrar la ventana de Neo-tree (<code>close_window</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>?</kbd></td><td><span class="mode">n</span></td><td>Mostrar ayuda con todos los mapeos activos (<code>show_help</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>&lt;</kbd> / <kbd>&gt;</kbd></td><td><span class="mode">n</span></td><td>Fuente anterior/siguiente, ej. filesystem ↔ buffers ↔ git_status (<code>prev_source</code> / <code>next_source</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+
+              <tr class="row-note"><td colspan="4"><b>Extra solo en la fuente <code>filesystem</code> (la que usa <kbd>&lt;leader&gt;e</kbd> por defecto)</b></td></tr>
+              <tr data-status="default"><td><kbd>H</kbd></td><td><span class="mode">n</span></td><td>Mostrar/ocultar archivos ocultos (<code>toggle_hidden</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>/</kbd></td><td><span class="mode">n</span></td><td>Buscador difuso (fuzzy finder) dentro del árbol (<code>fuzzy_finder</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>D</kbd></td><td><span class="mode">n</span></td><td>Buscador difuso de directorios (<code>fuzzy_finder_directory</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>#</kbd></td><td><span class="mode">n</span></td><td>Ordenar por relevancia fuzzy (algoritmo fzy) (<code>fuzzy_sorter</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>f</kbd></td><td><span class="mode">n</span></td><td>Filtrar por texto (<code>filter_on_submit</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>&lt;C-x&gt;</kbd></td><td><span class="mode">n</span></td><td>Limpiar filtro activo (<code>clear_filter</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>&lt;bs&gt;</kbd></td><td><span class="mode">n</span></td><td>Subir un directorio (<code>navigate_up</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>.</kbd></td><td><span class="mode">n</span></td><td>Fijar el directorio bajo el cursor como raíz (<code>set_root</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>[g</kbd> / <kbd>]g</kbd></td><td><span class="mode">n</span></td><td>Archivo con cambios git anterior/siguiente (<code>prev_git_modified</code> / <code>next_git_modified</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>i</kbd></td><td><span class="mode">n</span></td><td>Mostrar detalles del archivo (<code>show_file_details</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>b</kbd></td><td><span class="mode">n</span></td><td>Renombrar solo el nombre base, sin extensión (<code>rename_basename</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>o</kbd></td><td><span class="mode">n</span></td><td>Menú "ordenar por…" (<code>show_help</code> con prefijo <code>o</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>oc</kbd> <kbd>od</kbd> <kbd>og</kbd> <kbd>om</kbd> <kbd>on</kbd> <kbd>os</kbd> <kbd>ot</kbd></td><td><span class="mode">n</span></td><td>Ordenar por: creado / diagnósticos / git / modificado / nombre / tamaño / tipo</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+
+              <tr class="row-note"><td colspan="4"><b>Dentro del popup del buscador difuso (<kbd>/</kbd>)</b></td></tr>
+              <tr data-status="default"><td><kbd>&lt;down&gt;</kbd> / <kbd>&lt;C-n&gt;</kbd> / <kbd>j</kbd>*</td><td><span class="mode">n</span></td><td>Mover cursor abajo (<code>move_cursor_down</code>) — <code>j</code> solo aplica en el sub-mapa de modo normal del popup</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>&lt;up&gt;</kbd> / <kbd>&lt;C-p&gt;</kbd> / <kbd>k</kbd>*</td><td><span class="mode">n</span></td><td>Mover cursor arriba (<code>move_cursor_up</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>&lt;Esc&gt;</kbd></td><td><span class="mode">n</span></td><td>Cerrar el buscador (<code>close</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>&lt;S-CR&gt;</kbd></td><td><span class="mode">n</span></td><td>Cerrar manteniendo el filtro aplicado (<code>close_keep_filter</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>&lt;C-CR&gt;</kbd></td><td><span class="mode">n</span></td><td>Cerrar y limpiar el filtro (<code>close_clear_filter</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+
+              <tr class="row-note">
+                <td colspan="4">
+                  Fuente exacta pineada (commit <code>84c75e7</code>, branch <code>v3.x</code>):
+                  <code>lua/neo-tree/defaults.lua</code> (mapeos generales de ventana + popup de fuzzy finder,
+                  líneas ~407-524) y <code>lua/neo-tree/sources/filesystem/init.lua</code> (mapeos extra de la
+                  fuente filesystem, líneas ~476-501). Cruzado con <code>:h neo-tree-mappings</code>.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <!-- ===================== FASE 2 ===================== -->
+
+    <section id="globals" data-plugin="Globales" data-phase="2">
+      <details class="card">
+        <summary>
+          <h2>Globales — atajos generales</h2>
+          <span class="src">keymaps.lua</span>
+        </summary>
+        <div class="card-body">
+          <p class="meta">
+            <code>bufferline.nvim</code> (declarado en <code>ui.lua</code>) no define ningún <code>keys</code>
+            propio — todos los atajos de ciclo de buffers viven aquí y solo invocan sus comandos Ex.
+          </p>
+          <table class="keys">
+            <thead><tr><th>Teclas</th><th>Modo</th><th>Acción</th><th>Estado</th></tr></thead>
+            <tbody>
+              <tr data-status="custom">
+                <td><kbd>&lt;Esc&gt;</kbd></td><td><span class="mode">n</span></td>
+                <td>Limpiar resaltado de búsqueda (<code>:noh</code>) y cerrar la notificación activa de
+                  <code>noice.nvim</code> (<code>require("noice").cmd("dismiss")</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;C-s&gt;</kbd></td><td><span class="mode">n</span></td>
+                <td>Guardar todos los buffers (<code>:wall</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;Tab&gt;</kbd></td><td><span class="mode">n</span></td>
+                <td>Buffer siguiente (<code>:BufferLineCycleNext</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;S-Tab&gt;</kbd></td><td><span class="mode">n</span></td>
+                <td>Buffer anterior (<code>:BufferLineCyclePrev</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;1</kbd> … <kbd>&lt;leader&gt;9</kbd></td><td><span class="mode">n</span></td>
+                <td>Ir directo al buffer N (<code>:BufferLineGoToBuffer N</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;</kbd> / <kbd>&gt;</kbd></td><td><span class="mode">v</span></td>
+                <td>Indentar/desindentar manteniendo la selección (<code>&lt;gv</code> / <code>&gt;gv</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;A-j&gt;</kbd> / <kbd>&lt;A-k&gt;</kbd></td>
+                <td><span class="mode">n</span><span class="mode">i</span><span class="mode">v</span></td>
+                <td>Mover línea(s) abajo/arriba (<code>:m</code>, reindentando con <code>==</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <section id="gitsigns" data-plugin="Git — Gitsigns" data-phase="2">
+      <details class="card">
+        <summary>
+          <h2>Git — Gitsigns</h2>
+          <span class="src">lewis6991/gitsigns.nvim · editor.lua</span>
+        </summary>
+        <div class="card-body">
+          <p class="meta">
+            <code>on_attach</code> 100% custom. <code>current_line_blame = false</code> (blame de línea solo
+            bajo demanda con <kbd>&lt;leader&gt;hb</kbd>, no inline automático).
+          </p>
+          <table class="keys">
+            <thead><tr><th>Teclas</th><th>Modo</th><th>Acción</th><th>Estado</th></tr></thead>
+            <tbody>
+              <tr data-status="custom">
+                <td><kbd>]c</kbd></td><td><span class="mode">n</span></td>
+                <td>Siguiente hunk (respeta <code>vim.wo.diff</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>[c</kbd></td><td><span class="mode">n</span></td>
+                <td>Hunk anterior</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;hs</kbd></td><td><span class="mode">n</span><span class="mode">v</span></td>
+                <td>Stage hunk</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;hr</kbd></td><td><span class="mode">n</span><span class="mode">v</span></td>
+                <td>Revertir hunk</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;hS</kbd></td><td><span class="mode">n</span></td>
+                <td>Stage del buffer completo</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;hR</kbd></td><td><span class="mode">n</span></td>
+                <td>Reset del buffer completo</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;hp</kbd></td><td><span class="mode">n</span></td>
+                <td>Preview del hunk</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;hb</kbd></td><td><span class="mode">n</span></td>
+                <td>Blame de la línea actual (completo)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;hd</kbd></td><td><span class="mode">n</span></td>
+                <td>Diff contra el index</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;hD</kbd></td><td><span class="mode">n</span></td>
+                <td>Diff contra el último commit (<code>~</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;td</kbd></td><td><span class="mode">n</span></td>
+                <td>Mostrar/ocultar líneas borradas</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <section id="fzf-lua" data-plugin="Búsqueda — fzf-lua" data-phase="2">
+      <details class="card">
+        <summary>
+          <h2>Búsqueda — fzf-lua</h2>
+          <span class="src">ibhagwan/fzf-lua · editor.lua</span>
+        </summary>
+        <div class="card-body">
+          <p class="meta">
+            Archivos vía <code>fd</code>, texto vía <code>rg</code>; ambos excluyen
+            <code>.git</code>, <code>node_modules</code>, <code>dist</code>, <code>build</code>,
+            <code>.next</code>, <code>coverage</code>, <code>.cache</code>.
+          </p>
+          <table class="keys">
+            <thead><tr><th>Teclas</th><th>Modo</th><th>Acción</th><th>Estado</th></tr></thead>
+            <tbody>
+              <tr data-status="custom">
+                <td><kbd>&lt;C-p&gt;</kbd></td><td><span class="mode">n</span></td>
+                <td>Buscar archivos</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;C-f&gt;</kbd></td><td><span class="mode">n</span></td>
+                <td>Buscar texto en el proyecto (live grep)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;fb</kbd></td><td><span class="mode">n</span></td>
+                <td>Buffers abiertos</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;fh</kbd></td><td><span class="mode">n</span></td>
+                <td>Help tags</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;fg</kbd></td><td><span class="mode">n</span></td>
+                <td>Archivos trackeados por git</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;fr</kbd></td><td><span class="mode">n</span></td>
+                <td>Retomar la última búsqueda</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;ft</kbd></td><td><span class="mode">n</span></td>
+                <td>TODOs del proyecto (<code>:TodoFzfLua</code>, comando de <code>todo-comments.nvim</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr class="row-note">
+                <td colspan="4">
+                  <code>todo-comments.nvim</code> (<code>opts = {}</code>) no define ningún atajo por
+                  defecto — verificado contra su README oficial (commit <code>31e3c38</code>): solo resalta
+                  <code>TODO</code>/<code>FIXME</code>/<code>HACK</code>/<code>WARN</code>/etc. en los
+                  comentarios y expone comandos (<code>:TodoQuickFix</code>, <code>:TodoLocList</code>,
+                  <code>:TodoTrouble</code>, <code>:TodoFzfLua</code>) que se invocan aquí arriba. El README
+                  sugiere mapear <kbd>]t</kbd>/<kbd>[t</kbd> a <code>jump_next</code>/<code>jump_prev</code>
+                  como ejemplo, pero este repo no lo hizo.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <section id="lazygit" data-plugin="Git — LazyGit" data-phase="2">
+      <details class="card">
+        <summary>
+          <h2>Git — LazyGit</h2>
+          <span class="src">kdheepak/lazygit.nvim · editor.lua</span>
+        </summary>
+        <div class="card-body">
+          <table class="keys">
+            <thead><tr><th>Teclas</th><th>Modo</th><th>Acción</th><th>Estado</th></tr></thead>
+            <tbody>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;gg</kbd></td><td><span class="mode">n</span></td>
+                <td>Abrir LazyGit (<code>:LazyGit</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <!-- ===================== FASE 3 ===================== -->
+
+    <section id="blink-cmp" data-plugin="Autocompletado — blink.cmp" data-phase="3">
+      <details class="card">
+        <summary>
+          <h2>Autocompletado — blink.cmp</h2>
+          <span class="src">saghen/blink.cmp · coding.lua</span>
+        </summary>
+        <div class="card-body">
+          <p class="meta">
+            <code>keymap.preset = "none"</code>: el mapa completo es custom, no hereda ningún preset de
+            fábrica. Fuentes activas: <code>lsp</code>, <code>path</code>, <code>snippets</code>,
+            <code>buffer</code>. Firma de función habilitada (<code>signature.enabled = true</code>).
+          </p>
+          <table class="keys">
+            <thead><tr><th>Teclas</th><th>Modo</th><th>Acción</th><th>Estado</th></tr></thead>
+            <tbody>
+              <tr data-status="custom">
+                <td><kbd>&lt;C-Space&gt;</kbd></td><td><span class="mode">i</span></td>
+                <td>Mostrar menú / mostrar doc / ocultar doc</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;C-e&gt;</kbd></td><td><span class="mode">i</span></td>
+                <td>Ocultar el menú</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;CR&gt;</kbd></td><td><span class="mode">i</span></td>
+                <td>Aceptar sugerencia (con fallback al comportamiento normal de Enter)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;Tab&gt;</kbd></td><td><span class="mode">i</span></td>
+                <td>Siguiente ítem / avanzar snippet / fallback</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;S-Tab&gt;</kbd></td><td><span class="mode">i</span></td>
+                <td>Ítem anterior / retroceder snippet / fallback</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;C-g&gt;</kbd></td><td><span class="mode">i</span></td>
+                <td>Mostrar/ocultar firma de función / fallback</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;C-p&gt;</kbd></td><td><span class="mode">i</span></td>
+                <td>Ítem anterior / fallback</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;C-n&gt;</kbd></td><td><span class="mode">i</span></td>
+                <td>Siguiente ítem / fallback</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <section id="mini-surround" data-plugin="Surround — mini.surround" data-phase="3">
+      <details class="card">
+        <summary>
+          <h2>Surround — mini.surround</h2>
+          <span class="src">echasnovski/mini.surround · coding.lua</span>
+        </summary>
+        <div class="card-body">
+          <p class="meta">
+            Defaults oficiales (<code>doc/mini-surround.txt</code>, commit <code>2715e04</code>):
+            <code>add='sa'</code>, <code>delete='sd'</code>, <code>replace='sr'</code>,
+            <code>find='sf'</code>, <code>find_left='sF'</code>, <code>highlight='sh'</code>,
+            <code>suffix_last='l'</code>, <code>suffix_next='n'</code>. Este repo remapea
+            <code>delete</code> y <code>replace</code>, y apaga <code>find</code>/<code>find_left</code>/
+            <code>highlight</code>/sufijos por completo.
+          </p>
+          <table class="keys">
+            <thead><tr><th>Teclas</th><th>Modo</th><th>Acción</th><th>Estado</th></tr></thead>
+            <tbody>
+              <tr data-status="custom">
+                <td><kbd>sa</kbd> + motion/objeto</td><td><span class="mode">n</span><span class="mode">v</span></td>
+                <td>Añadir surrounding (coincide con el default oficial <code>sa</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>ds</kbd> + char</td><td><span class="mode">n</span></td>
+                <td>Borrar surrounding — remapeado desde el default oficial <code>sd</code></td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>cs</kbd> + char</td><td><span class="mode">n</span></td>
+                <td>Cambiar surrounding — remapeado desde el default oficial <code>sr</code></td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="disabled">
+                <td><kbd>sf</kbd></td><td><span class="mode">n</span></td>
+                <td>Buscar surrounding hacia la derecha — desactivado explícitamente
+                  (<code>find = ""</code>)</td>
+                <td><span class="badge" data-badge="disabled">Disabled</span></td>
+              </tr>
+              <tr data-status="disabled">
+                <td><kbd>sF</kbd></td><td><span class="mode">n</span></td>
+                <td>Buscar surrounding hacia la izquierda — desactivado (<code>find_left = ""</code>)</td>
+                <td><span class="badge" data-badge="disabled">Disabled</span></td>
+              </tr>
+              <tr data-status="disabled">
+                <td><kbd>sh</kbd></td><td><span class="mode">n</span></td>
+                <td>Resaltar surrounding — desactivado (<code>highlight = ""</code>)</td>
+                <td><span class="badge" data-badge="disabled">Disabled</span></td>
+              </tr>
+              <tr data-status="disabled">
+                <td><kbd>l</kbd> / <kbd>n</kbd> (sufijos)</td><td><span class="mode">n</span></td>
+                <td>Sufijos para los métodos de búsqueda "prev"/"next" al combinar con otro comando —
+                  desactivados (<code>suffix_last = ""</code>, <code>suffix_next = ""</code>)</td>
+                <td><span class="badge" data-badge="disabled">Disabled</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <section id="mini-ai" data-plugin="Textobjects — mini.ai" data-phase="3">
+      <details class="card">
+        <summary>
+          <h2>Textobjects — mini.ai</h2>
+          <span class="src">echasnovski/mini.ai · coding.lua</span>
+        </summary>
+        <div class="card-body">
+          <p class="meta">
+            Prefijos de mapeo sin tocar (<code>a</code>/<code>i</code>/<code>an</code>/<code>in</code>/
+            <code>al</code>/<code>il</code>/<code>g[</code>/<code>g]</code>, todos default oficiales,
+            commit <code>43eb207</code>). <code>custom_textobjects</code> sobreescribe el identificador
+            <code>f</code> (antes "llamada a función" por patrón Lua, ahora función vía treesitter) y agrega
+            <code>o</code> y <code>c</code>, ambos vía treesitter.
+          </p>
+          <table class="keys">
+            <thead><tr><th>Teclas</th><th>Modo</th><th>Acción</th><th>Estado</th></tr></thead>
+            <tbody>
+              <tr data-status="default">
+                <td><kbd>a</kbd> / <kbd>i</kbd> + textobject</td>
+                <td><span class="mode">o</span><span class="mode">v</span></td>
+                <td>Prefijos "around"/"inside": opera o selecciona un textobject</td>
+                <td><span class="badge" data-badge="default">Default</span></td>
+              </tr>
+              <tr data-status="default">
+                <td><kbd>an</kbd> / <kbd>in</kbd></td>
+                <td><span class="mode">o</span><span class="mode">v</span></td>
+                <td>Variante "next": el mismo textobject pero el próximo hacia adelante</td>
+                <td><span class="badge" data-badge="default">Default</span></td>
+              </tr>
+              <tr data-status="default">
+                <td><kbd>al</kbd> / <kbd>il</kbd></td>
+                <td><span class="mode">o</span><span class="mode">v</span></td>
+                <td>Variante "last": el mismo textobject pero el anterior</td>
+                <td><span class="badge" data-badge="default">Default</span></td>
+              </tr>
+              <tr data-status="default">
+                <td><kbd>g[</kbd> / <kbd>g]</kbd></td><td><span class="mode">n</span></td>
+                <td>Mover el cursor al borde izquierdo/derecho de un textobject "a"</td>
+                <td><span class="badge" data-badge="default">Default</span></td>
+              </tr>
+              <tr class="row-note"><td colspan="4"><b>Identificadores builtin (van después de <kbd>a</kbd>/<kbd>i</kbd>)</b></td></tr>
+              <tr data-status="default">
+                <td><kbd>(</kbd> <kbd>)</kbd> <kbd>[</kbd> <kbd>]</kbd> <kbd>{</kbd> <kbd>}</kbd> <kbd>&lt;</kbd> <kbd>&gt;</kbd></td>
+                <td><span class="mode">o</span><span class="mode">v</span></td>
+                <td>Paréntesis/corchetes/llaves/<code>&lt;&gt;</code> balanceados</td>
+                <td><span class="badge" data-badge="default">Default</span></td>
+              </tr>
+              <tr data-status="default">
+                <td><kbd>b</kbd></td><td><span class="mode">o</span><span class="mode">v</span></td>
+                <td>Alias: balanceado con <code>)</code>, <code>]</code> o <code>}</code></td>
+                <td><span class="badge" data-badge="default">Default</span></td>
+              </tr>
+              <tr data-status="default">
+                <td><kbd>"</kbd> <kbd>'</kbd> <kbd>`</kbd></td><td><span class="mode">o</span><span class="mode">v</span></td>
+                <td>Comillas balanceadas</td>
+                <td><span class="badge" data-badge="default">Default</span></td>
+              </tr>
+              <tr data-status="default">
+                <td><kbd>q</kbd></td><td><span class="mode">o</span><span class="mode">v</span></td>
+                <td>Alias: balanceado con <code>"</code>, <code>'</code> o <code>`</code></td>
+                <td><span class="badge" data-badge="default">Default</span></td>
+              </tr>
+              <tr data-status="default">
+                <td><kbd>?</kbd></td><td><span class="mode">o</span><span class="mode">v</span></td>
+                <td>Textobject por prompt del usuario (pide dos caracteres)</td>
+                <td><span class="badge" data-badge="default">Default</span></td>
+              </tr>
+              <tr data-status="default">
+                <td><kbd>t</kbd></td><td><span class="mode">o</span><span class="mode">v</span></td>
+                <td>Tag HTML/XML (<code>&lt;tag&gt;…&lt;/tag&gt;</code>)</td>
+                <td><span class="badge" data-badge="default">Default</span></td>
+              </tr>
+              <tr data-status="default">
+                <td><kbd>a</kbd> <span class="mono" style="color:var(--text-dim)">(identificador)</span></td>
+                <td><span class="mode">o</span><span class="mode">v</span></td>
+                <td>Argumento de función (entre comas/paréntesis)</td>
+                <td><span class="badge" data-badge="default">Default</span></td>
+              </tr>
+              <tr class="row-note"><td colspan="4"><b>Identificadores personalizados de este repo</b></td></tr>
+              <tr data-status="custom">
+                <td><kbd>f</kbd></td><td><span class="mode">o</span><span class="mode">v</span></td>
+                <td>Función — sobreescrito con treesitter (<code>@function.outer</code> / <code>@function.inner</code>)
+                  en vez del builtin "llamada a función" por patrón Lua</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>o</kbd></td><td><span class="mode">o</span><span class="mode">v</span></td>
+                <td>Bloque / condicional / loop vía treesitter (<code>@block</code>, <code>@conditional</code>,
+                  <code>@loop</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>c</kbd></td><td><span class="mode">o</span><span class="mode">v</span></td>
+                <td>Clase vía treesitter (<code>@class.outer</code> / <code>@class.inner</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <section id="comment-nvim" data-plugin="Comentarios — Comment.nvim" data-phase="3">
+      <details class="card">
+        <summary>
+          <h2>Comentarios — Comment.nvim</h2>
+          <span class="src">numToStr/Comment.nvim · coding.lua</span>
+        </summary>
+        <div class="card-body">
+          <p class="meta">
+            <code>opts</code> solo configura <code>pre_hook</code> (integración con
+            <code>nvim-ts-context-commentstring</code> para el commentstring correcto dentro de archivos
+            embebidos, ej. JSX en TSX). <code>toggler</code>/<code>opleader</code>/<code>extra</code>/
+            <code>mappings</code> quedan en su valor default oficial (README, commit <code>e30b7f2</code>).
+          </p>
+          <table class="keys">
+            <thead><tr><th>Teclas</th><th>Modo</th><th>Acción</th><th>Estado</th></tr></thead>
+            <tbody>
+              <tr data-status="default">
+                <td><kbd>gcc</kbd></td><td><span class="mode">n</span></td>
+                <td>Alternar comentario de línea (linewise)</td>
+                <td><span class="badge" data-badge="default">Default</span></td>
+              </tr>
+              <tr data-status="default">
+                <td><kbd>gbc</kbd></td><td><span class="mode">n</span></td>
+                <td>Alternar comentario de bloque (blockwise)</td>
+                <td><span class="badge" data-badge="default">Default</span></td>
+              </tr>
+              <tr data-status="default">
+                <td>[count]<kbd>gcc</kbd> / [count]<kbd>gbc</kbd></td><td><span class="mode">n</span></td>
+                <td>Alternar N líneas con prefijo numérico</td>
+                <td><span class="badge" data-badge="default">Default</span></td>
+              </tr>
+              <tr data-status="default">
+                <td><kbd>gc</kbd>{motion}</td><td><span class="mode">n</span> (op-pending)</td>
+                <td>Alternar comentario linewise sobre una región/motion</td>
+                <td><span class="badge" data-badge="default">Default</span></td>
+              </tr>
+              <tr data-status="default">
+                <td><kbd>gb</kbd>{motion}</td><td><span class="mode">n</span> (op-pending)</td>
+                <td>Alternar comentario blockwise sobre una región/motion</td>
+                <td><span class="badge" data-badge="default">Default</span></td>
+              </tr>
+              <tr data-status="default">
+                <td><kbd>gc</kbd></td><td><span class="mode">v</span></td>
+                <td>Alternar comentario linewise de la selección</td>
+                <td><span class="badge" data-badge="default">Default</span></td>
+              </tr>
+              <tr data-status="default">
+                <td><kbd>gb</kbd></td><td><span class="mode">v</span></td>
+                <td>Alternar comentario blockwise de la selección</td>
+                <td><span class="badge" data-badge="default">Default</span></td>
+              </tr>
+              <tr data-status="default">
+                <td><kbd>gco</kbd></td><td><span class="mode">n</span></td>
+                <td>Insertar comentario en la línea de abajo y entrar a insert mode</td>
+                <td><span class="badge" data-badge="default">Default</span></td>
+              </tr>
+              <tr data-status="default">
+                <td><kbd>gcO</kbd></td><td><span class="mode">n</span></td>
+                <td>Insertar comentario en la línea de arriba y entrar a insert mode</td>
+                <td><span class="badge" data-badge="default">Default</span></td>
+              </tr>
+              <tr data-status="default">
+                <td><kbd>gcA</kbd></td><td><span class="mode">n</span></td>
+                <td>Insertar comentario al final de la línea actual y entrar a insert mode</td>
+                <td><span class="badge" data-badge="default">Default</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <section id="autopairs" data-plugin="Auto-pairs — nvim-autopairs" data-phase="3">
+      <details class="card">
+        <summary>
+          <h2>Auto-pairs — nvim-autopairs</h2>
+          <span class="src">windwp/nvim-autopairs · tools.lua</span>
+        </summary>
+        <div class="card-body">
+          <p class="meta"><code>check_ts = true</code>: usa treesitter para no autocerrar dentro de strings
+            de lua/js/ts.</p>
+          <table class="keys">
+            <thead><tr><th>Teclas</th><th>Modo</th><th>Acción</th><th>Estado</th></tr></thead>
+            <tbody>
+              <tr data-status="custom">
+                <td><kbd>&lt;M-e&gt;</kbd></td><td><span class="mode">i</span></td>
+                <td><code>fast_wrap</code>: envolver el texto a la derecha del cursor con el carácter que
+                  elijas a continuación (<code>{ [ ( " '</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <section id="grug-far" data-plugin="Búsqueda y reemplazo — grug-far" data-phase="3">
+      <details class="card">
+        <summary>
+          <h2>Búsqueda y reemplazo — grug-far</h2>
+          <span class="src">MagicDuck/grug-far.nvim · tools.lua</span>
+        </summary>
+        <div class="card-body">
+          <p class="meta">Alternativa a <code>sed</code> que funciona igual en Windows.</p>
+          <table class="keys">
+            <thead><tr><th>Teclas</th><th>Modo</th><th>Acción</th><th>Estado</th></tr></thead>
+            <tbody>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;sr</kbd></td><td><span class="mode">n</span></td>
+                <td>Buscar y reemplazar (global)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;sr</kbd></td><td><span class="mode">v</span></td>
+                <td>Buscar y reemplazar usando la selección como patrón</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;sw</kbd></td><td><span class="mode">n</span></td>
+                <td>Buscar la palabra bajo el cursor</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;sp</kbd></td><td><span class="mode">n</span></td>
+                <td>Buscar solo en el archivo actual</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr class="row-note"><td colspan="4"><b>Dentro del buffer de grug-far (una vez abierto)</b></td></tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;M-r&gt;</kbd></td><td><span class="mode">n</span></td>
+                <td>Reemplazar todos los resultados visibles</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;M-q&gt;</kbd></td><td><span class="mode">n</span></td>
+                <td>Enviar resultados a quickfix</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;M-a&gt;</kbd></td><td><span class="mode">n</span></td>
+                <td>Abortar la operación en curso</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;M-f&gt;</kbd></td><td><span class="mode">n</span></td>
+                <td>Refrescar resultados</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;M-o&gt;</kbd></td><td><span class="mode">n</span></td>
+                <td>Abrir el archivo en la ubicación del resultado</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;CR&gt;</kbd></td><td><span class="mode">n</span></td>
+                <td>Ir al resultado bajo el cursor</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;C-j&gt;</kbd></td><td><span class="mode">n</span></td>
+                <td>Siguiente resultado (y abrirlo)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>&lt;C-k&gt;</kbd></td><td><span class="mode">n</span></td>
+                <td>Resultado anterior (y abrirlo)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>g?</kbd></td><td><span class="mode">n</span></td>
+                <td>Mostrar todos los atajos disponibles</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <section id="coding-misc" data-plugin="Otros (sin atajos propios)" data-phase="3">
+      <details class="card">
+        <summary>
+          <h2>Otros — sin atajos propios</h2>
+          <span class="src">coding.lua · tools.lua</span>
+        </summary>
+        <div class="card-body">
+          <table class="keys">
+            <tbody>
+              <tr class="row-note"><td colspan="4"><code>nvim-ts-autotag</code> — cierra y renombra tags HTML/JSX automáticamente al escribir. Sin atajos.</td></tr>
+              <tr class="row-note"><td colspan="4"><code>nvim-ts-context-commentstring</code> — ajusta el commentstring dentro de archivos embebidos (ej. JSX en TSX); usado como integración de Comment.nvim. Sin atajos.</td></tr>
+              <tr class="row-note"><td colspan="4"><code>nvim-colorizer.lua</code> — resalta colores (HEX/RGB) inline en todos los filetypes. Sin atajos.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <!-- ===================== FASE 4 ===================== -->
+
+    <section id="visual-multi" data-plugin="Multi-cursor — vim-visual-multi" data-phase="4">
+      <details class="card">
+        <summary>
+          <h2>Multi-cursor — vim-visual-multi</h2>
+          <span class="src">mg979/vim-visual-multi · editor.lua</span>
+        </summary>
+        <div class="card-body">
+          <p class="meta">
+            Cero configuración en <code>editor.lua</code> (<code>event = "VeryLazy"</code>, sin
+            <code>g:VM_maps</code> ni <code>g:VM_default_mappings</code>) → todo lo de esta tabla es el
+            default de fábrica. Fuente: <code>doc/vm-mappings.txt</code> del commit pineado
+            (<code>a6975e7</code>, branch <code>master</code>). El leader de VM por defecto es
+            <kbd>\</kbd> (backslash), salvo que se indique otra cosa.
+          </p>
+          <table class="keys">
+            <thead><tr><th>Teclas</th><th>Modo</th><th>Acción</th><th>Estado</th></tr></thead>
+            <tbody>
+              <tr class="row-note"><td colspan="4"><b>Permanentes (activos siempre, sin sesión VM iniciada)</b></td></tr>
+              <tr data-status="default"><td><kbd>&lt;Esc&gt;</kbd></td><td><span class="mode">n</span> (en VM)</td><td>Salir de VM</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>&lt;C-n&gt;</kbd></td><td><span class="mode">n</span></td><td>Seleccionar la palabra bajo el cursor / la siguiente coincidencia</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>&lt;C-n&gt;</kbd></td><td><span class="mode">v</span></td><td>Igual, pero sin límites de palabra (subword)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>&lt;C-Down&gt;</kbd></td><td><span class="mode">n</span></td><td>Agregar cursor abajo</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>&lt;C-Up&gt;</kbd></td><td><span class="mode">n</span></td><td>Agregar cursor arriba</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\A</kbd></td><td><span class="mode">n</span></td><td>Seleccionar todas las ocurrencias de una palabra</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\/</kbd></td><td><span class="mode">n</span></td><td>Iniciar búsqueda con regex</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\\</kbd></td><td><span class="mode">n</span></td><td>Agregar un cursor en la posición actual</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\gS</kbd></td><td><span class="mode">n</span></td><td>Reseleccionar el último conjunto de regiones de VM</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr class="row-note"><td colspan="4">Los mapeos de mouse (Ctrl+click, etc.) también son permanentes pero están <b>desactivados</b> por defecto — requieren <code>g:VM_mouse_mappings = 1</code>, no configurado en este repo.</td></tr>
+
+              <tr class="row-note"><td colspan="4"><b>Modo visual</b></td></tr>
+              <tr data-status="default"><td><kbd>\A</kbd></td><td><span class="mode">v</span></td><td>Seleccionar todas las ocurrencias de la selección visual</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\/</kbd></td><td><span class="mode">v</span></td><td>Buscar un patrón dentro de la selección visual</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\f</kbd></td><td><span class="mode">v</span></td><td>Buscar todos los patrones (o <code>@/</code>) desde modo visual</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\c</kbd></td><td><span class="mode">v</span></td><td>Crear una columna de cursores desde modo visual</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\a</kbd></td><td><span class="mode">v</span></td><td>Crear una región desde modo visual</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\s</kbd></td><td><span class="mode">v</span></td><td>Quitar regiones dentro de la selección visual actual</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\r</kbd></td><td><span class="mode">v</span></td><td>Quitar regiones fuera de la selección visual</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+
+              <tr class="row-note"><td colspan="4"><b>Dentro de una sesión VM — básicos</b></td></tr>
+              <tr data-status="default"><td><kbd>n</kbd> / <kbd>N</kbd></td><td><span class="mode">n</span></td><td>Buscar siguiente/anterior ocurrencia</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>]</kbd> / <kbd>[</kbd></td><td><span class="mode">n</span></td><td>Ir a la región siguiente/anterior seleccionada</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>&lt;C-f&gt;</kbd> / <kbd>&lt;C-b&gt;</kbd></td><td><span class="mode">n</span></td><td>Ir rápido a la siguiente/anterior (salto de página)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>q</kbd></td><td><span class="mode">n</span></td><td>Saltar región y buscar la siguiente</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>Q</kbd></td><td><span class="mode">n</span></td><td>Quitar la región bajo el cursor</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>g/</kbd></td><td><span class="mode">n</span></td><td>Extender/mover cursores con búsqueda <code>/</code></td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>R</kbd></td><td><span class="mode">n</span></td><td>Reemplazar en las regiones, o iniciar modo de reemplazo</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>M</kbd></td><td><span class="mode">n</span></td><td>Alternar modo multilínea</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+
+              <tr class="row-note"><td colspan="4"><b>Modo extend</b></td></tr>
+              <tr data-status="default"><td><kbd>S</kbd></td><td><span class="mode">n</span></td><td>Envolver con surround (requiere <code>vim-surround</code>, no instalado en este repo)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>&lt;M-S-Right&gt;</kbd> / <kbd>&lt;M-S-Left&gt;</kbd></td><td><span class="mode">n</span></td><td>Mover todas las selecciones a la derecha/izquierda</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+
+              <tr class="row-note"><td colspan="4"><b>Modo insert / región única</b></td></tr>
+              <tr data-status="default"><td><kbd>&lt;Tab&gt;</kbd> / <kbd>&lt;S-Tab&gt;</kbd></td><td><span class="mode">i</span></td><td>Moverse al cursor siguiente/anterior</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+
+              <tr class="row-note"><td colspan="4"><b>Operadores</b></td></tr>
+              <tr data-status="default"><td><kbd>s</kbd></td><td><span class="mode">n</span></td><td>Select Operator</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>m</kbd></td><td><span class="mode">n</span></td><td>Find Operator</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+
+              <tr class="row-note"><td colspan="4"><b>Comandos especiales</b></td></tr>
+              <tr data-status="default"><td><kbd>&lt;C-A&gt;</kbd> / <kbd>&lt;C-X&gt;</kbd></td><td><span class="mode">n</span></td><td>Incrementar/decrementar números (como el vim nativo)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>g&lt;C-A&gt;</kbd> / <kbd>g&lt;C-X&gt;</kbd></td><td><span class="mode">n</span></td><td>Incrementar/decrementar progresivo</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\&lt;C-A&gt;</kbd> / <kbd>\&lt;C-X&gt;</kbd></td><td><span class="mode">n</span></td><td>Incrementar/decrementar con soporte alfabético</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+
+              <tr class="row-note"><td colspan="4"><b>Comandos</b></td></tr>
+              <tr data-status="default"><td><kbd>\t</kbd></td><td><span class="mode">n</span></td><td>Transponer</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\a</kbd></td><td><span class="mode">n</span></td><td>Alinear regiones</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\&lt;</kbd></td><td><span class="mode">n</span></td><td>Alinear por carácter</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\&gt;</kbd></td><td><span class="mode">n</span></td><td>Alinear por regex</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\s</kbd></td><td><span class="mode">n</span></td><td>Dividir regiones (sustraer patrón)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\f</kbd></td><td><span class="mode">n</span></td><td>Filtrar regiones por patrón/expresión</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\e</kbd></td><td><span class="mode">n</span></td><td>Transformar regiones con una expresión</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\r</kbd></td><td><span class="mode">n</span></td><td>Reescribir el último patrón para que coincida con la región actual</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\m</kbd></td><td><span class="mode">n</span></td><td>Fusionar regiones solapadas</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\d</kbd></td><td><span class="mode">n</span></td><td>Duplicar regiones</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\-</kbd> / <kbd>\+</kbd></td><td><span class="mode">n</span></td><td>Reducir/agrandar regiones desde los bordes</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\L</kbd></td><td><span class="mode">n</span></td><td>Dejar como máximo una región por línea</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\n</kbd> / <kbd>\N</kbd></td><td><span class="mode">n</span></td><td>Numerar regiones / numerar (agregar)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\z</kbd> / <kbd>\v</kbd> / <kbd>\x</kbd></td><td><span class="mode">n</span></td><td>Ejecutar comando normal/visual/ex</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\Z</kbd> / <kbd>\V</kbd> / <kbd>\X</kbd></td><td><span class="mode">n</span></td><td>Repetir el último comando normal/visual/ex</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\@</kbd></td><td><span class="mode">n</span></td><td>Ejecutar una macro</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+
+              <tr class="row-note"><td colspan="4"><b>Opciones y menús</b></td></tr>
+              <tr data-status="default"><td><kbd>\`</kbd></td><td><span class="mode">n</span></td><td>Menú de herramientas (filtrar líneas al buffer, etc.)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\C</kbd></td><td><span class="mode">n</span></td><td>Menú de conversión mayúsculas/minúsculas</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\"</kbd></td><td><span class="mode">n</span></td><td>Mostrar los registros de VM en la línea de comandos</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\w</kbd></td><td><span class="mode">n</span></td><td>Alternar búsqueda de palabra completa</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\c</kbd></td><td><span class="mode">n</span></td><td>Ciclar configuración de mayúsculas (<code>'scs'</code> → <code>'noic'</code> → <code>'ic'</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\&lt;Space&gt;</kbd></td><td><span class="mode">n</span></td><td>Alternar los mapeos de VM</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>\&lt;CR&gt;</kbd></td><td><span class="mode">n</span></td><td>Alternar modo de región única</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+
+              <tr class="row-note">
+                <td colspan="4">
+                  Los mapeos "permanentes"/"modo visual" están siempre cargados; los de "buffer" (el resto)
+                  solo se activan una vez que hay una sesión VM en curso (iniciada, por ejemplo, con
+                  <kbd>&lt;C-n&gt;</kbd>). Fuente exacta: <code>doc/vm-mappings.txt</code>, commit
+                  <code>a6975e7</code>.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <section id="tmux-navigator" data-plugin="Navegación entre splits — vim-tmux-navigator" data-phase="4">
+      <details class="card">
+        <summary>
+          <h2>Navegación entre splits — vim-tmux-navigator</h2>
+          <span class="src">christoomey/vim-tmux-navigator · editor.lua</span>
+        </summary>
+        <div class="card-body">
+          <p class="meta">
+            Sin configuración propia en <code>editor.lua</code> (<code>event = "VeryLazy"</code>) → mapeos
+            100% default del plugin. Fuente: README oficial, commit <code>e41c431</code>.
+          </p>
+          <table class="keys">
+            <thead><tr><th>Teclas</th><th>Modo</th><th>Acción</th><th>Estado</th></tr></thead>
+            <tbody>
+              <tr data-status="default"><td><kbd>&lt;C-h&gt;</kbd></td><td><span class="mode">n</span></td><td>Moverse al pane/split de la izquierda</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>&lt;C-j&gt;</kbd></td><td><span class="mode">n</span></td><td>Moverse al pane/split de abajo</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>&lt;C-k&gt;</kbd></td><td><span class="mode">n</span></td><td>Moverse al pane/split de arriba</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>&lt;C-l&gt;</kbd></td><td><span class="mode">n</span></td><td>Moverse al pane/split de la derecha</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>&lt;C-\&gt;</kbd></td><td><span class="mode">n</span></td><td>Moverse al split/pane usado anteriormente</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr class="row-note">
+                <td colspan="4">
+                  Según el README oficial, el modo terminal de Neovim está soportado ("Terminal mode is now
+                  supported"): estos atajos también cruzan hacia paneles de tmux desde dentro de un
+                  <code>:terminal</code> (incluyendo ToggleTerm) sin necesitar el prefijo de tmux.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <section id="treesitter-incremental" data-plugin="Selección incremental — treesitter" data-phase="4">
+      <details class="card">
+        <summary>
+          <h2>Selección incremental — treesitter</h2>
+          <span class="src">nvim-treesitter/nvim-treesitter · treesitter.lua</span>
+        </summary>
+        <div class="card-body">
+          <p class="meta">
+            <code>incremental_selection.keymaps</code> configurado explícitamente con los mismos valores
+            que trae el plugin de fábrica.
+          </p>
+          <table class="keys">
+            <thead><tr><th>Teclas</th><th>Modo</th><th>Acción</th><th>Estado</th></tr></thead>
+            <tbody>
+              <tr data-status="custom">
+                <td><kbd>gnn</kbd></td><td><span class="mode">n</span></td>
+                <td>Iniciar selección incremental basada en el nodo bajo el cursor</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>grn</kbd></td><td><span class="mode">n</span><span class="mode">v</span></td>
+                <td>Expandir la selección al nodo incremental siguiente</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>grc</kbd></td><td><span class="mode">n</span><span class="mode">v</span></td>
+                <td>Expandir la selección al scope incremental (ej. la función completa)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+              <tr data-status="custom">
+                <td><kbd>grm</kbd></td><td><span class="mode">n</span><span class="mode">v</span></td>
+                <td>Reducir la selección (nodo decremental)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <section id="todo-comments" data-plugin="TODO comments" data-phase="4">
+      <details class="card">
+        <summary>
+          <h2>TODO comments</h2>
+          <span class="src">folke/todo-comments.nvim · editor.lua</span>
+        </summary>
+        <div class="card-body">
+          <table class="keys">
+            <tbody>
+              <tr class="row-note">
+                <td colspan="4">
+                  <code>opts = {}</code>: sin atajos propios. Resalta <code>TODO</code>/<code>FIXME</code>/
+                  <code>HACK</code>/<code>WARN</code>/etc. en los comentarios. En este repo se usa a través de
+                  <kbd>&lt;leader&gt;ft</kbd> (fzf-lua, ver Fase 2 → <code>:TodoFzfLua</code>).
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <!-- ===================== FASE 5 ===================== -->
+
+    <section id="jdtls" data-plugin="Java — nvim-jdtls" data-phase="5">
+      <details class="card">
+        <summary>
+          <h2>Java — nvim-jdtls</h2>
+          <span class="src">mfussenegger/nvim-jdtls · java.lua</span>
+        </summary>
+        <div class="card-body">
+          <p class="meta">
+            <code>on_attach</code> 100% custom, separado del genérico de <code>lsp.lua</code> — jdtls no usa
+            <code>nvim-lspconfig</code>, se arranca a mano vía <code>autocmd FileType java</code> +
+            <code>jdtls.start_or_attach</code>. <code>format.enabled = false</code>: el formateo de Java lo
+            hace <code>conform.nvim</code> (<code>google-java-format</code>, ver Fase 1). También habilita
+            inlay hints automáticamente al adjuntarse si el cliente lo soporta.
+          </p>
+          <table class="keys">
+            <thead><tr><th>Teclas</th><th>Modo</th><th>Acción</th><th>Estado</th></tr></thead>
+            <tbody>
+              <tr data-status="custom"><td><kbd>gd</kbd></td><td><span class="mode">n</span> (buffer .java)</td><td>Definición</td><td><span class="badge" data-badge="custom">Custom</span></td></tr>
+              <tr data-status="custom"><td><kbd>gr</kbd></td><td><span class="mode">n</span></td><td>Referencias</td><td><span class="badge" data-badge="custom">Custom</span></td></tr>
+              <tr data-status="custom"><td><kbd>gi</kbd></td><td><span class="mode">n</span></td><td>Implementaciones</td><td><span class="badge" data-badge="custom">Custom</span></td></tr>
+              <tr data-status="custom"><td><kbd>K</kbd></td><td><span class="mode">n</span></td><td>Hover</td><td><span class="badge" data-badge="custom">Custom</span></td></tr>
+              <tr data-status="custom"><td><kbd>&lt;leader&gt;rn</kbd></td><td><span class="mode">n</span></td><td>Renombrar</td><td><span class="badge" data-badge="custom">Custom</span></td></tr>
+              <tr data-status="custom"><td><kbd>&lt;leader&gt;ca</kbd></td><td><span class="mode">n</span></td><td>Code action (fzf-lua, con fallback a <code>vim.lsp.buf.code_action</code>)</td><td><span class="badge" data-badge="custom">Custom</span></td></tr>
+              <tr data-status="custom"><td><kbd>[d</kbd> / <kbd>]d</kbd></td><td><span class="mode">n</span></td><td>Diagnóstico anterior/siguiente (buffer-local; duplica el mapeo global de <code>keymaps.lua</code> sin efecto práctico)</td><td><span class="badge" data-badge="custom">Custom</span></td></tr>
+              <tr data-status="custom"><td><kbd>&lt;leader&gt;jo</kbd></td><td><span class="mode">n</span></td><td>Organizar imports</td><td><span class="badge" data-badge="custom">Custom</span></td></tr>
+              <tr data-status="custom"><td><kbd>&lt;leader&gt;jv</kbd></td><td><span class="mode">n</span><span class="mode">v</span></td><td>Extraer variable (en visual, usa el rango seleccionado)</td><td><span class="badge" data-badge="custom">Custom</span></td></tr>
+              <tr data-status="custom"><td><kbd>&lt;leader&gt;jc</kbd></td><td><span class="mode">n</span><span class="mode">v</span></td><td>Extraer constante (en visual, usa el rango seleccionado)</td><td><span class="badge" data-badge="custom">Custom</span></td></tr>
+              <tr data-status="custom"><td><kbd>&lt;leader&gt;jm</kbd></td><td><span class="mode">v</span></td><td>Extraer método (requiere selección)</td><td><span class="badge" data-badge="custom">Custom</span></td></tr>
+              <tr data-status="custom"><td><kbd>&lt;leader&gt;jt</kbd></td><td><span class="mode">n</span></td><td>Test del método más cercano al cursor</td><td><span class="badge" data-badge="custom">Custom</span></td></tr>
+              <tr data-status="custom"><td><kbd>&lt;leader&gt;jT</kbd></td><td><span class="mode">n</span></td><td>Test de la clase completa</td><td><span class="badge" data-badge="custom">Custom</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <section id="persistence" data-plugin="Sesiones — persistence.nvim" data-phase="5">
+      <details class="card">
+        <summary>
+          <h2>Sesiones — persistence.nvim</h2>
+          <span class="src">folke/persistence.nvim · session.lua</span>
+        </summary>
+        <div class="card-body">
+          <table class="keys">
+            <thead><tr><th>Teclas</th><th>Modo</th><th>Acción</th><th>Estado</th></tr></thead>
+            <tbody>
+              <tr data-status="custom"><td><kbd>&lt;leader&gt;qs</kbd></td><td><span class="mode">n</span></td><td>Restaurar la sesión del directorio actual</td><td><span class="badge" data-badge="custom">Custom</span></td></tr>
+              <tr data-status="custom"><td><kbd>&lt;leader&gt;ql</kbd></td><td><span class="mode">n</span></td><td>Restaurar la última sesión global</td><td><span class="badge" data-badge="custom">Custom</span></td></tr>
+              <tr data-status="custom"><td><kbd>&lt;leader&gt;qd</kbd></td><td><span class="mode">n</span></td><td>No guardar la sesión al salir</td><td><span class="badge" data-badge="custom">Custom</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <section id="render-markdown" data-plugin="Markdown — render-markdown.nvim" data-phase="5">
+      <details class="card">
+        <summary>
+          <h2>Markdown — render-markdown.nvim</h2>
+          <span class="src">MeanderingProgrammer/render-markdown.nvim · ui-extras.lua</span>
+        </summary>
+        <div class="card-body">
+          <p class="meta">Renderiza headings/tablas/code-blocks/checkboxes/bullets inline al abrir un
+            <code>.md</code>.</p>
+          <table class="keys">
+            <thead><tr><th>Teclas</th><th>Modo</th><th>Acción</th><th>Estado</th></tr></thead>
+            <tbody>
+              <tr data-status="custom">
+                <td><kbd>&lt;leader&gt;um</kbd></td><td><span class="mode">n</span> (buffer markdown)</td>
+                <td>Activar/desactivar el renderizado (<code>:RenderMarkdown toggle</code>)</td>
+                <td><span class="badge" data-badge="custom">Custom</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <section id="nvim-ufo" data-plugin="Folding — nvim-ufo" data-phase="5">
+      <details class="card">
+        <summary>
+          <h2>Folding — nvim-ufo</h2>
+          <span class="src">kevinhwang91/nvim-ufo · ui-extras.lua</span>
+        </summary>
+        <div class="card-body">
+          <p class="meta">Proveedor de folds: treesitter + indent.</p>
+          <table class="keys">
+            <thead><tr><th>Teclas</th><th>Modo</th><th>Acción</th><th>Estado</th></tr></thead>
+            <tbody>
+              <tr data-status="custom"><td><kbd>zR</kbd></td><td><span class="mode">n</span></td><td>Abrir todos los pliegues</td><td><span class="badge" data-badge="custom">Custom</span></td></tr>
+              <tr data-status="custom"><td><kbd>zM</kbd></td><td><span class="mode">n</span></td><td>Cerrar todos los pliegues</td><td><span class="badge" data-badge="custom">Custom</span></td></tr>
+              <tr data-status="custom"><td><kbd>zr</kbd></td><td><span class="mode">n</span></td><td>Abrir pliegues (excepto algunos niveles)</td><td><span class="badge" data-badge="custom">Custom</span></td></tr>
+              <tr data-status="custom"><td><kbd>zm</kbd></td><td><span class="mode">n</span></td><td>Cerrar pliegues por nivel</td><td><span class="badge" data-badge="custom">Custom</span></td></tr>
+              <tr data-status="custom"><td><kbd>zp</kbd></td><td><span class="mode">n</span></td><td>Previsualizar el pliegue bajo el cursor</td><td><span class="badge" data-badge="custom">Custom</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <section id="dropbar" data-plugin="Breadcrumbs — dropbar.nvim" data-phase="5">
+      <details class="card">
+        <summary>
+          <h2>Breadcrumbs — dropbar.nvim</h2>
+          <span class="src">Bekaboo/dropbar.nvim · ui-extras.lua</span>
+        </summary>
+        <div class="card-body">
+          <p class="meta">
+            Activo solo si Neovim ≥ 0.10. En este repo <b>no se agregó ningún atajo de teclado</b>: el
+            README sugiere <kbd>&lt;leader&gt;;</kbd> para <code>pick()</code>, <kbd>[;</kbd> para
+            <code>goto_context_start()</code> y <kbd>];</kbd> para <code>select_next_context()</code>, pero
+            son solo un ejemplo de configuración — no vienen activados por defecto y este repo no los copió.
+            La barra es puramente visual/clickeable con el mouse a menos que agregues esos mapeos vos mismo.
+          </p>
+          <table class="keys">
+            <thead><tr><th>Teclas</th><th>Modo</th><th>Acción</th><th>Estado</th></tr></thead>
+            <tbody>
+              <tr class="row-note"><td colspan="4"><b>Dentro del menú/popup (se abre con click en un componente de la barra)</b></td></tr>
+              <tr data-status="default"><td><kbd>q</kbd></td><td><span class="mode">n</span></td><td>Cerrar el menú (<code>&lt;C-w&gt;q</code>)</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>&lt;Esc&gt;</kbd></td><td><span class="mode">n</span></td><td>Cerrar el menú</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>&lt;LeftMouse&gt;</kbd></td><td><span class="mode">n</span></td><td>Click en el componente bajo el cursor</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>&lt;CR&gt;</kbd></td><td><span class="mode">n</span></td><td>Confirmar/expandir el componente enfocado</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr data-status="default"><td><kbd>&lt;Up&gt;</kbd> / <kbd>&lt;Down&gt;</kbd></td><td><span class="mode">n</span> (modo fuzzy-find)</td><td>Moverse entre resultados</td><td><span class="badge" data-badge="default">Default</span></td></tr>
+              <tr class="row-note"><td colspan="4">Fuente: <code>lua/dropbar/configs.lua</code> del commit pineado (<code>ce20224</code>).</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <h2>Cobertura por fases</h2>
+  <table>
+    <tr><th>Fase</th><th>Contenido</th><th>Estado</th></tr>
+    <tr><td>1</td><td>LSP y diagnósticos · ToggleTerm · Neo-tree</td><td class="ok">✓ Hecho</td></tr>
+    <tr><td>2</td><td>Globales (keymaps.lua) · bufferline · gitsigns · fzf-lua · lazygit</td><td class="ok">✓ Hecho</td></tr>
+    <tr><td>3</td><td>coding.lua (blink.cmp, mini.surround, mini.ai, Comment.nvim) · resto de tools.lua (autopairs, grug-far, colorizer)</td><td class="ok">✓ Hecho</td></tr>
+    <tr><td>4</td><td>vim-visual-multi · vim-tmux-navigator · treesitter (selección incremental) · todo-comments</td><td class="ok">✓ Hecho</td></tr>
+    <tr><td>5</td><td>java.lua (jdtls) · session.lua (persistence) · ui-extras.lua (render-markdown, ufo, dropbar)</td><td class="ok">✓ Hecho</td></tr>
+  </table>
+  <p>Cobertura completa: los 19 plugins de <code>lua/plugins/*.lua</code> con superficie de teclado están documentados. Generado a partir del código fuente de este repo (verbatim) y de la documentación oficial pineada en <code>lazy-lock.json</code> de cada plugin — commits citados en la metadata de cada sección. Ver también <code>resources/keybindings.md</code> y <code>resources/PLUGINS.md</code>.</p>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var themeBtn = document.getElementById('themeToggle');
+  var saved = localStorage.getItem('nvim-kb-theme');
+  if (saved) root.setAttribute('data-theme', saved);
+  themeBtn.addEventListener('click', function () {
+    var current = root.getAttribute('data-theme');
+    var next;
+    if (!current) {
+      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      next = prefersDark ? 'light' : 'dark';
+    } else {
+      next = current === 'dark' ? 'light' : 'dark';
+    }
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('nvim-kb-theme', next);
+  });
+
+  var toc = document.getElementById('toc');
+  var sections = Array.prototype.slice.call(document.querySelectorAll('main > section[data-plugin]'));
+  var byPhase = {};
+  sections.forEach(function (s) {
+    var phase = s.getAttribute('data-phase') || '?';
+    (byPhase[phase] = byPhase[phase] || []).push(s);
+  });
+  Object.keys(byPhase).sort().forEach(function (phase) {
+    var h = document.createElement('h2');
+    h.textContent = 'Fase ' + phase;
+    toc.appendChild(h);
+    var ul = document.createElement('ul');
+    byPhase[phase].forEach(function (s) {
+      var li = document.createElement('li');
+      var a = document.createElement('a');
+      a.href = '#' + s.id;
+      a.textContent = s.getAttribute('data-plugin');
+      var rows = s.querySelectorAll('tbody tr:not(.row-note)').length;
+      var count = document.createElement('span');
+      count.className = 'count';
+      count.textContent = ' (' + rows + ')';
+      a.appendChild(count);
+      li.appendChild(a);
+      ul.appendChild(li);
+    });
+    toc.appendChild(ul);
+  });
+
+  var tocToggle = document.getElementById('tocToggle');
+  tocToggle.addEventListener('click', function () {
+    toc.classList.toggle('open');
+  });
+  toc.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A' && window.innerWidth <= 820) {
+      toc.classList.remove('open');
+    }
+  });
+
+  var expandAll = document.getElementById('expandAll');
+  var collapseAll = document.getElementById('collapseAll');
+  expandAll.addEventListener('click', function () {
+    document.querySelectorAll('details.card').forEach(function (d) { d.open = true; });
+  });
+  collapseAll.addEventListener('click', function () {
+    document.querySelectorAll('details.card').forEach(function (d) { d.open = false; });
+  });
+
+  var activeStatusFilters = new Set();
+  document.querySelectorAll('.badge[data-filter]').forEach(function (badge) {
+    badge.addEventListener('click', function () {
+      var f = badge.getAttribute('data-filter');
+      if (activeStatusFilters.has(f)) {
+        activeStatusFilters.delete(f);
+        badge.classList.remove('off');
+      } else {
+        activeStatusFilters.add(f);
+      }
+      document.querySelectorAll('.badge[data-filter]').forEach(function (b) {
+        var bf = b.getAttribute('data-filter');
+        b.classList.toggle('off', activeStatusFilters.size > 0 && !activeStatusFilters.has(bf));
+      });
+      applyFilters();
+    });
+  });
+
+  var search = document.getElementById('search');
+  function clearMarks(el) {
+    el.querySelectorAll('mark').forEach(function (m) {
+      var parent = m.parentNode;
+      parent.replaceChild(document.createTextNode(m.textContent), m);
+      parent.normalize();
+    });
+  }
+  function highlight(el, term) {
+    if (!term) return;
+    var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+    var nodes = [];
+    var n;
+    while ((n = walker.nextNode())) nodes.push(n);
+    nodes.forEach(function (node) {
+      var text = node.nodeValue;
+      var idx = text.toLowerCase().indexOf(term);
+      if (idx === -1) return;
+      var frag = document.createDocumentFragment();
+      frag.appendChild(document.createTextNode(text.slice(0, idx)));
+      var mark = document.createElement('mark');
+      mark.textContent = text.slice(idx, idx + term.length);
+      frag.appendChild(mark);
+      frag.appendChild(document.createTextNode(text.slice(idx + term.length)));
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+
+  function applyFilters() {
+    var term = search.value.trim().toLowerCase();
+    sections.forEach(function (section) {
+      var rows = section.querySelectorAll('tbody tr');
+      var sectionHasMatch = false;
+      rows.forEach(function (row) {
+        clearMarks(row);
+        if (row.classList.contains('row-note')) {
+          row.style.display = term ? 'none' : '';
+          return;
+        }
+        var status = row.getAttribute('data-status');
+        var statusOk = activeStatusFilters.size === 0 || activeStatusFilters.has(status);
+        var text = row.textContent.toLowerCase();
+        var textOk = !term || text.indexOf(term) !== -1;
+        var show = statusOk && textOk;
+        row.style.display = show ? '' : 'none';
+        if (show) {
+          sectionHasMatch = true;
+          if (term) highlight(row, term);
+        }
+      });
+      var details = section.querySelector('details.card');
+      if (term || activeStatusFilters.size > 0) {
+        section.classList.toggle('hidden-by-search', !sectionHasMatch);
+        if (sectionHasMatch && term) details.open = true;
+      } else {
+        section.classList.remove('hidden-by-search');
+      }
+    });
+    document.querySelectorAll('#toc li').forEach(function (li) {
+      var href = li.querySelector('a').getAttribute('href').slice(1);
+      var section = document.getElementById(href);
+      li.style.display = section.classList.contains('hidden-by-search') ? 'none' : '';
+    });
+  }
+  search.addEventListener('input', applyFilters);
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === '/' && document.activeElement !== search) {
+      e.preventDefault();
+      search.focus();
+    } else if (e.key === 'Escape' && document.activeElement === search) {
+      search.value = '';
+      applyFilters();
+      search.blur();
+    }
+  });
+})();
+</script>
+</body>
+</html>
