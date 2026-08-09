@@ -43,6 +43,12 @@ return {
         "prismals", "pyright", "eslint", "jdtls", "yamlls", "intelephense",
         "dockerls", "docker_compose_language_service",
       },
+      -- jdtls lo arranca java.lua a mano (nvim-jdtls, con ruta de mason
+      -- resuelta y soporte Lombok/debug bundles). Si mason-lspconfig lo
+      -- auto-habilita tambien, lanza en paralelo su propio cliente con
+      -- `cmd = "jdtls"` a secas (nvim-lspconfig/lsp/jdtls.lua), que falla
+      -- al spawnear porque no resuelve la ruta de C:\mason\bin.
+      automatic_enable = { exclude = { "jdtls" } },
     },
   },
   {
@@ -194,24 +200,17 @@ return {
         json = { "prettierd", "prettier", stop_after_first = true },
         yaml = { "prettierd", "prettier", stop_after_first = true },
         markdown = { "prettierd", "prettier", stop_after_first = true },
-        java = { "google-java-format" },
         python = { "black" },
-      },
-      formatters = {
-        ["google-java-format"] = {
-          -- Ruta fija (no via PATH): el `opts` de conform se evalua una
-          -- sola vez al cargar el plugin, y en ese momento no hay garantia
-          -- de que mason.nvim ya haya corrido su setup() y agregado su
-          -- bin al PATH (ambos comparten el mismo `event`). Se resuelve
-          -- contra `install_root_dir` para no romperse si cambia.
-          command = (vim.fn.has("win32") == 1 and "C:\\mason" or vim.fn.stdpath("data") .. "/mason") .. "/bin/google-java-format.cmd",
-          args = { "-" },
-          stdin = true,
-        },
+        -- java: sin entrada aca a proposito. Lo formatea jdtls via LSP
+        -- (ver java.lua, java-formatter.xml) en vez de google-java-format,
+        -- que ignoraba los saltos de linea manuales del usuario.
       },
       format_on_save = function(bufnr)
         -- Solo auto-formatear estos lenguajes al guardar
-        local autoformat_fts = { "java", "lua" }
+        -- java: DESACTIVADO. El format via jdtls (join_wrapped_lines=false)
+        -- estaba borrando codigo al guardar en vez de formatear bien.
+        -- Pendiente investigar antes de reactivar.
+        local autoformat_fts = { "lua" }
         local ft = vim.bo[bufnr].filetype
         if vim.tbl_contains(autoformat_fts, ft) then
           return { timeout_ms = 3000, lsp_format = "fallback" }
@@ -225,8 +224,30 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     dependencies = { "mason.nvim" },
     cmd = { "MasonToolsInstall", "MasonToolsInstallSync", "MasonToolsUpdate", "MasonToolsUpdateSync" },
-    opts = { ensure_installed = { "prettierd", "prettier", "stylua", "black", "prisma-language-server", "google-java-format", "java-debug-adapter", "java-test" } },
+    opts = { ensure_installed = { "prettierd", "prettier", "stylua", "black", "prisma-language-server", "java-debug-adapter", "java-test" } },
   },
 
-  { "j-hui/fidget.nvim", event = "LspAttach", opts = {} },
+  {
+    "j-hui/fidget.nvim",
+    event = "LspAttach",
+    opts = {
+      progress = {
+        ignore = {
+          -- jdtls revalida el archivo en cada cambio y manda progress
+          -- reports tipo "Validate documents" / "Publish Diagnostics"
+          -- todo el tiempo; es ruido, no aporta nada util a diferencia
+          -- del progreso real de indexado/import al abrir el proyecto.
+          function(msg)
+            if not (msg.lsp_client and msg.lsp_client.name == "jdtls") then
+              return false
+            end
+            local text = ((msg.title or "") .. " " .. (msg.message or "")):lower()
+            return text:find("validat", 1, true) ~= nil
+              or text:find("publish", 1, true) ~= nil
+              or text:find("diagnostic", 1, true) ~= nil
+          end,
+        },
+      },
+    },
+  },
 }

@@ -9,8 +9,10 @@ return {
     config = function()
       local jdtls = require("jdtls")
 
-      -- Mason paths
-      local mason_path = vim.fn.stdpath("data") .. "/mason/packages"
+      -- Mason paths (respeta install_root_dir = "C:\mason" en Windows,
+      -- ver mason.nvim en lsp.lua)
+      local mason_root = vim.fn.has("win32") == 1 and "C:\\mason" or vim.fn.stdpath("data") .. "/mason"
+      local mason_path = mason_root .. "/packages"
       local jdtls_path = mason_path .. "/jdtls"
 
       -- Check if jdtls is installed
@@ -23,7 +25,7 @@ return {
       local jdtls_bin = jdtls_path .. "/bin/jdtls"
       if vim.fn.has("win32") == 1 then
         -- On Windows, use the Python wrapper via cmd
-        jdtls_bin = vim.fn.stdpath("data") .. "/mason/bin/jdtls.cmd"
+        jdtls_bin = mason_root .. "/bin/jdtls.cmd"
       end
 
       if vim.fn.executable(jdtls_bin) == 0 then
@@ -85,6 +87,30 @@ return {
         cmd = cmd,
         root_dir = jdtls.setup.find_root({ ".git", "mvnw", "gradlew", "pom.xml", "build.gradle", "build.gradle.kts" }) or vim.fn.getcwd(),
         capabilities = capabilities,
+        handlers = {
+          -- El default de nvim-jdtls hace `:echo` en cada "language/status"
+          -- (p.ej. "Validate..." en cada revalidacion de archivo), lo que
+          -- se ve como ruido en el cmdline mientras se escribe. Solo se
+          -- notifican los errores reales.
+          ["language/status"] = function(_, result)
+            if result.type == "Error" then
+              vim.notify(result.message, vim.log.levels.WARN, { title = "jdtls" })
+            end
+          end,
+          -- jdtls tambien manda el mismo ruido ("Validate documents",
+          -- "Publish documents", "Publish Diagnostics") via el canal LSP
+          -- estandar window/showMessage, que Neovim muestra como notify
+          -- normal (fuera del alcance del filtro de fidget, que solo ve
+          -- $/progress). Se filtra por palabra clave y se deja pasar todo
+          -- lo demas al handler default.
+          ["window/showMessage"] = function(err, result, ctx)
+            local msg = (result and result.message or ""):lower()
+            if msg:find("validat", 1, true) or msg:find("publish", 1, true) or msg:find("diagnostic", 1, true) then
+              return
+            end
+            return vim.lsp.handlers["window/showMessage"](err, result, ctx)
+          end,
+        },
         settings = {
           java = {
             eclipse = { downloadSources = true },
@@ -95,7 +121,11 @@ return {
             referencesCodeLens = { enabled = true },
             references = { includeDecompiledSources = true },
             inlayHints = { parameterNames = { enabled = "all" } },
-            format = { enabled = false }, -- Use conform.nvim
+            -- DESACTIVADO: el formateo via jdtls (join_wrapped_lines=false,
+            -- java-formatter.xml) estaba borrando codigo al formatear en
+            -- vez de solo reordenar lineas. Pendiente investigar la causa
+            -- antes de volver a activarlo.
+            format = { enabled = false },
             signatureHelp = { enabled = true, description = { enabled = true } },
             contentProvider = { preferred = "fernflower" },
             completion = {

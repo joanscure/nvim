@@ -68,7 +68,16 @@
       "Read(//tmp/**)",
       "Bash(git pull *)",
       "PowerShell(winget install *)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Read(//c/mason/**)",
+      "Read(//c//**)",
+      "Bash(where python *)",
+      "Bash(where python3 *)",
+      "Bash(where py *)",
+      "PowerShell(winget search *)",
+      "Bash(/c/mason/bin/google-java-format.cmd *)",
+      "Bash(xxd)",
+      "Bash(git *)"
     ]
   }
 }
