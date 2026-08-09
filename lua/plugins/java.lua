@@ -121,10 +121,8 @@ return {
             referencesCodeLens = { enabled = true },
             references = { includeDecompiledSources = true },
             inlayHints = { parameterNames = { enabled = "all" } },
-            -- DESACTIVADO: el formateo via jdtls (join_wrapped_lines=false,
-            -- java-formatter.xml) estaba borrando codigo al formatear en
-            -- vez de solo reordenar lineas. Pendiente investigar la causa
-            -- antes de volver a activarlo.
+            -- jdtls NO formatea: el formateo de Java pasa por
+            -- google-java-format via conform.nvim (ver lsp.lua).
             format = { enabled = false },
             signatureHelp = { enabled = true, description = { enabled = true } },
             contentProvider = { preferred = "fernflower" },

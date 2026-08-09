@@ -8,9 +8,11 @@ Inventario completo de los plugins definidos en `lua/plugins/*.lua` (lazy.nvim),
 |---|---|
 | `williamboman/mason.nvim` | Instalador de LSP servers, linters, formatters y DAP adapters (`:Mason` para ver/gestionar). |
 | `williamboman/mason-lspconfig.nvim` | Puente entre Mason y `nvim-lspconfig`; su `ensure_installed` fuerza la instalación automática de servers al arrancar. |
-| `neovim/nvim-lspconfig` | Configuración y arranque de los clientes LSP (`vtsls`, `angularls`, `html`, `cssls`, `jsonls`, `pyright`, `eslint`, `yamlls`, `jdtls`, `lua_ls`, `marksman`, `prismals`). Define `gd`/`gr`/`gi`/`K`/`<leader>rn`/`<leader>ca` on attach. |
-| `stevearc/conform.nvim` | Motor de formateo (`prettierd`/`prettier`, `stylua`, `black`, `google-java-format`). `<leader>fm` formatea manual; autoformat on-save solo en Java y Lua. |
-| `WhoIsSethDaniel/mason-tool-installer.nvim` | Fuerza instalación de formatters/DAP tools que Mason no cubre por defecto (`prettierd`, `stylua`, `black`, `java-debug-adapter`, `java-test`, etc.) vía `:MasonToolsInstall`. |
+| `neovim/nvim-lspconfig` | Configuración y arranque de los clientes LSP (`vtsls`, `angularls`, `html`, `cssls`, `jsonls`, `pyright`, `eslint`, `yamlls`, `jdtls`, `lua_ls`, `marksman`, `prismals`) vía la API nativa `vim.lsp.config`/`vim.lsp.enable`. `vtsls` registra `@angular/language-server` como plugin global (integración TS-aware para Angular); `angularls` sigue corriendo para diagnósticos de plantilla con `renameProvider` apagado para no duplicar el diálogo de rename. Define `gd`/`gr`/`gi`/`K`/`<leader>rn`/`<leader>ca` on attach. |
+| `b0o/SchemaStore.nvim` | Catálogo de JSON Schemas (tabla estática, sin red en runtime) usado por `jsonls` y `yamlls` para completado/validación de `package.json`, manifiestos k8s, GitHub Actions, etc. |
+| `stevearc/conform.nvim` | Motor de formateo (`prettierd`/`prettier`, `stylua`, `black`, `google-java-format`). `<leader>fm` formatea manual; autoformat on-save en Lua/JSON/YAML/CSS/Python (Java y JS/TS pendientes de sumarse tras confirmar manualmente). |
+| `WhoIsSethDaniel/mason-tool-installer.nvim` | Fuerza instalación de formatters/linters/DAP tools que Mason no cubre por defecto (`prettierd`, `stylua`, `black`, `google-java-format`, `java-debug-adapter`, `java-test`, `ruff`, `hadolint`, `stylelint`, `phpcs`) vía `:MasonToolsInstall`. |
+| `mfussenegger/nvim-lint` (`lint.lua`) | Linting real más allá de los diagnósticos del LSP: `ruff` (python), `hadolint` (dockerfile), `stylelint` (css), `phpcs` (php). JS/TS no llevan linter acá a propósito — el server `eslint` ya cubre eso. |
 | `folke/lazydev.nvim` | Autocompletado/tipos correctos de la API de Neovim (`vim.*`) cuando editás Lua de tu propia config. Solo carga en archivos `.lua`. |
 | `Bilal2453/luvit-meta` | Tipos de `vim.uv` (libuv) — dependencia de `lazydev`, no se usa solo. |
 | `j-hui/fidget.nvim` | Notificación discreta abajo a la derecha del progreso de un LSP (ej. "jdtls: indexando..."). |
@@ -31,7 +33,7 @@ Inventario completo de los plugins definidos en `lua/plugins/*.lua` (lazy.nvim),
 
 | Plugin | Qué hace |
 |---|---|
-| `mfussenegger/nvim-jdtls` | Integración completa de `jdtls` (LSP de Java): organizar imports, extraer variable/constante/método, correr tests, debug bundles, soporte Lombok. Define su propio `on_attach` (independiente del de `lsp.lua`). |
+| `mfussenegger/nvim-jdtls` | Integración completa de `jdtls` (LSP de Java): organizar imports, extraer variable/constante/método, correr tests, debug bundles, soporte Lombok. Define su propio `on_attach` (independiente del de `lsp.lua`). El formateo NO pasa por jdtls (`format.enabled = false`) — lo hace `google-java-format` vía `conform.nvim` (ver `lsp.lua`). |
 
 ## Sesión — `session.lua`
 
@@ -99,5 +101,5 @@ Inventario completo de los plugins definidos en `lua/plugins/*.lua` (lazy.nvim),
 
 ## Resumen
 
-- **Total de plugins con spec propio**: ~42 (sin contar `flash.nvim`, `nvim-treesitter-textobjects`, `trouble.nvim` ni `vim-fugitive`, ya quitados; se sumó `vim-tmux-navigator`).
-- **Plugins que son solo dependencias internas** (no se invocan directo): `luvit-meta`, `plenary.nvim`, `nui.nvim`, `nvim-web-devicons`, `friendly-snippets`.
+- **Total de plugins con spec propio**: ~44 (sin contar `flash.nvim`, `nvim-treesitter-textobjects`, `trouble.nvim` ni `vim-fugitive`, ya quitados; se sumó `vim-tmux-navigator`, `SchemaStore.nvim` y `nvim-lint`).
+- **Plugins que son solo dependencias internas** (no se invocan directo): `luvit-meta`, `plenary.nvim`, `nui.nvim`, `nvim-web-devicons`, `friendly-snippets`, `SchemaStore.nvim`.

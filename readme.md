@@ -105,13 +105,13 @@ Fast, modern Neovim config focused on **performance** and **developer ergonomics
 
 ## LSP & Formatting
 
-* **Servers installed via Mason**: `lua_ls`, `vtsls` (or fallback `ts_ls`), `html`, `cssls`, `jsonls`, `marksman`, `prismals`, `pyright`, `eslint`.
-* **Formatting via Conform** (on save, async):
+* **Servers installed via Mason**: `lua_ls`, `vtsls`, `angularls`, `html`, `cssls`, `jsonls`, `marksman`, `prismals`, `pyright`, `eslint`, `jdtls`, `yamlls`, `intelephense`, `dockerls`, `docker_compose_language_service` — via the native `vim.lsp.config`/`vim.lsp.enable` API.
+* **JSON/YAML schemas**: `b0o/SchemaStore.nvim` wired into `jsonls`/`yamlls` (package.json, k8s manifests, GitHub Actions, etc.).
+* **Formatting via Conform**:
 
-  * JS/TS/React/JSON/CSS/HTML/MD/YAML → `prettierd` → fallback `prettier`
-  * Lua → `stylua`
-  * Python → `black`
-  * Prisma → `prismaFmt`
+  * On save: Lua, JSON, YAML, CSS, Python (JS/TS/HTML and Java to follow once verified manually)
+  * Manual (`<leader>fm`): JS/TS/React/HTML/MD → `prettierd`/`prettier`; Java → `google-java-format`
+* **Linting via `nvim-lint`**: `ruff` (Python), `hadolint` (Dockerfile), `stylelint` (CSS), `phpcs` (PHP). JS/TS diagnostics come from the `eslint` LSP server instead.
 * LSP keymaps are attached per-buffer (see cheat sheet below).
 
 ---

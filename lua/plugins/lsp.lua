@@ -11,6 +11,9 @@ return {
     },
   },
   { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
+  -- Catalogo de JSON Schemas para yamlls/jsonls (json/yaml.schemas()
+  -- devuelven tablas estaticas embebidas, sin red en cada arranque)
+  { "b0o/SchemaStore.nvim", lazy = true },
   {
     "williamboman/mason.nvim",
     -- Sin `event`, con `defaults.lazy = true` (lazy.lua) este plugin no
@@ -25,7 +28,14 @@ return {
     cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonUpdate", "MasonLog" },
     build = ":MasonUpdate",
     opts = {
-      PATH = "append",
+      -- "prepend" (no "append"): en esta maquina hay un
+      -- vscode-css-language-server global instalado por npm en
+      -- C:\nvm4w\nodejs que queda antes que mason/bin en el PATH del
+      -- sistema y esta roto (falla el spawn); con "append" ese binario
+      -- global siempre ganaba. "prepend" asegura que los binarios que
+      -- instala/gestiona mason tengan prioridad sobre cualquier instalacion
+      -- global equivalente.
+      PATH = "prepend",
       -- En Windows, "C:\Users\<nombre con espacio>" rompe el quoting de
       -- cmd.exe al invocar los .cmd que instala Mason para servidores
       -- Node (angularls, eslint, etc.), sin importar el usuario. Se
@@ -54,7 +64,7 @@ return {
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
-    dependencies = { "saghen/blink.cmp" },
+    dependencies = { "saghen/blink.cmp", "b0o/SchemaStore.nvim" },
     config = function()
       vim.diagnostic.config({
         virtual_text = false,
@@ -110,6 +120,13 @@ return {
         end, "Code Action")
       end
 
+      -- Resuelve la ruta de un paquete instalado por Mason (mismo patron
+      -- que ya usa java.lua para respetar install_root_dir = "C:\mason").
+      local mason_root = vim.fn.has("win32") == 1 and "C:\\mason" or (vim.fn.stdpath("data") .. "/mason")
+      local function mason_pkg_path(pkg, suffix)
+        return mason_root .. "/packages/" .. pkg .. (suffix or "")
+      end
+
       local servers = {
         lua_ls = {
           settings = {
@@ -119,11 +136,43 @@ return {
             },
           },
         },
-        vtsls = {},
-        angularls = {},
+        -- vtsls hace de host de intelligence para Angular: se le registra
+        -- @angular/language-server (paquete ya instalado por mason via
+        -- angularls) como plugin global de tsserver.
+        vtsls = {
+          settings = {
+            vtsls = {
+              tsserver = {
+                globalPlugins = {
+                  {
+                    name = "@angular/language-server",
+                    location = mason_pkg_path("angular-language-server", "/node_modules/@angular/language-server"),
+                    enableForWorkspaceTypeScriptVersions = false,
+                  },
+                },
+              },
+            },
+          },
+        },
+        -- angularls sigue corriendo para diagnosticos de plantilla, pero se
+        -- le apaga renameProvider: vtsls (con el plugin de arriba) ya cubre
+        -- el rename y sin esto salian dos dialogos de rename duplicados.
+        angularls = {
+          on_attach = function(client, bufnr)
+            on_attach(client, bufnr)
+            client.server_capabilities.renameProvider = false
+          end,
+        },
         html = {},
         cssls = {},
-        jsonls = {},
+        jsonls = {
+          settings = {
+            json = {
+              schemas = require("schemastore").json.schemas(),
+              validate = { enable = true },
+            },
+          },
+        },
         marksman = {},
         prismals = {},
         pyright = {},
@@ -137,38 +186,27 @@ return {
               validate = true,
               hover = true,
               completion = true,
-              schemaStore = { enable = true, url = "https://www.schemastore.org/api/json/catalog.json" },
-              schemas = {
-                ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
+              -- El catalogo lo da SchemaStore.nvim (tabla estatica); se
+              -- apaga el schema store propio de yamlls para no tener dos
+              -- fuentes de catalogo pisandose entre si.
+              schemaStore = { enable = false, url = "" },
+              schemas = vim.tbl_extend("force", require("schemastore").yaml.schemas(), {
                 ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "docker-compose*.yml",
-                ["https://json.schemastore.org/pre-commit-config.json"] = ".pre-commit-config.yaml",
-              },
+              }),
             },
           },
         },
       }
 
-      local use_new_api = vim.fn.has("nvim-0.11") == 1
-
-      if use_new_api then
-        vim.lsp.config('*', {
-          capabilities = capabilities,
-          on_attach = on_attach,
-        })
-        for name, config in pairs(servers) do
-          if next(config) ~= nil then
-            vim.lsp.config(name, config)
-          end
-          vim.lsp.enable(name)
+      vim.lsp.config("*", {
+        capabilities = capabilities,
+        on_attach = on_attach,
+      })
+      for name, config in pairs(servers) do
+        if next(config) ~= nil then
+          vim.lsp.config(name, config)
         end
-      else
-        local lspconfig = require("lspconfig")
-        for name, config in pairs(servers) do
-          lspconfig[name].setup(vim.tbl_deep_extend("force", config, {
-            capabilities = capabilities,
-            on_attach = on_attach,
-          }))
-        end
+        vim.lsp.enable(name)
       end
     end,
   },
@@ -189,6 +227,15 @@ return {
     },
     opts = {
       notify_on_error = true,
+      formatters = {
+        -- Resuelto a ruta completa (mismo patron de mason_root que lsp.lua
+        -- y java.lua) para no depender del timing de PATH de mason.nvim.
+        ["google-java-format"] = {
+          command = (vim.fn.has("win32") == 1 and "C:\\mason" or (vim.fn.stdpath("data") .. "/mason"))
+            .. "/bin/google-java-format"
+            .. (vim.fn.has("win32") == 1 and ".cmd" or ""),
+        },
+      },
       formatters_by_ft = {
         lua = { "stylua" },
         javascript = { "prettierd", "prettier", stop_after_first = true },
@@ -201,16 +248,17 @@ return {
         yaml = { "prettierd", "prettier", stop_after_first = true },
         markdown = { "prettierd", "prettier", stop_after_first = true },
         python = { "black" },
-        -- java: sin entrada aca a proposito. Lo formatea jdtls via LSP
-        -- (ver java.lua, java-formatter.xml) en vez de google-java-format,
-        -- que ignoraba los saltos de linea manuales del usuario.
+        -- google-java-format en vez del perfil Eclipse/JDT hecho a mano
+        -- (jdtls sigue con format.enabled=false, ver java.lua). Es el
+        -- formatter estandar de Java; a cambio de eso reescribe todo a su
+        -- propio estilo y no respeta saltos de linea manuales.
+        java = { "google-java-format" },
       },
       format_on_save = function(bufnr)
-        -- Solo auto-formatear estos lenguajes al guardar
-        -- java: DESACTIVADO. El format via jdtls (join_wrapped_lines=false)
-        -- estaba borrando codigo al guardar en vez de formatear bien.
-        -- Pendiente investigar antes de reactivar.
-        local autoformat_fts = { "lua" }
+        -- Tanda 1: formatters deterministas ya probados. js/ts/html y java
+        -- se agregan despues de confirmar manualmente con <leader>fm que
+        -- el resultado es el esperado.
+        local autoformat_fts = { "lua", "json", "yaml", "css", "python" }
         local ft = vim.bo[bufnr].filetype
         if vim.tbl_contains(autoformat_fts, ft) then
           return { timeout_ms = 3000, lsp_format = "fallback" }
@@ -224,7 +272,23 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     dependencies = { "mason.nvim" },
     cmd = { "MasonToolsInstall", "MasonToolsInstallSync", "MasonToolsUpdate", "MasonToolsUpdateSync" },
-    opts = { ensure_installed = { "prettierd", "prettier", "stylua", "black", "prisma-language-server", "java-debug-adapter", "java-test" } },
+    opts = {
+      ensure_installed = {
+        "prettierd",
+        "prettier",
+        "stylua",
+        "black",
+        "prisma-language-server",
+        "java-debug-adapter",
+        "java-test",
+        "google-java-format",
+        -- Linters (ver lint.lua)
+        "ruff",
+        "hadolint",
+        "stylelint",
+        "phpcs",
+      },
+    },
   },
 
   {
