@@ -1,194 +1,76 @@
-# Neovim Setup (Lazy.nvim + LSP + Productivity)
+# Neovim Config (lazy.nvim + LSP + Java/Spring Boot)
 
-Fast, modern Neovim config focused on **performance** and **developer ergonomics**. Includes:
+Personal Neovim config built around **lazy.nvim**, the native
+`vim.lsp.config`/`vim.lsp.enable` LSP API, and Mason-managed servers.
+Tuned for JS/TS/Angular, Java/Spring Boot, Python, and general web work,
+with an eye on Windows compatibility (MSYS2/gcc, `tree-sitter-cli`, the
+Mason-install-path-with-spaces gotcha, etc.).
 
-* **Lazy.nvim** plugin manager (lazy‑load everything)
-* **LSP** for JS/TS (vtsls), Lua, HTML/CSS, JSON, Markdown, Prisma, Python
-* **Blink.cmp** for high-performance completion
-* **Conform.nvim** for fast formatting (Prettierd/Prettier, Stylua, Black, PrismaFmt)
-* **Treesitter** (auto-install parsers, conditional on available C compiler)
-* **fzf-lua** fuzzy finder, **Neo-tree** file explorer
-* Polished UI: **Catppuccin** theme, Lualine, Noice, Notify, Dressing, Which‑Key, Fidget, Gitsigns, Todo‑comments, Dropbar
+## Documentation
 
----
+- **[docs/install.md](docs/install.md)** — full setup guide for a new
+  Windows machine: core tools, C compiler for Treesitter, Java/Spring
+  Boot, fonts, first-launch Mason verification, and troubleshooting for
+  the gotchas this config has actually hit.
+- **[docs/plugins.md](docs/plugins.md)** — inventory of every plugin in
+  `lua/plugins/*.lua`, grouped by file, with what each one does and any
+  detected overlap.
+- **[docs/keybindings.md](docs/keybindings.md)** — full keybinding
+  cheat sheet.
+- **[docs/keybindings.html](docs/keybindings.html)** — the same
+  keybindings as a searchable standalone page (open it directly in a
+  browser).
 
-## Requirements
+## Highlights
 
-* **Neovim** ≥ 0.9 (recommended ≥ 0.10)
-* **Git** in PATH
-* (Optional but recommended) **C compiler** for Treesitter parsers
+- **lazy.nvim** plugin manager, lazy-loaded by default (`defaults.lazy = true`)
+- **LSP** via Mason + `nvim-lspconfig`: `vtsls`/`angularls` (JS/TS/Angular),
+  `jdtls` (Java, via `nvim-jdtls` with Lombok/debug/test support),
+  `pyright`, `html`/`cssls`/`jsonls`/`yamlls`, `marksman`, `prismals`,
+  `intelephense`, `dockerls`
+- **blink.cmp** for completion
+- **conform.nvim** for formatting (`prettierd`/`prettier`, `stylua`,
+  `black`, `google-java-format`) + `nvim-lint` for linting
+  (`ruff`, `hadolint`, `stylelint`, `phpcs`)
+- **Treesitter** (`main` branch), parsers built via `tree-sitter-cli`,
+  conditional on a detected C compiler
+- **fzf-lua** fuzzy finder, **Neo-tree** file explorer, **LazyGit**
+  integration
+- Catppuccin theme, Lualine, Bufferline, Noice, Notify, Dropbar,
+  Which-Key, Fidget, Gitsigns, Todo-comments
 
-  * **Windows**: easiest is **Zig** (`winget install -e --id zig.zig`), or **LLVM/Clang** (`winget install -e --id LLVM.LLVM`).
+See [docs/plugins.md](docs/plugins.md) for the complete list.
 
-    * If using Clang, you may need **MSVC Build Tools + Windows SDK** (`winget install -e --id Microsoft.VisualStudio.2022.BuildTools`, select *Desktop development with C++*).
-  * **macOS**: `xcode-select --install`
-  * **Linux**: `sudo apt install build-essential` (Debian/Ubuntu) or `sudo dnf groupinstall "Development Tools"` (Fedora)
-
-> Treesitter loads **only if a compiler is detected**. You can use the config without it; you just won’t get TS highlighting until the compiler is available.
-
----
-
-## Folder Structure
+## Folder structure
 
 ```
-~/.config/nvim/
+%LOCALAPPDATA%\nvim\      (Windows)  /  ~/.config/nvim/  (Linux/macOS)
 ├─ init.lua
+├─ docs/                   setup guide, plugin inventory, keybindings
+├─ resources/              fonts, images
 └─ lua/
-   ├─ config/
-   │  ├─ options.lua
-   │  ├─ keymaps.lua
-   │  ├─ autocmds.lua
-   │  └─ lazy.lua
-   └─ plugins/
-      └─ init.lua
+   ├─ config/               options, keymaps, autocmds, lazy.nvim bootstrap
+   └─ plugins/               one file per plugin group (lsp, coding, java, ui, ...)
 ```
 
----
+## Quick start
 
-## Installation
-
-1. **Backup** your current Neovim config.
-2. Copy the files from this repository into `~/.config/nvim` (Linux/macOS) or `%LOCALAPPDATA%\nvim` (Windows).
-3. Start Neovim. Lazy.nvim will bootstrap automatically.
-4. Run:
-
-   * `:Lazy sync` to install plugins
-   * `:Mason` then `:MasonToolsInstall` to install formatters/linters
-   * If you have a compiler available: `:TSUpdate` for Treesitter parsers
-
-### Verify compiler (Windows)
-
-* **PowerShell** (open a new session after installation):
-
-  ```powershell
-  zig version            # if you installed Zig
-  clang --version        # or Clang
-  ```
-* In **Neovim**:
-
-  ```vim
-  :echo executable('zig') || executable('clang') || executable('cl')
-  :checkhealth nvim-treesitter
-  ```
-
-  Should print `1` for one of them.
-
----
-
-## Key Plugins
-
-| Area           | Plugin(s)                                                                                                    |
-| -------------- | ------------------------------------------------------------------------------------------------------------ |
-| Plugin manager | `folke/lazy.nvim`                                                                                            |
-| UI             | `catppuccin/nvim`, `folke/noice.nvim`, `rcarriga/nvim-notify`, `stevearc/dressing.nvim`, `Bekaboo/dropbar.nvim` |
-| Navigation     | `ibhagwan/fzf-lua`, `nvim-neo-tree/neo-tree.nvim`, `christoomey/vim-tmux-navigator`      |
-| Git            | `lewis6991/gitsigns.nvim`, `kdheepak/lazygit.nvim`                                                           |
-| LSP            | `neovim/nvim-lspconfig`, `williamboman/mason.nvim`, `williamboman/mason-lspconfig.nvim`, `folke/neodev.nvim` |
-| Completion     | `saghen/blink.cmp` + `rafamadriz/friendly-snippets`                                                          |
-| Formatting     | `stevearc/conform.nvim`, `WhoIsSethDaniel/mason-tool-installer.nvim`                                         |
-| Treesitter     | `nvim-treesitter/nvim-treesitter`, `nvim-treesitter/nvim-treesitter-textobjects`, `windwp/nvim-ts-autotag`   |
-| QoL            | `folke/which-key.nvim`, `folke/todo-comments.nvim`, `j-hui/fidget.nvim`, `echasnovski/mini.surround`, `echasnovski/mini.ai`, `numToStr/Comment.nvim` |
-
----
-
-## Defaults & Opinionated Choices
-
-* **Leader**: Space (`" "`)
-* **Theme**: Catppuccin (Mocha)
-* **Statusline**: Lualine (global statusline)
-* **Search**: smartcase, highlight on yank
-* **Tabs/Indent**: spaces, width 2 (adjust in `options.lua`)
-* **Persistent undo** and sane defaults
-* **Performance**: module cache (`vim.loader.enable()`), lazy loading, disabled legacy runtime plugins
-
----
-
-## LSP & Formatting
-
-* **Servers installed via Mason**: `lua_ls`, `vtsls`, `angularls`, `html`, `cssls`, `jsonls`, `marksman`, `prismals`, `pyright`, `eslint`, `jdtls`, `yamlls`, `intelephense`, `dockerls`, `docker_compose_language_service` — via the native `vim.lsp.config`/`vim.lsp.enable` API.
-* **JSON/YAML schemas**: `b0o/SchemaStore.nvim` wired into `jsonls`/`yamlls` (package.json, k8s manifests, GitHub Actions, etc.).
-* **Formatting via Conform**:
-
-  * On save: Lua, JSON, YAML, CSS, Python (JS/TS/HTML and Java to follow once verified manually)
-  * Manual (`<leader>fm`): JS/TS/React/HTML/MD → `prettierd`/`prettier`; Java → `google-java-format`
-* **Linting via `nvim-lint`**: `ruff` (Python), `hadolint` (Dockerfile), `stylelint` (CSS), `phpcs` (PHP). JS/TS diagnostics come from the `eslint` LSP server instead.
-* LSP keymaps are attached per-buffer (see cheat sheet below).
-
----
-
-## Keymaps (Cheat Sheet)
-
-> Hold `<leader>` briefly to see available mappings (Which‑Key).
-
-### Navigation & Files
-
-* Toggle file tree: **`<leader>e`** (`neo-tree`)
-* Find files: **`<C-p>`** (`fzf-lua`)
-* Live grep: **`<C-f>`** (`fzf-lua`)
-* Buffers: **`<leader>fb`**
-* Help tags: **`<leader>fh`**
-
-### Editing
-
-* Clear search highlight: **`<Esc>`**
-* Save all: **`<C-s>`**
-* Move line/selection: **`Alt-j / Alt-k`** (normal/insert/visual)
-* Comment line/block: **`gcc`** / Visual select then **`gc`**
-* Surround: add **`sa`**, delete **`ds`**, replace **`cs`** (Mini.surround)
-
-### LSP & Diagnostics
-
-* Definition **`gd`**, References **`gr`**, Implementation **`gi`**
-* Hover **`K`**, Rename **`<leader>rn`**, Code Action **`<leader>ca`**
-* Diagnostics prev/next **`[d`** / **`]d`**
-* Format (Conform) **`Alt-f`**
-
-### Git
-
-* LazyGit: **`<leader>gg`** (status/commits/staging/conflicts)
-* Preview Hunk: **`<leader>hp`**
-* Reset Hunk: **`<leader>hr`**
-
-### Misc
-
-* Todos: `:TodoQuickFix`
-* Health: `:checkhealth`
-* Folding (UFO): **`zR`** (open all), **`zM`** (close all)
-
----
-
-## Customization Tips
-
-* **Change theme**: set another colorscheme in `options.lua` or add your favorite theme plugin.
-* **Treesitter compilers**: preference order is `zig`, `clang`, `cl`, `gcc`, `cc`. You can change this in `plugins/treesitter.lua`.
-
----
-
-## Troubleshooting
-
-### Treesitter: `fatal error: 'stdlib.h' file not found` (Windows)
-
-* Cause: Clang can’t find MSVC/Windows SDK headers.
-* Fix options:
-
-  1. **Use Zig** for Treesitter (recommended): `winget install -e --id zig.zig`, then `:TSUninstall <lang>` and `:TSInstall <lang>`.
-  2. Install **MSVC Build Tools + Windows SDK** and reopen terminal, then run `:TSUpdate`.
-
-### “No C compiler found!” on startup
-
-* The config guards Treesitter behind a compiler check, but some plugins may still try to load.
-* Ensure your terminal PATH includes `zig` or `clang`/`cl`.
-* In Neovim: `:echo executable('zig') || executable('clang') || executable('cl')` → should print `1`.
-
-### LSP not attaching
-
-* Run `:Mason` and ensure the server is installed.
-* Check `:LspInfo` to see active clients.
-
----
+1. Back up your current Neovim config.
+2. Copy this repo's files into `~/.config/nvim` (Linux/macOS) or
+   `%LOCALAPPDATA%\nvim` (Windows).
+3. On Windows, follow **[docs/install.md](docs/install.md)** first — it
+   covers required system dependencies (C compiler, `tree-sitter-cli`,
+   fonts, Java toolchain) that Neovim itself can't install for you.
+4. Start Neovim. lazy.nvim bootstraps itself and installs plugins.
+5. Open any real file (not just `nvim` with no arguments) and let Mason
+   install LSP servers/formatters in the background — check progress
+   and results with `:Mason`.
+6. If you have a C compiler available, parsers build automatically on
+   plugin install; otherwise run `:TSUpdate` once one is on PATH.
 
 ## Updating
 
-* Update plugins: `:Lazy sync`
-* Update Treesitter parsers: `:TSUpdate`
-* Update Mason tools: `:MasonToolsUpdate`
+- Plugins: `:Lazy sync`
+- Treesitter parsers: `:TSUpdate`
+- Mason tools: `:MasonToolsUpdate` (or `:MasonToolsUpdateSync` to block
+  until it finishes)

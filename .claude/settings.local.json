@@ -32,7 +32,6 @@
       "PowerShell(foreach \\($c in @\\(\"gcc\",\"cc\",\"clang\",\"node\",\"npm\",\"nvim\"\\)\\) { $r = Get-Command $c -ErrorAction SilentlyContinue; if \\($r\\) { Write-Output \"$c FOUND: $\\($r.Source\\)\" } else { Write-Output \"$c NOT FOUND\" } })",
       "Read(//c/msys64/**)",
       "Read(//c/msys64/mingw64/bin/**)",
-      "PowerShell(powershell -ExecutionPolicy Bypass -File \"C:\\\\Users\\\\Joan Leyton\\\\AppData\\\\Local\\\\nvim\\\\resources\\\\examples\\\\bootstrap.ps1\")",
       "Bash(git rm *)",
       "Bash('C:/Users/Joan Leyton/AppData/Local/nvim-data/mason/bin/ngserver.cmd' --version)",
       "Bash(echo \"EXIT:$?\")",

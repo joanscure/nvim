@@ -22,7 +22,7 @@ return {
     -- el único que recibe fixes: "master" quedó congelado y roto contra el
     -- API de query directives de Nvim 0.12+ (crasheaba al abrir .md, ver
     -- injections.scm de markdown). Requiere tree-sitter-cli en el PATH
-    -- (ver resources/examples/install.md).
+    -- (ver docs/install.md).
     branch = "main",
     lazy = false,
     build = ":TSUpdate",
