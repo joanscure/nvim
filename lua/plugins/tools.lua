@@ -50,30 +50,12 @@ return {
   {
     "akinsho/toggleterm.nvim",
     version = "*",
-    keys = function()
-      local lazygit_term
-
-      return {
-        { "<C-\\>", "<cmd>ToggleTerm<cr>", desc = "Toggle Terminal" },
-        { "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", desc = "Terminal (Float)" },
-        { "<leader>th", "<cmd>ToggleTerm size=15 direction=horizontal<cr>", desc = "Terminal (Horizontal)" },
-        { "<leader>tv", "<cmd>ToggleTerm size=80 direction=vertical<cr>", desc = "Terminal (Vertical)" },
-        {
-          "<leader>gg",
-          function()
-            if not lazygit_term then
-              lazygit_term = require("toggleterm.terminal").Terminal:new({
-                cmd = "lazygit",
-                hidden = true,
-                direction = "float",
-              })
-            end
-            lazygit_term:toggle()
-          end,
-          desc = "LazyGit",
-        },
-      }
-    end,
+    keys = {
+      { "<C-\\>", "<cmd>ToggleTerm<cr>", desc = "Toggle Terminal" },
+      { "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", desc = "Terminal (Float)" },
+      { "<leader>th", "<cmd>ToggleTerm size=15 direction=horizontal<cr>", desc = "Terminal (Horizontal)" },
+      { "<leader>tv", "<cmd>ToggleTerm size=80 direction=vertical<cr>", desc = "Terminal (Vertical)" },
+    },
     opts = {
       size = function(term)
         if term.direction == "horizontal" then
