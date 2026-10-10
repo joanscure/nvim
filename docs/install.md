@@ -418,6 +418,34 @@ install/start, so in theory it shouldn't show up anymore; if it
 reappears for an actual language (not a plugin UI filetype), that's a
 sign that parser is missing from `ensure_installed`.
 
+### Windows pops up "Part of this app has been blocked" (gcc.exe, Neovide, …)
+
+Symptom: a notification like *"Some features of …\mingw64\bin\gcc.exe may
+have been blocked"* appears, Treesitter parsers fail to compile, or
+Neovide/child processes get killed at random.
+
+Cause: **Smart App Control (SAC)** blocks unsigned binaries. The WinLibs
+`gcc.exe` (and friends like `ld.exe`, `cc1.exe`) are not Authenticode-signed.
+Running as admin/UAC does **not** bypass it.
+
+Check the state (`1` = On, `2` = Evaluation, `0` = Off):
+
+```powershell
+(Get-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\CI\Policy').VerifiedAndReputablePolicyState
+```
+
+Fix (option A — turn SAC off):
+
+1. Windows Security → **App & browser control** → **Smart App Control settings**.
+2. Select **Off**.
+
+> **Irreversible:** once turned off, SAC cannot be re-enabled without
+> reinstalling/resetting Windows. Regular Defender/SmartScreen stay active.
+
+Fix (option B — keep SAC on): use a signed compiler instead, e.g. Visual
+Studio Build Tools (`cl.exe`) and point nvim-treesitter at it, instead of
+the unsigned WinLibs gcc.
+
 ## Appendix: Windows Terminal setup
 
 ### Open a new tab/pane in the same directory
